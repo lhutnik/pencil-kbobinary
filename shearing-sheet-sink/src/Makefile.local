@@ -11,6 +11,7 @@ SHEAR   =   shear
 
 #POINTMASSES    =   pointmasses
 PARTICLES      =   particles_dust
+PARTICLES_DENSITY =   particles_density
 PARTICLES_SINK =   particles_sink
 
 REAL_PRECISION = double

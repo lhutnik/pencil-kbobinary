@@ -25,7 +25,7 @@
     qshear = 1.5
 /
 &particles_init_pars
-    lcalc_uup = T
+!    lcalc_uup = T
 
     initxxp='random','constant-1'
     initvvp='dragforce_equilibrium','constant-1'
@@ -47,4 +47,8 @@
 &particles_sink_init_pars
     initaps='constant-1'
     aps1=1.0
+/
+&particles_dens_init_pars
+  initrhopswarm = 'particles-to-gas-ratio'
+  eps_dtog=0.01
 /
