@@ -1,0 +1,40 @@
+!                              -*-f90-*-     (for emacs)
+!
+!  
+!
+&run_pars
+    nt = 100000, it1 = 25
+    tmax = 100. 
+    lpencil_check=F
+    isave = 5000
+    itorder = 3
+    dvid = 0.05
+    cdt = 0.5
+    cdtv = 0.5
+    loutput_varn_at_exact_tsnap=T    
+    slice_position='m'
+/
+&eos_run_pars
+/
+&hydro_run_pars
+/
+&density_run_pars
+    lcheck_negative_density = .true.
+    beta_glnrho_global = -0.1, 0.0, 0.0
+    idiff='hyper3-mesh'
+    diffrho_hyper3_mesh=20.
+/
+&shear_run_pars
+  qshear=1.5
+/
+&viscosity_run_pars
+  ivisc='hyper3-mesh'
+  nu_hyper3_mesh=20.
+/
+&particles_run_pars
+   cdtp = 0.5
+/
+&particles_drag_run_pars
+/
+&particles_sink_run_pars
+/
