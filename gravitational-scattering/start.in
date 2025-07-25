@@ -25,22 +25,30 @@
   qshear=0.0
 /
 &particles_init_pars
-  initxxp='gaussian-z','constant-1'
-  initvvp='dragforce_equilibrium','constant-1'
+  initxxp='constant-1','constant-2'
+  initvvp='constant-1','constant-2'
   
-  zp0=0.01
   tausp=1e30
   eps_dtog=1e-30
-  gravz_profile='linear', nu_epicycle=0.0
+  nu_epicycle=0.0
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
   lmigration_redo=T
+! position and velocities for particle 1 
   xp1=0.0
   yp1=0.0
   zp1=0.0
   vpx1=0.0
   vpy1=0.0
-  vpz1=0.0  
+  vpz1=0.0
+
+! position and velocities for particle 2
+  xp2=-0.5
+  yp2=0.0
+  zp2=0.0
+  vpx2=0.5
+  vpy2=0.0
+  vpz2=0.0  
 /
 !&selfgrav_init_pars
 !  rhs_poisson_const=0.1
