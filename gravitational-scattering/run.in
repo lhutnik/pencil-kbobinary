@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  cvsid='$Id$',
+  cvsid="67656342b"
   nt=10, it1=1, isave=5000, itorder=3
   cdt=0.5 ! 0.4
   cdtv=0.5 ! 0.4
