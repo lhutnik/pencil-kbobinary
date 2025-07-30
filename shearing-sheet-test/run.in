@@ -1,9 +1,6 @@
 !                              -*-f90-*-     (for emacs)
-!
-!  
-!
 &run_pars
-    nt = 100000, it1 = 25
+    nt = 10000, it1 = 100
     tmax = 100. 
     lpencil_check=F
     isave = 5000
@@ -19,7 +16,7 @@
 &hydro_run_pars
 /
 &density_run_pars
-    lcheck_negative_density = .true.
+    lcheck_negative_density = T
     beta_glnrho_global = -0.1, 0.0, 0.0
     idiff='hyper3-mesh'
     diffrho_hyper3_mesh=20.
