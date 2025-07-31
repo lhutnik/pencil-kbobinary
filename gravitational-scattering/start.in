@@ -1,8 +1,8 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
   cvsid="67656342b"
-  xyz0  =  -1.0,  -1.0,  -1.0
-  Lxyz  =   2.0,   2.0,   2.0
+  xyz0  =  -2.0,  -2.0,  -2.0
+  Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
   !lcopysnapshots_exp=T, 
   lwrite_ic=T, lwrite_aux=T
@@ -34,7 +34,7 @@
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
   lmigration_redo=T
-! position and velocities for particle 1 
+! position and velocities for particle 1 (massive)
   xp1=0.0
   yp1=0.0
   zp1=0.0
@@ -42,11 +42,11 @@
   vpy1=0.0
   vpz1=0.0
 
-! position and velocities for particle 2
-  xp2=-0.5
-  yp2=0.0
+! position and velocities for particle 2 (massless)
+  xp2=0.0
+  yp2=1.5
   zp2=0.0
-  vpx2=0.5
+  vpx2=0.0
   vpy2=0.0
   vpz2=0.0  
 /
