@@ -48,7 +48,8 @@
   zp2=0.0
   vpx2=0.0
   vpy2=0.0
-  vpz2=0.0  
+  vpz2=0.0
+  
 /
 !&selfgrav_init_pars
 !  rhs_poisson_const=0.1
@@ -65,5 +66,5 @@
 /
 &particles_sink_init_pars
   initaps='constant-1'
-  aps1=1e-30
+  aps1=1
 /
