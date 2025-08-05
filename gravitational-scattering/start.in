@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="030fc9e38"
+  cvsid="67656342b"
   xyz0  =  -2.0,  -2.0,  -2.0
   Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
@@ -30,8 +30,8 @@
   initxxp='constant-1','constant-2'
   initvvp='constant-1','constant-2'
   
-  tausp = 1e0
-  eps_dtog = 1e0
+  tausp = 1.0
+  eps_dtog = 1.0
   nu_epicycle = 0.0
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
@@ -74,4 +74,14 @@
 !  lsink_communication_all_to_all=T
 !  lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
+/
+&particles_stalker_init_pars
+  dstalk = 1.0 !0.1
+  linterpolate_tsc=T
+  lstalk_xx=T
+  lstalk_vv=T
+  lstalk_ap=T
+  lstalk_sink_particles=T
+  lstalk_aps=T
+  lstalk_potself=T
 /

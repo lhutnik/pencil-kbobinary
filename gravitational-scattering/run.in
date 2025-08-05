@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  cvsid="030fc9e38"
+  cvsid="67656342b"
   nt=1000, it1=100, isave=5000, itorder=3
   cdt=0.5 ! 0.4
   cdtv=0.5 ! 0.4
@@ -44,5 +44,6 @@
 /
 &particles_dens_run_pars
 /
-
+&particles_stalker_run_pars
+/
 
