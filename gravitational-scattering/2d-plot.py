@@ -19,7 +19,7 @@ x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
 
 ## Plot 2d density field at midplane
 plt.imshow(rhop,origin='lower',cmap='inferno',interpolation='none',
-		extent=[x1,x2,y1,2])                          # Plotting as image
+		extent=[x1,x2,y1,2])                                  # Plotting as image
 plt.xlabel(r'$x$', fontsize=15)                               # x-axis label
 plt.ylabel(r'$y$', fontsize=15)                               # y-axis label
 bar = plt.colorbar(label=r"$\log_{\rm 10}(\rho_p/\rho_0)$")   # Colorbar
