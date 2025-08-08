@@ -45,11 +45,11 @@
   vpz1 = 0.0
 
 ! position and velocities for particle 2 (massless)
-  xp2 = 0.0
+  xp2 = 0.5
   yp2 = 1.0
   zp2 = 0.0
-  vpx2 = 1.0
-  vpy2 = -1.0
+  vpx2 = 0.0
+  vpy2 = -0.1
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
