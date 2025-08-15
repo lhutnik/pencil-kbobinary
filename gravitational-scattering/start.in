@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="cvsid"
+  cvsid="67656342b"
   xyz0  =  -2.0,  -2.0,  -2.0
   Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
@@ -31,7 +31,7 @@
   initvvp='constant-1','constant-2'
   
   tausp = 1.0
-  eps_dtog = 1.0
+  eps_dtog = 0.1
   nu_epicycle = 0.0
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
@@ -46,7 +46,7 @@
 
 ! position and velocities for particle 2 (massless)
   xp2 = 1.0
-  yp2 = 1.0
+  yp2 = 1.99
   zp2 = 0.0
   vpx2 = 0.0
   vpy2 = -0.05
@@ -65,11 +65,11 @@
   initrhopswarm = 'constant-1'!,'constant-2' !'particles-to-gas-ratio'
   rhop_swarm1 = 1.0
 !  rhop_swarm2 = 2.0
-!  eps_dtog = 1e-30
+!  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
   initaps='constant-1'!,'constant-2'
-  aps1=1e-2 
+  aps1=1e-1 
 !  aps2=1e-5
 !  lsink_communication_all_to_all=T
 !  lselfgravity_sinkparticles=T
