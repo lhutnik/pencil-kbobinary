@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="67656342b"
+  cvsid="cvsid"
   xyz0  =  -2.0,  -2.0,  -2.0
   Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
@@ -45,11 +45,11 @@
   vpz1 = 0.0
 
 ! position and velocities for particle 2 (massless)
-  xp2 = 0.5
+  xp2 = 1.0
   yp2 = 1.0
   zp2 = 0.0
   vpx2 = 0.0
-  vpy2 = -0.1
+  vpy2 = -0.05
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
@@ -69,7 +69,7 @@
 /
 &particles_sink_init_pars
   initaps='constant-1'!,'constant-2'
-  aps1=1e-5 
+  aps1=1e-2 
 !  aps2=1e-5
 !  lsink_communication_all_to_all=T
 !  lselfgravity_sinkparticles=T
