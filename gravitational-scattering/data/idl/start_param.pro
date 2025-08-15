@@ -1,5 +1,5 @@
 par = { $
-    cvsid: '67656342b', $
+    cvsid: '030fc9e38', $
     ip: 14, $
     xyz0: replicate(-2.0D0,3), $
     xyz1: replicate(2.0D0,3), $
@@ -527,10 +527,10 @@ par = { $
     tausp: 1.0D0, $
     beta_dpdr_dust: 0.0D0, $
     np_swarm: 0.0D0, $
-    mp_swarm: 8.0D0, $
+    mp_swarm: 0.80000000000000004D0, $
     mpmat: 0.0D0, $
-    rhop_swarm: 512.0D0, $
-    eps_dtog: 1.0D0, $
+    rhop_swarm: 51.200000000000003D0, $
+    eps_dtog: 0.10000000000000001D0, $
     nu_epicycle: 0.0D0, $
     rp_int: -3.9084999999999999D+37, $
     rp_ext: 2.0D0, $
@@ -668,7 +668,7 @@ par = { $
     vpy1: 0.0D0, $
     vpz1: 0.0D0, $
     xp2: 1.0D0, $
-    yp2: 1.0D0, $
+    yp2: 1.99D0, $
     zp2: 0.0D0, $
     vpx2: 0.0D0, $
     vpy2: -5.0000000000000003D-2, $
@@ -713,7 +713,7 @@ par = { $
     lrhop_roche_unit: 0L, $
     initaps: ['constant-1',replicate('nothing',4)], $
     aps0: 0.0D0, $
-    aps1: 1.0D-3, $
+    aps1: 0.10000000000000001D0, $
     aps2: 0.0D0, $
     aps3: 0.0D0, $
     lbondi_accretion: 0L, $
@@ -735,24 +735,6 @@ par = { $
     gravr_swarm1: 1.0D0, $
     lselfgravity_particles: -1L, $
     lnopartingrav: 0L, $
-    dstalk: 1.0D0, $
-    linterpolate_cic: 0L, $
-    linterpolate_tsc: -1L, $
-    lstalk_xx: -1L, $
-    lstalk_vv: -1L, $
-    lstalk_uu: -1L, $
-    lstalk_guu: 0L, $
-    lstalk_rho: -1L, $
-    lstalk_grho: 0L, $
-    lstalk_bb: 0L, $
-    lstalk_ap: 0L, $
-    lstalk_npswarm: 0L, $
-    lstalk_rhopswarm: -1L, $
-    lstalk_potself: -1L, $
-    lstalk_aps: -1L, $
-    lstalk_sink_particles: -1L, $
-    lstalk_relvel: 0L, $
-    lstalk_gtt: 0L, $
     lhydro: -1L, $
     ldensity: -1L, $
     lentropy: 0L, $

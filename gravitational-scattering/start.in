@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="67656342b"
+  cvsid="030fc9e38"
   xyz0  =  -2.0,  -2.0,  -2.0
   Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
