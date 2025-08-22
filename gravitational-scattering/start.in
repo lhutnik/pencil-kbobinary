@@ -31,7 +31,7 @@
   initvvp='constant-1','constant-2'
   
   tausp = 1.0
-  eps_dtog = 0.1
+  eps_dtog = 0.01
   nu_epicycle = 0.0
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
@@ -63,7 +63,7 @@
 /
 &particles_dens_init_pars
   initrhopswarm = 'constant-1'!,'constant-2' !'particles-to-gas-ratio'
-  rhop_swarm1 = 1.0
+  rhop_swarm1 = 0.5
 !  rhop_swarm2 = 2.0
 !  eps_dtog = 1e-2
 /
