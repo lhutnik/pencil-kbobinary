@@ -1,16 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
+## Import critical libraries 
+import numpy as np                # Pi constant 
+#import scipy as sp               # 
+#import math                      # 
+#import pylab as plt              #
+#import matplotlib                # 
+import astropy.constants as const # Constants
 
-# In[77]:
-
-
-import numpy as np
-import scipy as sp
-import math
-import pylab as plt
-import matplotlib
-import astropy.constants as const
-
+## Set constants 
 pi     = np.pi
 AU     = const.au.cgs.value
 Mearth = const.M_earth.cgs.value
@@ -29,22 +25,13 @@ Rgasmu=Rgas/mmol
 cp=Gamma*Rgasmu/(Gamma-1)
 cv=cp/Gamma
 
-l3D=False
+## Choices for units  
+l3D=False # Setting 3D vs. 2D case
+rr = 20   # Distance of binary in AU
+h = 0.05  # Scale height ratio at distance rr
 
-
-# In[78]:
-
-
-# choices
-rr = 20
-h = 0.05 
-
-
-# In[79]:
-
-
+## Solving for other variables given choices 
 r = rr*AU
-
 H = h*r
 Omega = sqrt(G*Msun)/r**1.5
 cs = Omega*H
@@ -57,57 +44,41 @@ print("Sound speed=",cs/1e5," km/s")
 print("Temperature=",Temperature," K")
 print("Omega=",Omega," s^{-1}")
 
-
-
-# In[80]:
-
-
-# Code units 
-cs_code  = 1 
-H_code   = 1
-rho_code = 1
+## Code units (set in start.in or other configuration files)
+cs_code    = 1 
+H_code     = 1
+rho_code   = 1
 Omega_code = 1
 
+## Computing unit length, time, velocity
 unit_length   = H / H_code
 unit_time     = 1/Omega * 1/Omega_code 
 #unit_velocity = cs -- overspecified, but consistent
-
 unit_velocity = unit_length/unit_time   
 
-
-# In[81]:
-
-
-# now set the density
-
-#Choose the Q value 
-
+## Choose the Q value 
 Q = 30 
 
-# Choosing Q sets Sigma and rho 
-
+## Choosing Q sets Sigma (surface density) and rho (density)
 Sigma = cs*Omega/(G*Q*pi)
-if (l3D): 
+if (l3D): # If solving for 3D case
     rho = Sigma/(sqrt(2*pi)*H)
     unit_volume_density = rho/rho_code
     Sigma_code = rho_code * sqrt(2*pi) * H_code
     unit_column_density = Sigma/Sigma_code
     unit_mass = unit_volume_density * unit_length**3
-else:
-    # in 2D rho is actually column density
-    Sigma_code = rho_code
+else: # If solving for 2D case
+    Sigma_code = rho_code # in 2D rho is actually column density
     unit_column_density = Sigma/Sigma_code
     rho = Sigma/(sqrt(2*pi)*H)
     # actual code units for volume density
     actual_rho_code = Sigma_code/(sqrt(2*pi)*H_code)
     unit_volume_density = rho/actual_rho_code
     unit_mass = unit_column_density * unit_length**2
-
 Msun_code = Msun/unit_mass
 
 print("unit_mass=",unit_mass)
 print("Msun in code units=",Msun_code)
-
 print("unit_volume_density=",unit_volume_density," g/cm^3")
 print("unit_column_density=",unit_column_density," g/cm^2")
 
@@ -127,25 +98,15 @@ print("unit_column_density=",unit_column_density," g/cm^2")
 #mbox_code = rho0_code * volume_code 
 #unit_mass = mbox/mbox_code
 
-
-
-# In[82]:
-
-
-Mpluto = 1.309e25
-Mplanetesimal = 0.1 * Mpluto
-
+## Determining code unit mass of planetesimals in simulation
+Mpluto        = 1.309e25     # g
+Mplanetesimal = 0.1 * Mpluto # g
 Mplanetesimal_code = Mplanetesimal/unit_mass
 
 print("planetesimal mass in physics units=",Mplanetesimal," g")
 print("planetesimal mass in code units=",Mplanetesimal_code)
 
-
-# In[83]:
-
-
-# G in code units
-
+## Gravitational constant in code units
 G_code = cs_code*Omega_code/(Q*pi*Sigma_code)
 print("gravitational constant in code units:",G_code)
 
