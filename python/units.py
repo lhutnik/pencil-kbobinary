@@ -18,31 +18,32 @@ Rgas   = const.R.cgs.value
 yr     = 3.1558149504e7
 
 sigma_mol = 2e-15
-Gamma=1.4
-Gamma1=1./Gamma
-mmol=2.3
-Rgasmu=Rgas/mmol
-cp=Gamma*Rgasmu/(Gamma-1)
-cv=cp/Gamma
+Gamma     = 1.4 # ~5/3
+Gamma1    = 1./Gamma
+mmol      = 2.3
+Rgasmu    = Rgas/mmol
+cp        = Gamma*Rgasmu/(Gamma-1)
+cv        = cp/Gamma
 
-## Choices for units  
-l3D=False # Setting 3D vs. 2D case
-rr = 20   # Distance of binary in AU
-h = 0.05  # Scale height ratio at distance rr
+## Input choices  
+l3D = False # Setting 3D vs. 2D case
+rr  = 20    # Distance of binary in AU
+h   = 0.05  # Scale height ratio at distance rr
+e   = 0.0   # Eccentricity of mutual binary orbit
+Hill_frac = 0.05 # Fraction of Hill radius for furthest separation
 
 ## Solving for other variables given choices 
-r = rr*AU
-H = h*r
-Omega = sqrt(G*Msun)/r**1.5
-cs = Omega*H
-Temperature=cs**2/(cp*(Gamma-1)) 
-
-print("Distance=",rr," AU")
-print("Aspect Ratio=",H/r)
-print("Scale Height=",H," cm=", H/AU, "AU")
-print("Sound speed=",cs/1e5," km/s")
-print("Temperature=",Temperature," K")
-print("Omega=",Omega," s^{-1}")
+r = rr*AU                          # Radial distance in cm
+H = h*r                            # Gas disk scale height 
+Omega = sqrt(G*Msun)/r**1.5        # 
+cs = Omega*H                       # Local sound speed
+Temperature = cs**2/(cp*(Gamma-1)) # Gas temperature 
+#print("Distance=",rr," AU")
+#print("Aspect Ratio=",H/r)
+#print("Scale Height=",H," cm=", H/AU, "AU")
+#print("Sound speed=",cs/1e5," km/s")
+#print("Temperature=",Temperature," K")
+#print("Omega=",Omega," s^{-1}")
 
 ## Code units (set in start.in or other configuration files)
 cs_code    = 1 
@@ -53,14 +54,12 @@ Omega_code = 1
 ## Computing unit length, time
 unit_length   = H / H_code
 unit_time     = 1/Omega * 1/Omega_code 
-
-print("Unit length: ",unit_length," code units")
-print("Unit time: ",unit_time," code units")
-
+print("Unit length: ",unit_length)
+print("Unit time: ",unit_time)
 
 #unit_velocity = cs -- overspecified, but consistent
 unit_velocity = unit_length/unit_time   
-print("Unit velocity: ",unit_velocity," code units")
+print("Unit velocity: ",unit_velocity)
 
 ## Choose the Q value 
 Q = 30 
@@ -82,11 +81,10 @@ else: # If solving for 2D case
     unit_volume_density = rho/actual_rho_code
     unit_mass = unit_column_density * unit_length**2
 Msun_code = Msun/unit_mass
-
-print("unit_mass=",unit_mass)
-print("Msun in code units=",Msun_code)
-print("unit_volume_density=",unit_volume_density," g/cm^3")
-print("unit_column_density=",unit_column_density," g/cm^2")
+print("Unit mass: ",unit_mass)
+print("M_Sun (code): ",Msun_code)
+#print("unit_volume_density=",unit_volume_density," g/cm^3")
+#print("unit_column_density=",unit_column_density," g/cm^2")
 
 ## box volume 
 #Lx_code = 2.
@@ -108,11 +106,37 @@ print("unit_column_density=",unit_column_density," g/cm^2")
 Mpluto        = 1.309e25     # g
 Mplanetesimal = 0.1 * Mpluto # g
 Mplanetesimal_code = Mplanetesimal/unit_mass
-
-print("planetesimal mass in physics units=",Mplanetesimal," g")
-print("planetesimal mass in code units=",Mplanetesimal_code)
+print("Planetesimal mass (code): ",Mplanetesimal_code)
 
 ## Gravitational constant in code units
 G_code = cs_code*Omega_code/(Q*pi*Sigma_code)
-print("gravitational constant in code units:",G_code)
+print("Gravitational constant (code): ",G_code)
+
+## Hill radius and separation of planetesimals in code units
+r_Hill      = r*(Mplanetesimal/(3*Msun))**(1/3)
+bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
+sep_code    = bin_sep/unit_length   # Binary separation in code units 
+print("Planetesimal separation (code): ",sep_code)
+## Particle positions along common axis at apoapsis
+x1 = -(Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*sep_code
+x2 = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*sep_code
+print("Particle position at apoapsis:")
+print("x1 =",x1)
+print("x2 =",x2)
+## [[We further want to calculate the separation from COM for differing masses]]
+
+## Calculate relative velocity of planetesimals 
+v_rel      = 0.5*sqrt(G*(Mplanetesimal+Mplanetesimal)*((2/bin_sep)-((1+e)/bin_sep)))
+v_rel_code = v_rel/unit_velocity
+v1         = -(Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code # Velocity of particle 1 at apoapsis 
+v2         = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code # Velocity of particle 2 at apoapsis 
+print("Velocities of particles:")
+print("v1 =",v1)
+print("v2 =",v2)
+
+## Calculate rhopswarm given planetesimal mass 
+rhopswarm = Mplanetesimal_code * 1e2 # Black box conversion from mass to rhopswarm from scattering problems
+print("rhopswarm of particles:")
+print("rhopswarm1 =",rhopswarm)
+print("rhopswarm2 =",rhopswarm)
 
