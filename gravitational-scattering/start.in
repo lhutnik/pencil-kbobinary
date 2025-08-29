@@ -63,16 +63,16 @@
   lselfgravity_particles=T
 /
 &particles_dens_init_pars
-  initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
+  initrhopswarm = 'constant-1',!'constant-2' !'particles-to-gas-ratio'
   rhop_swarm1 = 0.5
   ! mass should be 0.000496357 in code units
-  rhop_swarm2 = 0.5
+!  rhop_swarm2 = 0.5
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
-  initaps='constant-1','constant-2'
+  initaps='constant-1',!'constant-2'
   aps1=1e-2 
-  aps2=1e-2
+!  aps2=1e-2
 !  lsink_communication_all_to_all=T
   lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
