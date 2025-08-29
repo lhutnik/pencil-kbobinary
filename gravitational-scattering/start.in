@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="67656342b"
+  cvsid="cvsid"
   xyz0  =  -2.0,  -2.0,  -2.0
   Lxyz  =   4.0,   4.0,   4.0
   lperi =      T,      T,      T
@@ -54,6 +54,7 @@
 /
 &selfgrav_init_pars
   rhs_poisson_const = 1.0
+  !grav_const = 0.01061032
   lselfgravity_gas=F, lselfgravity_dust=F
 /
 &poisson_init_pars
@@ -62,17 +63,18 @@
   lselfgravity_particles=T
 /
 &particles_dens_init_pars
-  initrhopswarm = 'constant-1'!,'constant-2' !'particles-to-gas-ratio'
+  initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
   rhop_swarm1 = 0.5
-!  rhop_swarm2 = 2.0
+  ! mass should be 0.000496357 in code units
+  rhop_swarm2 = 0.5
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
-  initaps='constant-1'!,'constant-2'
-  aps1=1e-1 
-!  aps2=1e-5
+  initaps='constant-1','constant-2'
+  aps1=1e-2 
+  aps2=1e-2
 !  lsink_communication_all_to_all=T
-!  lselfgravity_sinkparticles=T
+  lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
 /
 &particles_stalker_init_pars

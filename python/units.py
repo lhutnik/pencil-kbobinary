@@ -1,7 +1,7 @@
 ## Import critical libraries 
 import numpy as np                # Pi constant 
 #import scipy as sp               # 
-#import math                      # 
+from math import sqrt             # Math functions
 #import pylab as plt              #
 #import matplotlib                # 
 import astropy.constants as const # Constants
@@ -50,11 +50,17 @@ H_code     = 1
 rho_code   = 1
 Omega_code = 1
 
-## Computing unit length, time, velocity
+## Computing unit length, time
 unit_length   = H / H_code
 unit_time     = 1/Omega * 1/Omega_code 
+
+print("Unit length: ",unit_length," code units")
+print("Unit time: ",unit_time," code units")
+
+
 #unit_velocity = cs -- overspecified, but consistent
 unit_velocity = unit_length/unit_time   
+print("Unit velocity: ",unit_velocity," code units")
 
 ## Choose the Q value 
 Q = 30 
