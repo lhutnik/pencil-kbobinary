@@ -47,21 +47,31 @@ Temperature = cs**2/(cp*(Gamma-1)) # Gas temperature
 
 ## Code units (set in start.in or other configuration files)
 cs_code    = 1 
-H_code     = 1
+#H_code     = 1 # Set automatically if binary orbit is small
 rho_code   = 1
 Omega_code = 1
 
+## Mass of our initial binary
+Mpluto        = 1.309e25     # g
+Mplanetesimal = 0.1 * Mpluto # g
+
+## Orbit of our initial binary
+r_Hill      = r*(Mplanetesimal/(3*Msun))**(1/3)
+bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
+
 ## Computing unit length, time
-unit_length   = H / H_code
+unit_length = 2 * bin_sep    # Twice binary separation to box edge
+H_code = H/unit_length
+print("Scale Height H (code): ",H_code)
 unit_time     = 1/Omega * 1/Omega_code 
 print("Unit length: ",unit_length)
 print("Unit time: ",unit_time)
 
-#unit_velocity = cs -- overspecified, but consistent
+#unit_velocity = cs # Overspecified, but consistent
 unit_velocity = unit_length/unit_time   
 print("Unit velocity: ",unit_velocity)
 
-## Choose the Q value 
+## Choose the Toomre Q value (>1 for stability)
 Q = 30 
 
 ## Choosing Q sets Sigma (surface density) and rho (density)
@@ -103,8 +113,6 @@ print("M_Sun (code): ",Msun_code)
 #unit_mass = mbox/mbox_code
 
 ## Determining code unit mass of planetesimals in simulation
-Mpluto        = 1.309e25     # g
-Mplanetesimal = 0.1 * Mpluto # g
 Mplanetesimal_code = Mplanetesimal/unit_mass
 print("Planetesimal mass (code): ",Mplanetesimal_code)
 
@@ -113,8 +121,6 @@ G_code = cs_code*Omega_code/(Q*pi*Sigma_code)
 print("Gravitational constant (code): ",G_code)
 
 ## Hill radius and separation of planetesimals in code units
-r_Hill      = r*(Mplanetesimal/(3*Msun))**(1/3)
-bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
 sep_code    = bin_sep/unit_length   # Binary separation in code units 
 print("Planetesimal separation (code): ",sep_code)
 ## Particle positions along common axis at apoapsis
@@ -129,7 +135,7 @@ print("x2 =",x2)
 v_rel      = 0.5*sqrt(G*(Mplanetesimal+Mplanetesimal)*((2/bin_sep)-((1+e)/bin_sep)))
 v_rel_code = v_rel/unit_velocity
 v1         = -(Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code # Velocity of particle 1 at apoapsis 
-v2         = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code # Velocity of particle 2 at apoapsis 
+v2         = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code  # Velocity of particle 2 at apoapsis 
 print("Velocities of particles:")
 print("v1 =",v1)
 print("v2 =",v2)
