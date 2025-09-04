@@ -67,6 +67,6 @@ ax.set_ylim(y1, y2)                          # Set y-axis limits
 #ax.set_title(r'$t={}$'.format(parray1[-1,0])) # Plot title
 plt.legend()                                 # Add legend
 plt.tight_layout()                           # Remove overlapping and clipping
-plt.savefig('point-plot.pdf', dpi=300)       # Save figure as a PDF file with set quality
+plt.savefig('pstalk-figure.pdf', dpi=300)       # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving
 
