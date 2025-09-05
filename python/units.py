@@ -31,8 +31,8 @@ rr  = 20    # Distance of binary in AU
 h   = 0.05  # Scale height ratio at distance rr
 e   = 0.0   # Eccentricity of mutual binary orbit
 Q   = 30    # Toomre Q; >1 for gravitationally stable region
-mass_ratio = 1    # Binary mass ratio
-Hill_frac  = 0.05 # Fraction of Hill radius for furthest separation
+mass_ratio = 0.5    # Binary mass ratio
+Hill_frac  = 0.05 # Fraction of Hill radius for furthest separation (apoapsis)
 
 ## Solving for other variables given choices 
 r     = rr*AU                 # Radial distance in cm
@@ -61,11 +61,11 @@ Mplanet2 = Msystem - Mplanet1     # Mass of secondary in g
 Mplanetesimal = Msystem/2
 
 ## Orbit of our initial binary
-r_Hill      = r*(Mplanetesimal/(3*Msun))**(1/3)
+r_Hill      = r*(Msystem/(3*Msun))**(1/3)
 bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
 
 ## Computing unit length, time
-unit_length = 2 * bin_sep          # Twice binary separation to box edge
+unit_length = bin_sep              # Twice binary separation to box edge
 H_code = H/unit_length             # Code scale height set by unit length
 unit_time = 1/Omega * 1/Omega_code # Unit time set by orbital angular velocity
 print("Scale Height H (code): ",H_code)
@@ -115,8 +115,10 @@ print("M_Sun (code): ",Msun_code)
 #unit_mass = mbox/mbox_code
 
 ## Determining code unit mass of planetesimals in simulation
-Mplanetesimal_code = Mplanetesimal/unit_mass
-print("Planetesimal mass (code): ",Mplanetesimal_code)
+M1code = Mplanet1/unit_mass
+M2code = Mplanet2/unit_mass
+print("M1 (code): ",M1code)
+print("M2 (code): ",M2code)
 
 ## Gravitational constant in code units
 G_code = cs_code*Omega_code/(Q*pi*Sigma_code)
@@ -126,25 +128,25 @@ print("Gravitational constant (code): ",G_code)
 sep_code = bin_sep/unit_length   # Binary separation in code units 
 print("Planetesimal separation (code): ",sep_code)
 ## Particle positions along common axis at apoapsis
-x1 = -(Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*sep_code
-x2 = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*sep_code
+x1 = -(Mplanet2)/(Msystem)*sep_code # Position of particle 1 at apoapsis
+x2 = (Mplanet1)/(Msystem)*sep_code  # Position of particle 2 at apoapsis
 print("Particle position at apoapsis:")
 print("x1 =",x1)
 print("x2 =",x2)
-## [[We further want to calculate the separation from COM for differing masses]]
 
 ## Calculate relative velocity of planetesimals 
-v_rel      = 0.5*sqrt(G*(Mplanetesimal+Mplanetesimal)*((2/bin_sep)-((1+e)/bin_sep)))
+v_rel      = sqrt(G*(Msystem)*((2/bin_sep)-((1+e)/bin_sep)))
 v_rel_code = v_rel/unit_velocity
-v1         = -(Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code # Velocity of particle 1 at apoapsis 
-v2         = (Mplanetesimal)/(Mplanetesimal+Mplanetesimal)*v_rel_code  # Velocity of particle 2 at apoapsis 
+v1         = -(Mplanet2)/(Msystem)*v_rel_code # Velocity of particle 1 at apoapsis 
+v2         = (Mplanet1)/(Msystem)*v_rel_code  # Velocity of particle 2 at apoapsis 
 print("Velocities of particles:")
 print("v1 =",v1)
 print("v2 =",v2)
 
 ## Calculate rhopswarm given planetesimal mass 
-rhopswarm = Mplanetesimal_code * 1e2 # Black box conversion from mass to rhopswarm from scattering problems
+rhopswarm1 = M1code * 1e2 # Black box conversion from mass to rhopswarm
+rhopswarm2 = M2code * 1e2
 print("rhopswarm of particles:")
-print("rhopswarm1 =",rhopswarm)
-print("rhopswarm2 =",rhopswarm)
+print("rhopswarm1 =",rhopswarm1)
+print("rhopswarm2 =",rhopswarm2)
 
