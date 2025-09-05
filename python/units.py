@@ -31,7 +31,7 @@ rr  = 20    # Distance of binary in AU
 h   = 0.05  # Scale height ratio at distance rr
 e   = 0.0   # Eccentricity of mutual binary orbit
 Q   = 30    # Toomre Q; >1 for gravitationally stable region
-mass_ratio = 0.5    # Binary mass ratio
+mass_ratio = 1    # Binary mass ratio (0 to 1)
 Hill_frac  = 0.05 # Fraction of Hill radius for furthest separation (apoapsis)
 
 ## Solving for other variables given choices 
@@ -67,7 +67,8 @@ bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
 ## Computing unit length, time
 unit_length = bin_sep              # Twice binary separation to box edge
 H_code = H/unit_length             # Code scale height set by unit length
-unit_time = 1/Omega * 1/Omega_code # Unit time set by orbital angular velocity
+#unit_time = 1/Omega * 1/Omega_code # Unit time set by orbital angular velocity
+unit_time = sqrt(4*np.pi**2*(bin_sep)**3/(G*Msystem))
 print("Scale Height H (code): ",H_code)
 print("Unit length: ",unit_length,"cm")
 print("Unit time: ",unit_time,"s")
