@@ -1,7 +1,8 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
   cvsid="67656342b"
-  nt=2000, it1=100, isave=5000, itorder=3
+  it1=1000, isave=200, itorder=3
+  tmax=5.0, ! nt=10000
   cdt=0.5 ! 0.4
   cdtv=0.5 ! 0.4
   dsnap=0.5235987755982988, dtmin=1.0e-6

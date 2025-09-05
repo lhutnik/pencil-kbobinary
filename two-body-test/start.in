@@ -19,8 +19,9 @@
   Omega = 0.0
 /
 &density_init_pars
-   initlnrho='const_rho'
-   rho_const=1.0
+  initlnrho='const_rho'
+  rho_const = 1.0
+  Hrho = 1657.9159365395442
   !beta_glnrho_global = -0.1,0.0,0.0
   ldensity_nolog=T
 /
@@ -42,7 +43,7 @@
   yp1 = 0.0
   zp1 = 0.0
   vpx1 = 0.0
-  vpy1 = -0.03
+  vpy1 = -77.45966692414827
   vpz1 = 0.0
 
 ! position and velocities for particle 2 
@@ -50,12 +51,12 @@
   yp2 = 0.0
   zp2 = 0.0
   vpx2 = 0.0
-  vpy2 = 0.03
+  vpy2 = 77.45966692414827
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
-  ! rhs_poisson_const = 1.0
-  gravitational_const = 0.01061032
+  ! rhs_poisson_const = 1.0 !4piG
+  gravitational_const = 0.01061032953
   lselfgravity_gas=F, lselfgravity_dust=F
 /
 &poisson_init_pars
@@ -65,15 +66,15 @@
 /
 &particles_dens_init_pars
   initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
-  rhop_swarm1 = 1e-30 !0.000496357
-  rhop_swarm2 = 1e-30 !0.000496357
+  rhop_swarm1 = 68216.56818456836 !1e-30      
+  rhop_swarm2 = 68216.56818456836 !1e-30
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
   initaps='constant-1','constant-2'
   aps1=1e-30 
   aps2=1e-30
-  lsink_communication_all_to_all=T
+!  lsink_communication_all_to_all=T
   lselfgravity_sinkparticles=T
   laccrete_sink_sink=F
 /
