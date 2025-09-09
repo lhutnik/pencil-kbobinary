@@ -1,0 +1,3 @@
+# Timestep= 15  Time= 15.008828
+# particle, x, y, rhopswarm, aps
+1 0.000000 -0.000000 0.500000 0.010000
