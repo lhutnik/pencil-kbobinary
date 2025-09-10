@@ -13,7 +13,7 @@ else:
     varlist = SIM.get_varlist(pos=varfiles, particle=False) # Pull time and cell information from VAR files
     pvarlist = SIM.get_varlist(pos=varfiles, particle=True) # Pull particle information from PVAR files
 
-    parray = np.empty(shape=(len(pvarlist), 11))             # Empty array to insert data into
+    parray = np.empty(shape=(len(pvarlist), 11))            # Empty array to insert data into
     for i, (f, p) in enumerate(zip(varlist, pvarlist)):
         ff = pc.read.var(datadir=SIM.datadir, var_file=f, quiet=True, trimall=False)
         pp = pc.read.pvar(datadir=SIM.datadir, pvarfile=p, quiet=True)

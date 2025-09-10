@@ -33,6 +33,10 @@ e   = 0.0   # Eccentricity of mutual binary orbit
 Q   = 30    # Toomre Q; >1 for gravitationally stable region
 mass_ratio = 1    # Binary mass ratio (0 to 1)
 Hill_frac  = 0.05 # Fraction of Hill radius for furthest separation (apoapsis)
+grid_size  = 2.0  # Full x or y grid size in code units
+grid_points= 32   # Number of grid points/cells per dimension
+aps1       = 0.01 # Size of sink particle 1 in code units
+aps2       = 0.01 # Size of sink particle 2 in code units
 
 ## Solving for other variables given choices 
 r     = rr*AU                 # Radial distance in cm
@@ -48,10 +52,10 @@ T     = cs**2/(cp*(Gamma-1))  # Gas temperature
 #print("Omega=",Omega," s^{-1}")
 
 ## Code units (set in start.in or other configuration files)
-cs_code    = 1 
-#H_code     = 1 # Set automatically if binary orbit is much smaller than 1 AU
+cs_code    = 1
 rho_code   = 1
 Omega_code = 1
+H_code     = 1 # Set automatically by Omega and cs in code
 
 ## Mass of our initial binary
 Mpluto   = 1.309e25      # g
@@ -66,10 +70,10 @@ bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
 
 ## Computing unit length, time
 unit_length = bin_sep              # Twice binary separation to box edge
-H_code = H/unit_length             # Code scale height set by unit length
+#H_code = H/unit_length             # Code scale height set by unit length
 #unit_time = 1/Omega * 1/Omega_code # Unit time set by orbital angular velocity
 unit_time = sqrt(4*np.pi**2*(bin_sep)**3/(G*Msystem))
-print("Scale Height H (code): ",H_code)
+#print("Scale Height H (code): ",H_code)
 print("Unit length: ",unit_length,"cm")
 print("Unit time: ",unit_time,"s")
 
@@ -144,10 +148,16 @@ print("Velocities of particles:")
 print("v1 =",v1)
 print("v2 =",v2)
 
-## Calculate rhopswarm given planetesimal mass 
-rhopswarm1 = M1code * 1e2 # Black box conversion from mass to rhopswarm
-rhopswarm2 = M2code * 1e2
-print("rhopswarm of particles:")
+## Calculate rhopswarm given planetesimal mass
+## Option 1: mass set by size of a single grid cell
+rhopswarm1 = M1code * (grid_size/grid_points)**(-3)
+rhopswarm2 = M2code * (grid_size/grid_points)**(-3)
+print("If set by grid scale, then rhopswarm of particles:")
 print("rhopswarm1 =",rhopswarm1)
 print("rhopswarm2 =",rhopswarm2)
-
+## Option 2: mass set by size of sink particles (aps)
+rhopswarm1 = M1code * (3/(4*pi)) * (aps1/2)**(-3)
+rhopswarm2 = M2code * (3/(4*pi)) * (aps2/2)**(-3)
+print("If set by particle size, then rhopswarm of particles:")
+print("rhopswarm1 =",rhopswarm1)
+print("rhopswarm2 =",rhopswarm2)
