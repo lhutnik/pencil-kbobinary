@@ -63,22 +63,22 @@
   lselfgravity_particles=T
 /
 &particles_dens_init_pars
-  initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
+  initrhopswarm = 'constant-1'!,'constant-2'
   rhop_swarm1 = 1.0
-  rhop_swarm2 = 0.9
+!  rhop_swarm2 = 0.9
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
-  initaps='constant-1','constant-2'
+  initaps='constant-1'!,'constant-2'
   aps1=1e-2 
-  aps2=0.9e-2
+!  aps2=0.9e-2
 !  lsink_communication_all_to_all=T
   lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
 /
 &particles_stalker_init_pars
   dstalk = 1.0 !0.5
-  linterpolate_tsc=T
+  linterpolate_tsc=T !F?
   lstalk_xx=T
   lstalk_vv=T
   lstalk_ap=T

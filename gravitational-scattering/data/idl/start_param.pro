@@ -728,7 +728,7 @@ par = { $
     laccrete_sink_sink: -1L, $
     initrhopswarm: ['constant-1',replicate('nothing',4)], $
     rhop_swarm0: 1.0D0, $
-    rhop_swarm1: 0.5D0, $
+    rhop_swarm1: 1.0D0, $
     rhop_swarm2: 0.0D0, $
     rhop_swarm3: 0.0D0, $
     gravr_swarm0: 1.0D0, $

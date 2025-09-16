@@ -10,7 +10,7 @@
 integer, parameter :: ncpus=1, nprocx=1, nprocy=1, nprocz=1
 integer, parameter :: nxgrid=32, nygrid=nxgrid, nzgrid=1
 integer, parameter :: npar=2
-integer, parameter :: npar_stalk=3
+integer, parameter :: npar_stalk=2
 
 !, mpar_loc=500, npar_mig=100 
 !integer, parameter :: npar_species = 2
