@@ -19,11 +19,11 @@ print('Closest distance:',rp,'(Components: x=',x_coord,'y=',y_coord,')')
 print('Origin to periapsis angle:',angle,'radians')
 
 ## From quantities in code units, determine characteristics of hyperbolic trajectory
-G = 1/(4*np.pi) #0.01061032953945969
-M = (1/32)**3 * (1.0)
+G = 0.01061032953945969
+M = 682.1656818456836
 
-a = ((2/rp)-(vp**2)/(G*M))**(-1) # Semi-major axis in code length units
-e = 1 - rp/a                 # Eccentricity
+a = 1/(2/rp-vp**2/(G*M)) # Semi-major axis in code length units
+e = 1 - rp/a             # Eccentricity
 print('A representative hyperbolic trajectory has:')
-print('Semi-major axis:',a,'code length units')
+print('Semi-major axis:',a,'code units')
 print('Eccentricity:',e)

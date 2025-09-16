@@ -35,10 +35,21 @@ grid   = pc.read.grid()         # Read relevant information from grid data
 x1, y1 = grid.x[3], grid.y[3]   # first corner coordinates
 x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
 
+## Additional line to plot for analytic solution
+range = np.arange(-0.5*np.pi,0.5*np.pi,0.02) # Range of true anomalies to cover in radians
+peri_angle = -0.6842318043085592 # radians
+a = -0.0003212059094 
+e = 1620.9531 
+r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))
+x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range)
+print(x_pos)
+print(y_pos)
+
 ## Plot location of particles throughout simulation
 fig, ax = plt.subplots(1, 1)                 # Figure and axes established
 ax.plot(parray[:,1], parray[:,2], 'r.', label='aps='+str(parray[-1,9]))    # Plotting particle 1 position
 ax.plot(parray[:,5], parray[:,6], 'b.', label='aps='+str(parray[-1,10]))   # Plotting particle 2 position
+ax.plot(x_pos, y_pos, 'g', label='Analytical', zorder=10) # Analytical expectation based on periapsis from simulation
 ax.set_xlabel(r'$x$', fontsize=15)           # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)           # y-axis label
 plt.axis('scaled')                           # Axes are scaled to match one another

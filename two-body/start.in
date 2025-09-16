@@ -1,8 +1,8 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="67656342b"
-  xyz0  =  -2.0,  -2.0,  -2.0
-  Lxyz  =   4.0,   4.0,   4.0
+  cvsid="$Id$"
+  xyz0  =  -0.001,  -0.001,  -0.001
+  Lxyz  =   0.002,   0.002,   0.002
   lperi =      T,      T,      T
   !lcopysnapshots_exp=T, 
   lwrite_ic=T, lwrite_aux=T
@@ -36,25 +36,25 @@
   lparticlemesh_tsc=T
   ldragforce_dust_par=F, ldragforce_gas_par=F
   lmigration_redo=T
-! position and velocities for particle 1 (massive)
-  xp1 = 0.0
+! position and velocities for particle 1 
+  xp1 = -0.00030158344520387216
   yp1 = 0.0
   zp1 = 0.0
   vpx1 = 0.0
-  vpy1 = 0.0
+  vpy1 = -0.033036811181656765
   vpz1 = 0.0
 
-! position and velocities for particle 2 (massless)
-  xp2 = 1.0
-  yp2 = 1.99
+! position and velocities for particle 2 
+  xp2 = 0.00030158344520387216
+  yp2 = 0.0
   zp2 = 0.0
   vpx2 = 0.0
-  vpy2 = -0.05
+  vpy2 = 0.033036811181656765
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
-  rhs_poisson_const = 1.0 !4piG
-  !grav_const = 0.01061032
+  !rhs_poisson_const = 1.0
+  gravitational_const = 0.01061032953945969
   lselfgravity_gas=F, lselfgravity_dust=F
 /
 &poisson_init_pars
@@ -63,16 +63,15 @@
   lselfgravity_particles=T
 /
 &particles_dens_init_pars
-  initrhopswarm = 'constant-1',!'constant-2' !'particles-to-gas-ratio'
-  rhop_swarm1 = 1.0 !2794150.6
-  ! mass should be 0.000496357 in code units
-!  rhop_swarm2 = 0.5
+  initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
+  rhop_swarm1 = 0.0496357
+  rhop_swarm2 = 0.0496357
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
-  initaps='constant-1',!'constant-2'
-  aps1=1e-2 
-!  aps2=1e-2
+  initaps='constant-1','constant-2'
+  aps1=1e-4 
+  aps2=1e-4
 !  lsink_communication_all_to_all=T
   lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F

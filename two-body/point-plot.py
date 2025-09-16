@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt # Plotting
 ## Input or generate array with particle information
 if os.path.exists(os.path.join('.','outparray.csv')):       # If a .csv is already available, do not reproduce
     parray = np.loadtxt('outparray.csv', delimiter=',')     # Reuse previously made .csv from relevant data
-else:
+else: 
     SIM = pc.get_sim()                                      # Pull simulation 
     varfiles = 'all' #'VAR###', 'last4', 'first3'           # Specifying which VAR/PVAR files to pull
     varlist = SIM.get_varlist(pos=varfiles, particle=False) # Pull time and cell information from VAR files
     pvarlist = SIM.get_varlist(pos=varfiles, particle=True) # Pull particle information from PVAR files
 
-    parray = np.empty(shape=(len(pvarlist), 11))            # Empty array to insert data into
+    parray = np.empty(shape=(len(pvarlist), 11))             # Empty array to insert data into
     for i, (f, p) in enumerate(zip(varlist, pvarlist)):
         ff = pc.read.var(datadir=SIM.datadir, var_file=f, quiet=True, trimall=False)
         pp = pc.read.pvar(datadir=SIM.datadir, pvarfile=p, quiet=True)
-        l_px = pp.xp    # Particle x position 
+        l_px = pp.xp    # Particle x position                                 
         l_py = pp.yp    # Particle y position 
         #l_pz = pp.zp   # Particle z position 
         l_vx = pp.vpx   # Particle x velocity 
@@ -47,6 +47,6 @@ ax.set_ylim(y1, y2)                          # Set y-axis limits
 ax.set_title(r'$t={}$'.format(parray[-1,0])) # Plot title
 plt.legend()                                 # Add legend
 plt.tight_layout()                           # Remove overlapping and clipping
-plt.savefig('pvar-figure.pdf', dpi=300)       # Save figure as a PDF file with set quality
+plt.savefig('point-plot.pdf', dpi=300)       # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving
 
