@@ -53,7 +53,7 @@
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
-  rhs_poisson_const = 1.0
+  !rhs_poisson_const = 1.0
   !grav_const = 0.01061032
   lselfgravity_gas=F, lselfgravity_dust=F
 /
@@ -65,7 +65,6 @@
 &particles_dens_init_pars
   initrhopswarm = 'constant-1','constant-2' !'particles-to-gas-ratio'
   rhop_swarm1 = 0.5
-  ! mass should be 0.000496357 in code units
   rhop_swarm2 = 0.5
 !  eps_dtog = 1e-2
 /

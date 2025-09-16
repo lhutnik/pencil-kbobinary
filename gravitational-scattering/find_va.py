@@ -19,11 +19,16 @@ print('Closest distance:',rp,'(Components: x=',x_coord,'y=',y_coord,')')
 print('Origin to periapsis angle:',angle,'radians')
 
 ## From quantities in code units, determine characteristics of hyperbolic trajectory
-G = 1/(4*np.pi) #0.01061032953945969
-M = (1/32)**3 * (1.0)
+rhopswarm   = 1.0
+cell_side   = 32  # Grid cells per side
+side_length = 4.0 # Length of one side
+
+
+G = 1/(4*np.pi)       # Gravitational constant #0.01061032953945969
+M = (side_length/cell_side)**3 * (rhopswarm) # Mass of particle at origin
 
 a = ((2/rp)-(vp**2)/(G*M))**(-1) # Semi-major axis in code length units
-e = 1 - rp/a                 # Eccentricity
+e = 1 - rp/a                     # Eccentricity
 print('A representative hyperbolic trajectory has:')
 print('Semi-major axis:',a,'code length units')
 print('Eccentricity:',e)
