@@ -34,10 +34,10 @@ for it=0,nt-1 do begin ; For all times stalked
    openw,lun,filepath,/get_lun,/append
 
    printf,lun,'# Timestep=',it," Time=",fs.t[it],format='%s %i %s %f'
-   printf,lun,'# particle, x, y, rhopswarm, aps'
+   printf,lun,'# time, particle index, x, y, rhopswarm, aps'
    for k=0,npar-1 do begin ; For all particles  
          ;if (fs.aps[k,it] ne 0) then begin
-      printf,lun,fs.ipar[k],fs.xp[k,it],fs.yp[k,it],fs.rhopswarm[k,it],fs.aps[k,it],format='%i %f %f %f %f'
+      printf,lun,fs.t[it],fs.ipar[k],fs.xp[k,it],fs.yp[k,it],fs.rhopswarm[k,it],fs.aps[k,it],format='%f %i %f %f %f %f'
          ;endif
    endfor
    close,lun
