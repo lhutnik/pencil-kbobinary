@@ -72,7 +72,7 @@
   initaps='constant-1','constant-2'
   aps1=1e-2 
   aps2=1e-30
-!  lsink_communication_all_to_all=T
+!  lsink_communication_all_to_all=T ! If parallel processing
   lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
 /
