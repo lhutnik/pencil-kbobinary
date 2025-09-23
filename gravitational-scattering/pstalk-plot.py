@@ -98,18 +98,19 @@ x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
 
 ## Plot location of particles throughout simulation
 fig, ax = plt.subplots(1, 1)                 # Figure and axes established
-ax.plot(parray1[:,2], parray1[:,3], 'r.', label='aps='+str(parray1[0,5]))   # Plotting particle 1 position
+ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'$aps=$'+str(parray1[0,5]))   # Plotting particle 1 position
 min, max = np.max(parray2[:,0]), np.max(parray2[:,0]) # Minimum and maximum of time
 #color = np.linspace(min, max, )
-lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=10, cmap='inferno')
-fig.colorbar(lines2, ax=ax, label='Time')
+lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic')
+cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)')
+cbar.ax.invert_yaxis() # Flip color axis for better comparison with plot
 #ax.plot(parray2[:,1], parray2[:,2], 'b.', label='aps='+str(parray2[0,4]))   # Plotting particle 2 position
 ax.set_xlabel(r'$x$', fontsize=15)           # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)           # y-axis label
 plt.axis('scaled')                           # Axes are scaled to match one another
 ax.set_xlim(x1, x2)                          # Set x-axis limits
 ax.set_ylim(y1, y2)                          # Set y-axis limits
-ax.set_title(r'Position over time')          # Plot title
+ax.set_title(r'Gravitational Scattering Trajectory') # Plot title
 plt.legend()                                 # Add legend
 plt.tight_layout()                           # Remove overlapping and clipping
 plt.savefig('pstalk-figure.pdf', dpi=300)    # Save figure as a PDF file with set quality
