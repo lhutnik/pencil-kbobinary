@@ -16,7 +16,7 @@ print, tmp[0]
 print, nt
 print, npar
 
-print, "The middle ipar column is:"
+print, "The first ipar column is:"
 print, fs.ipar[*,0,0]
 
 print, "The sizes of ipar, xp, and aps arrays are the following:"
@@ -37,7 +37,7 @@ for it=0,nt-1 do begin ; For all times stalked
    printf,lun,'# particle, x, y, rhopswarm, aps'
    for k=0,npar-1 do begin ; For all particles  
          ;if (fs.aps[k,it] ne 0) then begin
-      printf,lun,fs.ipar[k],fs.xp[it,k],fs.yp[it,k],fs.rhopswarm[it,k],fs.aps[it,k],format='%i %f %f %f %f'
+      printf,lun,fs.ipar[k],fs.xp[k,it],fs.yp[k,it],fs.rhopswarm[k,it],fs.aps[k,it],format='%i %f %f %f %f'
          ;endif
    endfor
    close,lun
