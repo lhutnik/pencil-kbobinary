@@ -111,7 +111,7 @@ plt.axis('scaled')                           # Axes are scaled to match one anot
 ax.set_xlim(x1, x2)                          # Set x-axis limits
 ax.set_ylim(y1, y2)                          # Set y-axis limits
 ax.set_title(r'Gravitational Scattering Trajectory') # Plot title
-plt.legend('upper left')                                 # Add legend
+plt.legend(loc='upper left')                                 # Add legend
 plt.tight_layout()                           # Remove overlapping and clipping
 plt.savefig('pstalk-figure.pdf', dpi=300)    # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving
