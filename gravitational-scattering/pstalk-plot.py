@@ -5,6 +5,7 @@ import numpy as np              # Arrays
 import matplotlib.pyplot as plt # Plotting
 
 from matplotlib.collections import LineCollection
+from matplotlib.ticker import AutoMinorLocator
 def colored_line(x, y, c, ax, **lc_kwargs):
     """
     Plot a line with a color specified along the line by a third value.
@@ -122,10 +123,11 @@ ax.set_xlim(x1, x2)                          # Set x-axis limits
 ax.set_ylim(y1, y2)                          # Set y-axis limits
 ax.set_title(r'Gravitational Scattering Trajectory') # Plot title
 plt.legend(loc='upper left')                 # Add legend
-major_ticks = np.arange(-4, 4, 4/32)         # Ticks for grid
-ax.set_xticks(major_ticks)                   # Applying ticks to x axis
-ax.set_yticks(major_ticks)                   # Applying ticks to y axis
-ax.grid(which='major',zorder=1, alpha=0.5)   # Applying grid based on major ticks
+grid_scale = 4/32
+ax.xaxis.set_minor_locator(AutoMinorLocator(grid_scale)) # Ticks for x axis
+ax.yaxis.set_minor_locator(AutoMinorLocator(grid_scale)) # Ticks for y axis
+ax.tick_params(axis='both', which='minor', length=0)   # Set tick parameters (0 length)
+ax.grid(which='minor',zorder=1, alpha=0.5)   # Applying grid based on minor ticks
 plt.tight_layout()                           # Remove overlapping and clipping
 plt.savefig('pstalk-figure.pdf', dpi=300)    # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving
