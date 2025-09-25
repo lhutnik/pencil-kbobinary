@@ -38,8 +38,8 @@ x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
 ## Additional line to plot for analytic solution
 range = np.arange(-0.5*np.pi,0.5*np.pi,0.02) # Range of true anomalies to cover in radians
 peri_angle = -0.6842318043085592 # radians
-a = -0.02228772
-e = 24.34012938
+a = -0.898794
+e = 1.799171
 r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))
 x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range)
 print(x_pos)

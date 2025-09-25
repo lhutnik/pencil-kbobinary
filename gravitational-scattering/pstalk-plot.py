@@ -96,12 +96,23 @@ grid   = pc.read.grid()         # Read relevant information from grid data
 x1, y1 = grid.x[3], grid.y[3]   # first corner coordinates
 x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
 
+## Additional line to plot for analytic solution
+range = np.arange(-0.5*np.pi,0.5*np.pi,0.02) # Range of true anomalies to cover in radians
+peri_angle = -0.6842318043085592 # radians
+a = -0.898794
+e = 1.799171
+r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))
+x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range)
+
 ## Plot location of particles throughout simulation
 fig, ax = plt.subplots(1, 1)                 # Figure and axes established
 ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'$aps=$'+str(parray1[0,5]))   # Plotting particle 1 position
 min, max = np.max(parray2[:,0]), np.max(parray2[:,0]) # Minimum and maximum of time
 #color = np.linspace(min, max, )
 lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic')
+ax.plot(x_pos, y_pos, 'g', label='Analytical', zorder=10) # Analytical expectation based on periapsis from simulation
+
+
 cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)')
 cbar.ax.invert_yaxis() # Flip color axis for better comparison with plot
 #ax.plot(parray2[:,1], parray2[:,2], 'b.', label='aps='+str(parray2[0,4]))   # Plotting particle 2 position
