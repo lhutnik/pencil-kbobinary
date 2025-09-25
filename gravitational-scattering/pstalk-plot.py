@@ -93,36 +93,39 @@ for i in range(0, nstalk-1):   # For every pstalk save
 
 ## Check the grid size to apply to the plot
 grid   = pc.read.grid()         # Read relevant information from grid data
-x1, y1 = grid.x[3], grid.y[3]   # first corner coordinates
-x2, y2 = grid.x[-4], grid.y[-4] # second corner coordinates
+x1, y1 = grid.x[3], grid.y[3]   # First corner coordinates
+x2, y2 = grid.x[-4], grid.y[-4] # Second corner coordinates
 
 ## Additional line to plot for analytic solution
-range = np.arange(-0.5*np.pi,0.5*np.pi,0.02) # Range of true anomalies to cover in radians
-peri_angle = -0.6842318043085592 # radians
-a = -0.898794
-e = 1.799171
-r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))
-x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range)
+range = np.arange(-np.pi,np.pi,0.02)   # Range of true anomalies to cover in radians
+peri_angle = -0.6842318043085592       # radians; periapsis angle from +x direction
+a = -0.065846062618                    # Semi-major axis calculated separately
+e = 15.66145548                        # Eccentricity calculated separately
+r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))       # Array of radial distances
+x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
 
 ## Plot location of particles throughout simulation
-fig, ax = plt.subplots(1, 1)                 # Figure and axes established
+fig, ax = plt.subplots(1, 1)                                                   # Figure and axes established
 ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'$aps=$'+str(parray1[0,5]))   # Plotting particle 1 position
-min, max = np.max(parray2[:,0]), np.max(parray2[:,0]) # Minimum and maximum of time
-#color = np.linspace(min, max, )
-lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic')
+min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                          # Minimum and maximum of time
+lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+## Plot analytical solution provided input
 ax.plot(x_pos, y_pos, 'g', label='Analytical', zorder=10) # Analytical expectation based on periapsis from simulation
 
-
-cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)')
-cbar.ax.invert_yaxis() # Flip color axis for better comparison with plot
-#ax.plot(parray2[:,1], parray2[:,2], 'b.', label='aps='+str(parray2[0,4]))   # Plotting particle 2 position
+## Figure settings
+cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
+cbar.ax.invert_yaxis() # Flip color axis for better comparison with plot (time starts on top)
 ax.set_xlabel(r'$x$', fontsize=15)           # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)           # y-axis label
 plt.axis('scaled')                           # Axes are scaled to match one another
 ax.set_xlim(x1, x2)                          # Set x-axis limits
 ax.set_ylim(y1, y2)                          # Set y-axis limits
 ax.set_title(r'Gravitational Scattering Trajectory') # Plot title
-plt.legend(loc='upper left')                                 # Add legend
+plt.legend(loc='upper left')                 # Add legend
+major_ticks = np.arange(-4, 4, 4/32)         # Ticks for grid
+ax.set_xticks(major_ticks)                   # Applying ticks to x axis
+ax.set_yticks(major_ticks)                   # Applying ticks to y axis
+ax.grid(which='major',zorder=1, alpha=0.5)   # Applying grid based on major ticks
 plt.tight_layout()                           # Remove overlapping and clipping
 plt.savefig('pstalk-figure.pdf', dpi=300)    # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving

@@ -39,7 +39,7 @@ yp = 1.99
 xv = 0.0
 yv = -0.05
 
-M = (rhopswarm) * (side_length/cell_side)**2 # Column density is being used for 2D case?
+#M = (rhopswarm) * (side_length/cell_side)**2 # Column density is being used for 2D case?
 mu = G*M                # Gravitational parameter
 
 r = np.sqrt(xp**2 + yp**2) # Initial radial distance
