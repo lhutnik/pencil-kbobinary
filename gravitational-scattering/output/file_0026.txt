@@ -1,3 +1,4 @@
-# Timestep= 26  Time= 26.012605
-# particle, x, y, rhopswarm, aps
-1 0.000000 -0.000000 0.500000 0.010000
+# Timestep= 26  Time= 2.629579
+# time, particle index, x, y, rhopswarm, aps
+2.629579 0 0.000000 0.000000 1.000000 0.010000
+2.629579 1 0.998827 1.858348 0.000000 0.000000
