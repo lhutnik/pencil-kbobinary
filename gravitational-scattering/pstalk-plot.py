@@ -97,21 +97,37 @@ grid   = pc.read.grid()         # Read relevant information from grid data
 x1, y1 = grid.x[3], grid.y[3]   # First corner coordinates
 x2, y2 = grid.x[-4], grid.y[-4] # Second corner coordinates
 
-## Additional line to plot for analytic solution
-range = np.arange(-np.pi,np.pi,0.02)   # Range of true anomalies to cover in radians
-peri_angle = -0.6842318043085592       # radians; periapsis angle from +x direction
-a = -0.065846062618                    # Semi-major axis calculated separately
-e = 15.66145548                        # Eccentricity calculated separately
-r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))       # Array of radial distances
-x_pos, y_pos = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
+## Line 1 to plot for analytic solution
+range = np.arange(-np.pi,np.pi,0.01)    # Range of true anomalies to cover in radians
+peri_angle = -0.704527                  # radians; periapsis angle from +x direction
+a = -0.4455599810                       # Semi-major axis calculated separately
+e = 2.16751617                          # Eccentricity calculated separately
+r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))         # Array of radial distances
+x_pos1, y_pos1 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
+#x_pos1 = np.cos(-peri_angle)*(x_pos1) + np.sin(-peri_angle)*(y_pos1)
+#y_pos1 = -np.sin(-peri_angle)*(x_pos1) + np.cos(-peri_angle)*(y_pos1)
+
+## Line 2 to plot for analytic solution
+range = np.arange(-np.pi,np.pi,0.01)   # Range of true anomalies to cover in radians
+peri_angle = -0.704527                 # radians; periapsis angle from +x direction
+a = -0.89879412                        # Semi-major axis calculated separately
+e = 1.7991716794                       # Eccentricity calculated separately
+r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))         # Array of radial distances
+x_pos2, y_pos2 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
+#x_pos2 = np.cos(-peri_angle)*(x_pos2) + np.sin(-peri_angle)*(y_pos2)
+#y_pos2 = -np.sin(-peri_angle)*(x_pos2) + np.cos(-peri_angle)*(y_pos2)
+
+# Provide a rotation transformation of our initial x and y coordinates 
 
 ## Plot location of particles throughout simulation
 fig, ax = plt.subplots(1, 1)                                                   # Figure and axes established
 ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'$aps=$'+str(parray1[0,5]))   # Plotting particle 1 position
 min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                          # Minimum and maximum of time
 lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+
 ## Plot analytical solution provided input
-ax.plot(x_pos, y_pos, 'g', label='Analytical', zorder=10) # Analytical expectation based on periapsis from simulation
+ax.plot(x_pos1, y_pos1, color='o', label='From Periapsis', zorder=10) # Solution directly from numerical results 
+ax.plot(x_pos2, y_pos2, '-.',color='m', label='From Initial Conditions', zorder=10) # Analytical expectation based on periapsis from simulation
 
 ## Figure settings
 cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
@@ -127,7 +143,7 @@ grid_scale = 4/32
 ax.xaxis.set_minor_locator(AutoMinorLocator(grid_scale)) # Ticks for x axis
 ax.yaxis.set_minor_locator(AutoMinorLocator(grid_scale)) # Ticks for y axis
 ax.tick_params(axis='both', which='minor', length=0)   # Set tick parameters (0 length)
-ax.grid(which='minor',zorder=1, alpha=0.5)   # Applying grid based on minor ticks
+ax.grid(which='major', alpha=0.5)   # Applying grid based on minor ticks
 plt.tight_layout()                           # Remove overlapping and clipping
 plt.savefig('pstalk-figure.pdf', dpi=300)    # Save figure as a PDF file with set quality
 plt.close()                                  # Close figure after saving
