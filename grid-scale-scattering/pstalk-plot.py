@@ -34,7 +34,8 @@ for i in range(0, nstalk-1):   # For every pstalk save
     path = os.path.join(".",'output/file_'+num+'.txt')
     output = np.loadtxt(path)  # Load the output row from a file
     parray2[i,:] = output[1,:] # First row elements are substituted into the larger array
-np.savetxt('parray2.csv', parray2, delimiter=',') #header=',,,'
+## Save near massless particle data to .csv
+np.savetxt('parray2.csv', parray2, delimiter=',', header='it, index, xp, yp, rhopswarm, aps')
 
 ## Check the grid size to apply to the plot
 grid   = pc.read.grid()         # Read relevant information from grid data

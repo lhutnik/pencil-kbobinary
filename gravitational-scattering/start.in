@@ -44,7 +44,7 @@
   vpy1 = 0.0
   vpz1 = 0.0
 
-! position and velocities for particle 2 (massless)
+! position and velocities for particle 2 (near massless)
   xp2 = 1.0
   yp2 = 1.99
   zp2 = 0.0
