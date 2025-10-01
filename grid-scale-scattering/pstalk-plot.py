@@ -35,7 +35,7 @@ for i in range(0, nstalk-1):   # For every pstalk save
     output = np.loadtxt(path)  # Load the output row from a file
     parray2[i,:] = output[1,:] # First row elements are substituted into the larger array
 ## Save near massless particle data to .csv
-np.savetxt('parray2.csv', parray2, delimiter=',', header='it, index, xp, yp, rhopswarm, aps')
+np.savetxt('parray2.csv', parray2, delimiter=',', header='it, index, xp, yp, vx, vy, rhopswarm, aps')
 
 ## Check the grid size to apply to the plot
 grid   = pc.read.grid()         # Read relevant information from grid data
@@ -44,9 +44,9 @@ x2, y2 = grid.x[-4], grid.y[-4] # Second corner coordinates
 
 ## Line 1 to plot for analytic solution
 range = np.arange(-np.pi,np.pi,0.01)    # Range of true anomalies to cover in radians
-peri_angle = 0.20297484                  # radians; periapsis angle from +x direction
-a = -7.78340085903132e-05                       # Semi-major axis calculated separately
-e = 13118.132860                          # Eccentricity calculated separately
+peri_angle = -0.20163887617                  # radians; periapsis angle from +x direction
+a = -0.12551379551                       # Semi-major axis calculated separately
+e = 7.88808802638                        # Eccentricity calculated separately
 r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))         # Array of radial distances
 x_pos1, y_pos1 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
 #x_pos1 = np.cos(-peri_angle)*(x_pos1) + np.sin(-peri_angle)*(y_pos1)
@@ -54,9 +54,9 @@ x_pos1, y_pos1 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinate
 
 ## Line 2 to plot for analytic solution
 range = np.arange(-np.pi,np.pi,0.01)   # Range of true anomalies to cover in radians
-peri_angle = 0.20297484                 # radians; periapsis angle from +x direction
-a = -0.139968596                        # Semi-major axis calculated separately
-e = 7.645858649                       # Eccentricity calculated separately
+peri_angle = -0.20163887617                 # radians; periapsis angle from +x direction
+a = -0.13996859622                        # Semi-major axis calculated separately
+e = 7.6458586490                       # Eccentricity calculated separately
 r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))         # Array of radial distances
 x_pos2, y_pos2 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
 #x_pos2 = np.cos(-peri_angle)*(x_pos2) + np.sin(-peri_angle)*(y_pos2)

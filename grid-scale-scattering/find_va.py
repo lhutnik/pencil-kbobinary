@@ -4,12 +4,12 @@ import numpy as np
 ## Determine distance, velocity, and angle at periapsis
 vp_array = np.loadtxt("parray2.csv", delimiter=',')       # Load array of positions and velocities over time
 vp = 0                                                    # Minimum 'magnitude' of position vector
-for i in range(len(vp_array[:,0])):                       # For all times indices
+for i in range(len(vp_array[:,0])):                       # For all time indices
     line_m = np.sqrt(vp_array[i,4]**2 + vp_array[i,5]**2) # Velocity vector magnitude 
     if line_m > vp:                                       # If higher, then this could be the periapsis 
-        vp = line_m
-        x_coord = vp_array[i,2]
-        y_coord = vp_array[i,3]
+        vp = line_m                                       # Record new highest velocity
+        x_coord = vp_array[i,2]                           # x distance
+        y_coord = vp_array[i,3]                           #
         rp = np.sqrt(x_coord**2 + y_coord**2)
 
 angle = np.arctan(y_coord/x_coord)                        # tan(theta)=y/x=opp/adj
