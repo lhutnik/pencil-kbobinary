@@ -4,8 +4,9 @@ import pencil as pc             # Local module for handling Pencil Code outputs
 import numpy as np              # Arrays 
 import matplotlib.pyplot as plt # Plotting
 
-from matplotlib.collections import LineCollection 
-from matplotlib.ticker import AutoMinorLocator 
+## Useful matplotlib functions
+from matplotlib.collections import LineCollection
+from matplotlib.ticker import AutoMinorLocator
 from helpers import colored_line
 
 
@@ -60,9 +61,7 @@ e = 7.6458586490                       # Eccentricity calculated separately
 r_array = (a*(1-e**2))/(1+e*np.cos(range-peri_angle))         # Array of radial distances
 x_pos2, y_pos2 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinates to cartesian
 #x_pos2 = np.cos(-peri_angle)*(x_pos2) + np.sin(-peri_angle)*(y_pos2)
-#y_pos2 = -np.sin(-peri_angle)*(x_pos2) + np.cos(-peri_angle)*(y_pos2)
-
-# Provide a rotation transformation of our initial x and y coordinates 
+#y_pos2 = -np.sin(-peri_angle)*(x_pos2) + np.cos(-peri_angle)*(y_pos2) 
 
 ## Plot location of particles throughout simulation
 fig, ax = plt.subplots(1, 1)                                                   # Figure and axes established
@@ -71,8 +70,8 @@ min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                          #
 lines2 = colored_line(parray2[:,2][0:770], parray2[:,3][0:770], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
 
 ## Plot analytical solution provided input
-ax.plot(x_pos1, y_pos1, color='limegreen', label='From Periapsis', zorder=10) # Solution directly from numerical results 
-ax.plot(x_pos2, y_pos2, '-.', color='magenta', label='From Initial Conditions', zorder=10) # Analytical expectation based on periapsis from simulation
+ax.plot(x_pos1, y_pos1, color='limegreen', label='From Periapsis', zorder=10) # Expectation based on periapsis position and velocity
+ax.plot(x_pos2, y_pos2, '-.', color='magenta', label='From Initial Conditions', zorder=10) # Analytical solution from initial conditions
 
 ## Figure settings
 cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
