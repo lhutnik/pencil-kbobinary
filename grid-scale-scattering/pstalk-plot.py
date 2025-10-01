@@ -43,7 +43,7 @@ x1, y1 = grid.x[3], grid.y[3]   # First corner coordinates
 x2, y2 = grid.x[-4], grid.y[-4] # Second corner coordinates
 
 ## Line 1 to plot for analytic solution
-range = np.arange(-np.pi,np.pi,0.01)    # Range of true anomalies to cover in radians
+range = np.arange(-np.pi/2,np.pi/2,0.01)    # Range of true anomalies to cover in radians
 peri_angle = -0.20163887617                  # radians; periapsis angle from +x direction
 a = -0.12551379551                       # Semi-major axis calculated separately
 e = 7.88808802638                        # Eccentricity calculated separately
@@ -68,7 +68,7 @@ x_pos2, y_pos2 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinate
 fig, ax = plt.subplots(1, 1)                                                   # Figure and axes established
 ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'$aps=$'+str(parray1[0,5]))   # Plotting particle 1 position
 min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                          # Minimum and maximum of time
-lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+lines2 = colored_line(parray2[:,2][0:700], parray2[:,3][0:700], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
 
 ## Plot analytical solution provided input
 ax.plot(x_pos1, y_pos1, color='orange', label='From Periapsis', zorder=10) # Solution directly from numerical results 
