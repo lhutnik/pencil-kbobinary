@@ -43,7 +43,7 @@ x1, y1 = grid.x[3], grid.y[3]   # First corner coordinates
 x2, y2 = grid.x[-4], grid.y[-4] # Second corner coordinates
 
 ## Line 1 to plot for analytic solution
-range = np.arange(-np.pi*0.75,np.pi*0.4,0.01)    # Range of true anomalies to cover in radians
+range = np.arange(-np.pi*0.8,np.pi*0.4,0.01)    # Range of true anomalies to cover in radians
 peri_angle = -0.7154316939                  # radians; periapsis angle from +x direction
 a = -0.4458081473554                       # Semi-major axis calculated separately
 e = 2.1668124882783                        # Eccentricity calculated separately
@@ -53,7 +53,7 @@ x_pos1, y_pos1 = r_array*np.cos(range), r_array*np.sin(range) # Polar coordinate
 #y_pos1 = -np.sin(-peri_angle)*(x_pos1) + np.cos(-peri_angle)*(y_pos1)
 
 ## Line 2 to plot for analytic solution
-range = np.arange(-np.pi*0.75,np.pi*0.4,0.01)   # Range of true anomalies to cover in radians
+range = np.arange(-np.pi*0.8,np.pi*0.4,0.01)   # Range of true anomalies to cover in radians
 peri_angle = -0.7154316939                 # radians; periapsis angle from +x direction
 a = -0.8987941268                        # Semi-major axis calculated separately
 e = 1.79917167948                       # Eccentricity calculated separately
