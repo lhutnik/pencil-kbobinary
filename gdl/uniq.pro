@@ -1,17 +1,16 @@
-function uniq, arr
-    compile_opt strictarr
+function UNIQ, ARRAY, IDX
 
-    if n_elements(arr) eq 0 then return, -1  ; Check if array is empty
-
-    if n_elements(arr) eq 1 then return, [0] ; Scalar output
-
-    diffs = [1, diff(arr)]                   ; Find differences between consecutive elements
-
-    idx = where(diffs ne 0, count)           ; Find positions with differences
-
-    if count gt 0 then idx = idx - 1
-
-    idx[0] = 0                               ; Include 0th element 
-
-    return, idx
+; Check the arguments.                                                                                                                                                                                                                                                  
+  s = size(ARRAY)
+  if (s[0] eq 0) then return, 0         ;A scalar                                                                                                                                                                                                                       
+  if n_params() ge 2 then begin         ;IDX supplied?                                                                                                                                                                                                                  
+     q = array[idx]
+     indices = where(q ne shift(q,-1), count)
+     if (count GT 0) then return, idx[indices] $
+     else return, n_elements(q)-1
+  endif else begin
+     indices = where(array ne shift(array, -1), count)
+     if (count GT 0) then return, indices $
+     else return, n_elements(ARRAY)-1
+  endelse
 end

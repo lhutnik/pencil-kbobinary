@@ -1,3 +1,8 @@
 Revision: 67656342b
+ M idl/read/pc_read_param.pro
  M python/pencil/read/pvarfile.py
  M samples/2d-tests/globaldisc/phiaver.in
+ M samples/2d-tests/streaming_instability/RunBA/run.in
+ M samples/2d-tests/streaming_instability/RunBA/src/Makefile.local
+ M samples/2d-tests/streaming_instability/RunBA/src/cparam.local
+ M src/particles_lagrangian.f90
