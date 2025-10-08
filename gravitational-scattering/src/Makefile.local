@@ -5,8 +5,8 @@
 
 MPICOMM   = nompicomm
 
-HYDRO     =   hydro
-DENSITY   =   density
+HYDRO     = nohydro
+DENSITY   = nodensity
 SHEAR     = noshear
 
 GRAVITY     = nogravity

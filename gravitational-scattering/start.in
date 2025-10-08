@@ -1,8 +1,8 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
   cvsid="67656342b"
-  xyz0  =  -2.0,  -2.0,  -2.0
-  Lxyz  =   4.0,   4.0,   4.0
+  xyz0  =  -2.0,  -2.0,  -0.5
+  Lxyz  =   4.0,   4.0,   1.0
   lperi =      T,      T,      T
   !lcopysnapshots_exp=T, 
   lwrite_ic=T, lwrite_aux=T
@@ -33,7 +33,8 @@
   tausp = 1.0
   eps_dtog = 0.01
   nu_epicycle = 0.0
-  lparticlemesh_tsc=T
+  lparticlemesh_cic=F
+  lparticlemesh_tsc=F
   ldragforce_dust_par=F, ldragforce_gas_par=F
   lmigration_redo=T
 ! position and velocities for particle 1 (massive)
@@ -46,38 +47,39 @@
 
 ! position and velocities for particle 2 (near massless)
   xp2 = 1.0
-  yp2 = 1.99
+  yp2 = 0.0
   zp2 = 0.0
   vpx2 = 0.0
-  vpy2 = -0.05
+  vpy2 = 1.0
   vpz2 = 0.0  
 /
 &selfgrav_init_pars
-  rhs_poisson_const = 1.0 !4piG
-  !grav_const = 0.01061032
+  !rhs_poisson_const = 1.0 !4piG
+  gravitational_const = 1.0
   lselfgravity_gas=F, lselfgravity_dust=F
 /
 &poisson_init_pars
+  lrazor_thin=F
 /
 &particles_selfgrav_init_pars
   lselfgravity_particles=T
 /
 &particles_dens_init_pars
   initrhopswarm = 'constant-1','constant-2'
-  rhop_swarm1 = 1.0
+  rhop_swarm1 = 4096
   rhop_swarm2 = 1e-30
 !  eps_dtog = 1e-2
 /
 &particles_sink_init_pars
   initaps='constant-1','constant-2'
-  aps1=1e-2 
+  aps1=1e-2
   aps2=1e-30
 !  lsink_communication_all_to_all=T ! If parallel processing
   lselfgravity_sinkparticles=T
 !  laccrete_sink_sink=F
 /
 &particles_stalker_init_pars
-  dstalk = 0.1 !0.5
+  dstalk = 0.01 !0.5
   linterpolate_tsc=T
   lstalk_xx=T
   lstalk_vv=T

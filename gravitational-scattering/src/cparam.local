@@ -8,7 +8,7 @@
 !
 !  
 integer, parameter :: ncpus=1, nprocx=1, nprocy=1, nprocz=1
-integer, parameter :: nxgrid=32, nygrid=nxgrid, nzgrid=1
+integer, parameter :: nxgrid=64, nygrid=nxgrid, nzgrid=16
 integer, parameter :: npar=2
 integer, parameter :: npar_stalk=2
 

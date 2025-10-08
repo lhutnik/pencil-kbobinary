@@ -68,7 +68,7 @@ print('Cell width is:',dx)
 G = 1/(4*np.pi)           # Gravitational constant
 M = (rhopswarm) * (dx)**2 # Mass of particle at origin; set by column density and grid cell area
 
-mass_multiple = 1.00
+mass_multiple = 1.00      # As a test, multiply mass
 M = (rhopswarm) * (dx)**2 * mass_multiple # TEST MASS
 mu = G * M                # Gravitational parameter
 
@@ -92,7 +92,7 @@ vinf = np.sqrt(-mu/a2)        # Set r=infinity for velocity at infinity
 h    = abs(vy*xp - vx*yp)     # Specific angular momentum at any point in trajectory
 b    = h/vinf                 # Impact parameter or semi-minor axis
 e2   = np.sqrt(1+b**2/a2**2)  # Eccentricity from semi-minor and semi-major axes
-#e2   = np.sqrt(1 + (2*vi2*h**2)/mu**2 - ri*vi2/mu) # Eccentricity solved in a different fashion
+e2   = np.sqrt(1 + (2*vi2*h**2)/mu**2 - ri*vi2/mu) # Eccentricity solved in a different fashion
 printColor('Hyperbolic trajectory from initial conditions:','HEADER')
 print('Semi-major axis:',a2,'code length units')
 print('Eccentricity:',e2)
@@ -100,7 +100,7 @@ print('Eccentricity:',e2)
 
 ### (3) SOLVE FOR POINTS ALONG TRAJECTORY
 f_inf = np.arccos(-1/e1)
-range = np.arange(-f_inf,f_inf,0.001) # Range of true anomalies to cover in radians
+range = np.arange(-1.4*np.pi,-0.2*np.pi,0.001) # Range of true anomalies to cover in radians
 peri_angle = angle                            # radians; periapsis angle from +x direction
 
 ## Line 1 to plot for analytic solution (periapsis case)
@@ -125,11 +125,13 @@ ly = grid.Ly          # Length of y-axis side
 fig, ax = plt.subplots(1, 1)                                                                     # Figure and axes established
 ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'Sink $aps=$'+str(parray1[0,7]), zorder=3)           # Plotting particle 1 position
 min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                                            # Minimum and maximum of time
-lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+#lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+
+ax.plot(parray2[:,2], parray2[:,3], label="Test Particle")
 
 ## Plot analytical solution provided input
-ax.plot(x_pos1, y_pos1, color='green', label='From Periapsis', zorder=5)                 # Analytical expectation from periapsis position and velocity in sim 
-ax.plot(x_pos2, y_pos2, '-.',color='magenta', label='From Initial Conditions', zorder=5) # Analytical expectation from initial conditons
+#ax.plot(x_pos1, y_pos1, color='green', label='From Periapsis', zorder=5)                 # Analytical expectation from periapsis position and velocity in sim 
+#ax.plot(x_pos2, y_pos2, '-.',color='magenta', label='From Initial Conditions', zorder=5) # Analytical expectation from initial conditons
 
 ## Add line indicating periapsis position vector
 ax.plot((0, x_coord), (0, y_coord), linewidth=2, linestyle='-', color='k', zorder=2)
@@ -142,15 +144,15 @@ ax.text(0.44, .05, 'Initial $v$: $v_x$='+"{:.2E}".format(vx)+' $v_y$='+"{:.2E}".
         transform=ax.transAxes, fontsize=8, verticalalignment='top', bbox=props, zorder=6)
 
 ## Figure settings
-cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
-cbar.ax.invert_yaxis()                               # Flip color axis for better comparison with plot (time starts on top)
+#cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
+#cbar.ax.invert_yaxis()                               # Flip color axis for better comparison with plot (time starts on top)
 ax.set_xlabel(r'$x$', fontsize=15)                   # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)                   # y-axis label
 plt.axis('scaled')                                   # Axes are scaled to match one another
 ax.set_xlim(-lx/2, lx/2)                             # Set x-axis limits, assuming centered evenly on origin
 ax.set_ylim(-ly/2, ly/2)                             # Set y-axis limits, assuming centered evenly on origin
 ax.set_title(r'Hyperbolic Trajectory of Massless Particle') # Plot title
-plt.legend(loc='upper left')                         # Add legend
+plt.legend(loc='best')                               # Add legend
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping
