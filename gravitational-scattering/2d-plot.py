@@ -27,3 +27,25 @@ bar.set_label(r"potself", fontsize=15) # Colorbar label
 plt.title("")                      # Plot title
 plt.savefig("potential.pdf", dpi=300)                      # Save figure as a PDF file with set quality
 plt.close()                                                   # Close figure after saving
+
+
+rangepot= np.linspace(-4+1/32,4-1/32, 64)
+potself = ff.potself[0,0,:]
+## Plot potential at midplane
+#plt.imshow(rhop,origin='lower',cmap='inferno',interpolation='none',
+#		extent=[x1,x2,y1,2])                                  # Plotting as image
+M = 1
+G = 1
+xrange = np.linspace(-2.,2.,500)
+pointpot = -G*M/xrange
+
+plt.plot(xrange, pointpot, linestyle='--', label='Point Source')
+plt.plot(rangepot, potself, label='Simulation')
+
+plt.xlabel(r'$x$', fontsize=15)                               # x-axis label
+plt.ylabel(r'$Self Potential$', fontsize=15)                               # y-axis label
+#bar = plt.colorbar()   # Colorbar
+#bar.set_label(r"potself", fontsize=15) # Colorbar label
+plt.title("Self Potential Slice")                           # Plot title
+plt.savefig("potential2.pdf", dpi=300)                      # Save figure as a PDF file with set quality
+plt.close()                                                 # Close figure after saving
