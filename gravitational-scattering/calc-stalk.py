@@ -33,7 +33,7 @@ np.savetxt('parray1.csv', parray1, delimiter=',', header='it, index, xp, yp, vx,
 ## Create new array to input particle 2 data
 parray2 = np.empty(shape=(nstalk-1, header_len))
 for i in range(0, nstalk-1):   # For every pstalk save
-    num = '{0:04}'.format(i+1) # Format each output file call e.g. 1 -> '0001'
+    num = '{0:04}'.format(i) # Format each output file call e.g. 1 -> '0001'
     path = os.path.join(".",'output/file_'+num+'.txt')
     output = np.loadtxt(path)  # Load the output row from a file
     parray2[i,:] = output[1,:] # First row elements are substituted into the larger array
@@ -67,7 +67,9 @@ print('Cell width is:',dx)
 
 G = 1/(4*np.pi)           # Gravitational constant
 M = (rhopswarm) * (dx)**2 # Mass of particle at origin; set by column density and grid cell area
-M = (rhopswarm) * (dx)**2 * 1.21        # TEST MASS
+
+mass_multiple = 1.00
+M = (rhopswarm) * (dx)**2 * mass_multiple # TEST MASS
 mu = G * M                # Gravitational parameter
 
 a1 = (2/rp-(vp**2)/mu)**(-1) # Semi-major axis in code length units; solve from vis-viva equation
@@ -77,10 +79,10 @@ print('Semi-major axis:',a1,'code length units')
 print('Eccentricity:',e1)
 
 ## Alternatively, use initial conditions to determine orbital parameters of hyperbolic orbit
-xp = parray2[-1,2] # Initial x position
-yp = parray2[-1,3] # Initial y position
-vx = parray2[-1,4] # Initial x velocity
-vy = parray2[-1,5] # Initial y velocity
+xp = parray2[0,2] # Initial x position
+yp = parray2[0,3] # Initial y position
+vx = parray2[0,4] # Initial x velocity
+vy = parray2[0,5] # Initial y velocity
 
 ## Calculate orbital parameters from expected mass and initial conditions
 ri   = np.sqrt(xp**2 + yp**2) # Initial radial distance
@@ -90,15 +92,16 @@ vinf = np.sqrt(-mu/a2)        # Set r=infinity for velocity at infinity
 h    = abs(vy*xp - vx*yp)     # Specific angular momentum at any point in trajectory
 b    = h/vinf                 # Impact parameter or semi-minor axis
 e2   = np.sqrt(1+b**2/a2**2)  # Eccentricity from semi-minor and semi-major axes
-e2   = np.sqrt(1 + (2*vi2*h**2)/mu**2 - ri*vi2/mu)
+#e2   = np.sqrt(1 + (2*vi2*h**2)/mu**2 - ri*vi2/mu) # Eccentricity solved in a different fashion
 printColor('Hyperbolic trajectory from initial conditions:','HEADER')
 print('Semi-major axis:',a2,'code length units')
 print('Eccentricity:',e2)
 
 
 ### (3) SOLVE FOR POINTS ALONG TRAJECTORY
-range = np.arange(-np.pi*0.9,np.pi*0.4,0.001) # Range of true anomalies to cover in radians
-peri_angle = angle                           # radians; periapsis angle from +x direction
+f_inf = np.arccos(-1/e1)
+range = np.arange(-f_inf,f_inf,0.001) # Range of true anomalies to cover in radians
+peri_angle = angle                            # radians; periapsis angle from +x direction
 
 ## Line 1 to plot for analytic solution (periapsis case)
 a = a1  # Semi-major axis calculated separately
@@ -125,11 +128,18 @@ min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                           
 lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
 
 ## Plot analytical solution provided input
-ax.plot(x_pos1, y_pos1, color='green', label='From Periapsis', zorder=10)                 # Analytical expectation from periapsis position and velocity in sim 
-ax.plot(x_pos2, y_pos2, '-.',color='magenta', label='From Initial Conditions', zorder=10) # Analytical expectation from initial conditons
+ax.plot(x_pos1, y_pos1, color='green', label='From Periapsis', zorder=5)                 # Analytical expectation from periapsis position and velocity in sim 
+ax.plot(x_pos2, y_pos2, '-.',color='magenta', label='From Initial Conditions', zorder=5) # Analytical expectation from initial conditons
 
 ## Add line indicating periapsis position vector
 ax.plot((0, x_coord), (0, y_coord), linewidth=2, linestyle='-', color='k', zorder=2)
+
+## Add text indicating mass and initial velocity
+props = dict(boxstyle='round', facecolor='white', alpha=0.7)
+ax.text(0.44, .10, 'Expected Mass * '+"{:.2E}".format(mass_multiple),
+        transform=ax.transAxes, fontsize=8, verticalalignment='top', bbox=props, zorder=6)
+ax.text(0.44, .05, 'Initial $v$: $v_x$='+"{:.2E}".format(vx)+' $v_y$='+"{:.2E}".format(vy),
+        transform=ax.transAxes, fontsize=8, verticalalignment='top', bbox=props, zorder=6)
 
 ## Figure settings
 cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
