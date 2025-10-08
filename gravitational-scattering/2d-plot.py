@@ -37,15 +37,17 @@ potself = ff.potself[0,0,:]
 M = 1
 G = 1
 xrange = np.linspace(-2.,2.,500)
-pointpot = -G*M/xrange
+pointpot = -G*M/np.abs(xrange)
 
 plt.plot(xrange, pointpot, linestyle='--', label='Point Source')
 plt.plot(rangepot, potself, label='Simulation')
 
 plt.xlabel(r'$x$', fontsize=15)                               # x-axis label
-plt.ylabel(r'$Self Potential$', fontsize=15)                               # y-axis label
+plt.ylabel(r'Self Potential', fontsize=15)                               # y-axis label
 #bar = plt.colorbar()   # Colorbar
 #bar.set_label(r"potself", fontsize=15) # Colorbar label
-plt.title("Self Potential Slice")                           # Plot title
+plt.title("Self Potential Slice for $y=0$, $z=0$")                           # Plot title
 plt.savefig("potential2.pdf", dpi=300)                      # Save figure as a PDF file with set quality
+plt.ylim(-5,1)
+plt.legend()
 plt.close()                                                 # Close figure after saving
