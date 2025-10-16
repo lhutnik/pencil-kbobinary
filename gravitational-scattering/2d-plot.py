@@ -23,14 +23,14 @@ plt.imshow(rhop,origin='lower',cmap='inferno',interpolation='none',
 plt.xlabel(r'$x$', fontsize=15)                               # x-axis label
 plt.ylabel(r'$y$', fontsize=15)                               # y-axis label
 bar = plt.colorbar()   # Colorbar
-bar.set_label(r"potself", fontsize=15) # Colorbar label
+bar.set_label(r"Self Potential", fontsize=15) # Colorbar label
 plt.title("")                      # Plot title
 plt.savefig("potential.pdf", dpi=300)                      # Save figure as a PDF file with set quality
 plt.close()                                                   # Close figure after saving
 
 
-rangepot= np.linspace(-4+1/32,4-1/32, 64)
-potself = ff.potself[0,0,:]
+rangepot= np.linspace(-2+1/32,2-1/32, 64)
+potself = ff.potself[7,31,:]
 ## Plot potential at midplane
 #plt.imshow(rhop,origin='lower',cmap='inferno',interpolation='none',
 #		extent=[x1,x2,y1,2])                                  # Plotting as image
@@ -41,13 +41,15 @@ pointpot = -G*M/np.abs(xrange)
 
 plt.plot(xrange, pointpot, linestyle='--', label='Point Source')
 plt.plot(rangepot, potself, label='Simulation')
+print('Minimum:',np.min(potself))
 
-plt.xlabel(r'$x$', fontsize=15)                               # x-axis label
-plt.ylabel(r'Self Potential', fontsize=15)                               # y-axis label
+plt.xlabel(r'$x$', fontsize=15)                             # x-axis label
+plt.ylabel(r'Self Potential', fontsize=15)                  # y-axis label
 #bar = plt.colorbar()   # Colorbar
 #bar.set_label(r"potself", fontsize=15) # Colorbar label
-plt.title("Self Potential Slice for $y=0$, $z=0$")                           # Plot title
-plt.savefig("potential2.pdf", dpi=300)                      # Save figure as a PDF file with set quality
-plt.ylim(-5,1)
+plt.ylim(bottom=-4)                                 # Potential limits (zoom in to view)
 plt.legend()
+
+plt.title("Self Potential Slice for $y=0$, $z=0$")          # Plot title
+plt.savefig("potential2.pdf", dpi=300)                      # Save figure as a PDF file with set quality
 plt.close()                                                 # Close figure after saving
