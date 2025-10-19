@@ -1,8 +1,8 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
   cvsid="67656342b"
-  xyz0  =  -2.0,  -2.0,  -0.5
-  Lxyz  =   4.0,   4.0,   1.0
+  xyz0  =  -6.0,  -6.0,  -0.5
+  Lxyz  =   12.0,   12.0,   1.0
   lperi =      T,      T,      T
   !lcopysnapshots_exp=T, 
   lwrite_ic=T, lwrite_aux=T
