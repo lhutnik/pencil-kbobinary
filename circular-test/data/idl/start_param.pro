@@ -1,9 +1,9 @@
 par = { $
     cvsid: '67656342b', $
     ip: 14, $
-    xyz0: [replicate(-2.0D0,2),-0.5D0], $
-    xyz1: [replicate(2.0D0,2),0.5D0], $
-    lxyz: [replicate(4.0D0,2),1.0D0], $
+    xyz0: [replicate(-6.0D0,2),-0.5D0], $
+    xyz1: [replicate(6.0D0,2),0.5D0], $
+    lxyz: [replicate(12.0D0,2),1.0D0], $
     lperi: replicate(-1L,3), $
     lshift_origin: replicate(0L,3), $
     lshift_origin_lower: replicate(0L,3), $
@@ -242,7 +242,7 @@ par = { $
     cyinyang_intpol_type: 'bilinear', $
     yy_biquad_weights: replicate(3.9084999999999999D+37,4), $
     lcutoff_corners: 0L, $
-    nycut: 70, $
+    nycut: 198, $
     nzcut: 22, $
     rel_dang: 0.0D0, $
     lcubed_sphere: 0L, $
@@ -256,11 +256,11 @@ par = { $
     ichannel1: 1, $
     ichannel2: 1, $
     tag_foreign: 0, $
-    lpoint: 35, $
-    mpoint: 35, $
+    lpoint: 99, $
+    mpoint: 99, $
     npoint: 11, $
-    lpoint2: 17, $
-    mpoint2: 17, $
+    lpoint2: 49, $
+    mpoint2: 49, $
     npoint2: 5, $
     lfatal_num_vector_369: -1L, $
     density_scale_factor: 3.9084999999999999D+37, $
@@ -317,9 +317,9 @@ par = { $
     tausp: 1.0D0, $
     beta_dpdr_dust: 0.0D0, $
     np_swarm: 0.0D0, $
-    mp_swarm: 8.0000000000000002D-2, $
+    mp_swarm: 0.71999999999999997D0, $
     mpmat: 0.0D0, $
-    rhop_swarm: 327.68000000000001D0, $
+    rhop_swarm: 2949.1200000000003D0, $
     eps_dtog: 1.0D-2, $
     nu_epicycle: 0.0D0, $
     rp_int: -3.9084999999999999D+37, $

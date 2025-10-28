@@ -1,0 +1,90 @@
+!                              -*-f90-*-     (for emacs)
+&init_pars
+  cvsid="67656342b"
+  xyz0  =  -4.0,  -4.0,  -0.5
+  Lxyz  =   8.0,   8.0,   1.0
+  lperi =      T,      T,      T
+  !lcopysnapshots_exp=T, 
+  lwrite_ic=T, lwrite_aux=T
+  !bcz = 's','s','a','s','s'!,'s','s','s','s'
+  ip=14
+/
+&eos_init_pars
+  gamma = 1.0
+  rho0 = 1.0 
+  cs0 = 1.0
+/
+&hydro_init_pars
+  inituu='nothing'
+  Omega = 0.0
+/
+&density_init_pars
+  initlnrho='isothermal'
+  !beta_glnrho_global = -0.1,0.0,0.0
+  ldensity_nolog=T
+/
+&shear_init_pars
+  qshear = 0.0
+/
+&particles_init_pars
+  initxxp='constant-1','constant-2'
+  initvvp='constant-1','constant-2'
+  
+  tausp = 1.0
+  eps_dtog = 0.01
+  nu_epicycle = 0.0
+  lparticlemesh_cic=F
+  lparticlemesh_tsc=F
+  ldragforce_dust_par=F, ldragforce_gas_par=F
+  lmigration_redo=T
+! position and velocities for particle 1 (massive)
+  xp1 = 0.0
+  yp1 = 0.0
+  zp1 = 0.0
+  vpx1 = 0.0
+  vpy1 = 0.0
+  vpz1 = 0.0
+
+! position and velocities for particle 2 (near massless)
+  xp2 = 2.0
+  yp2 = 0.0
+  zp2 = 0.0
+  vpx2 = 0.0
+  vpy2 = 0.7071
+  vpz2 = 0.0  
+/
+&selfgrav_init_pars
+  !rhs_poisson_const = 1.0 !4piG
+  gravitational_const = 1.0
+  lselfgravity_gas=F, lselfgravity_dust=F
+/
+&poisson_init_pars
+  lrazor_thin=F
+/
+&particles_selfgrav_init_pars
+  lselfgravity_particles=T
+/
+&particles_dens_init_pars
+  initrhopswarm = 'constant-1','constant-2'
+  rhop_swarm1 = 4096
+  rhop_swarm2 = 1e-30
+!  eps_dtog = 1e-2
+/
+&particles_sink_init_pars
+  initaps='constant-1','constant-2'
+  aps1=1e-2
+  aps2=1e-30
+!  lsink_communication_all_to_all=T ! If parallel processing
+  lselfgravity_sinkparticles=T
+!  laccrete_sink_sink=F
+/
+&particles_stalker_init_pars
+  dstalk = 0.01 !0.5
+  linterpolate_tsc=T
+  lstalk_xx=T
+  lstalk_vv=T
+  lstalk_ap=T
+  lstalk_sink_particles=F
+  lstalk_aps=T
+  lstalk_potself=T
+/
