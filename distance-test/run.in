@@ -2,7 +2,7 @@
 &run_pars
   cvsid="67656342b"
   nt=1000000, it1=100, isave=5000, itorder=3
-  tmax=17.772
+  tmax=32.648
   dt=1e-3
   cdt=0.5 ! 0.4
   cdtv=0.5 ! 0.4
