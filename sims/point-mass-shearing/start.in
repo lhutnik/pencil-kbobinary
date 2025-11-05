@@ -1,0 +1,52 @@
+!                              -*-f90-*-     (for emacs)
+&init_pars
+  cvsid="67656342b"
+  xyz0  =  -10.,  -10,  -10.
+  Lxyz  =   20.,   20.,  20.
+  lperi =   T,     T,    T
+  !lcopysnapshots_exp=T, 
+  lwrite_ic=T, lwrite_aux=T
+  !bcz = 's','s','a','s','s'!,'s','s','s','s'
+  ip = 14
+/
+&eos_init_pars
+  gamma = 1.0
+  rho0 = 1.0 
+  cs0 = 1.0
+/
+&hydro_init_pars
+  inituu = 'nothing'
+  Omega = 1.0
+/
+&density_init_pars
+  initlnrho = 'const_rho'
+  rho_const = 1.0
+  beta_glnrho_global = -0.1, 0.0, 0.0
+  ldensity_nolog=T
+/
+&shear_init_pars
+  qshear = 1.5
+/
+&particles_init_pars
+  initxxp = 'random', initvvp='dragforce_equilibrium'
+  tausp = 1.0
+  eps_dtog = 1e-2
+  lparticlemesh_tsc=T
+  ldragforce_dust_par=F, ldragforce_gas_par=F
+  lmigration_redo=T
+/
+&pointmasses_init_pars
+  initxxq='fixed-cm'
+  initvvq='fixed-cm'
+!  bcspx   = 'out',bcspy='out',bcspz='out' !cartesian
+  bcqx     = 'out', bcqy='p', bcqz='out'  !cylindrical
+  GNewton  = 1e0
+  pmass    = 1.0, 1e-30
+  r_smooth = 0.0, 0.0
+  iprimary = 1
+  !
+  ! test the "out" boundary condition
+  ! there is no particle inside the grid box!
+  !  
+  xq0 = 0.0, 1.0
+/

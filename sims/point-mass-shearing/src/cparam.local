@@ -4,15 +4,13 @@
 !  Local settings concerning grid size and number of CPUs.
 !  This file is included by cparam.f90
 !
-!  COMMUNICATED AUXILIARIES 1
-!
+! MAUX CONTRIBUTION 3                                                                                                                                      ! COMMUNICATED AUXILIARIES 3  
 !  
 integer, parameter :: ncpus=1, nprocx=1, nprocy=1, nprocz=1
-integer, parameter :: nxgrid=64, nygrid=nxgrid, nzgrid=1
-integer, parameter :: npar=2
+integer, parameter :: nxgrid=32, nygrid=nxgrid, nzgrid=1
+integer, parameter :: npar=10000, nqpar=2
 !, mpar_loc=500, npar_mig=100 
-!integer, parameter :: npar_species=2
-integer, parameter :: npar_stalk = 2
+!integer, parameter :: npar_stalk = 2
 ! grid / proc = 4
 ! nblockmax = 2*(nbrickx/nprocx)*(nbricky/nprocy)*(nbrickz/nprocz)
 !integer, parameter :: nbrickx=4, nbricky=4, nbrickz=4, nblockmax=16
