@@ -36,17 +36,14 @@
   lmigration_redo=T
 /
 &pointmasses_init_pars
-  initxxq='fixed-cm'
-  initvvq='fixed-cm'
-!  bcspx   = 'out',bcspy='out',bcspz='out' !cartesian
-  bcqx     = 'out', bcqy='p', bcqz='out'  !cylindrical
+  initxxq='eccentric' !'fixed-cm'
+  initvvq='eccentric' !'fixed-cm'
+!  bcspx   = 'out',bcspy='out',bcspz='out' !cartesian; 3d
+  bcqx     = 'out', bcqy='p', bcqz='out'  !cylindrical; 2d
   GNewton  = 1e0
-  pmass    = 1.0, 1e-30
+  eccentricity = 0.2
+  pmass    = 0.66, 0.33
   r_smooth = 0.0, 0.0
-  iprimary = 1
-  !
-  ! test the "out" boundary condition
-  ! there is no particle inside the grid box!
-  !  
-  xq0 = 0.0, 1.0
+  iprimary = 1  
+  !xq0 = 0.0, 1.0
 /

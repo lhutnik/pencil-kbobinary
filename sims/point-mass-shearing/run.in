@@ -34,7 +34,7 @@
   lfollow_particle=T,T
   lreset_cm=F
   lcoriolis_force=T
-  Omega_coriolis=0.0
+  Omega_coriolis=1e-6
 !  lnogravz_star=T
 /
 &particles_run_pars
