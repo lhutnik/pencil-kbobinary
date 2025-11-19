@@ -1,16 +1,16 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  cvsid="67656342b"
-  xyz0  =  -10.,  -10,  -10.
-  Lxyz  =   20.,   20.,  20.
+  xyz0  =  -0.02,  -0.02,  -0.02
+  Lxyz  =  0.04,  0.04,  0.04
   lperi =   T,     T,    T
-  !lcopysnapshots_exp=T, 
   lwrite_ic=T, lwrite_aux=T
-  !bcz = 's','s','a','s','s'!,'s','s','s','s'
   ip = 14
+  !lcopysnapshots_exp=T, 
+  !bcz = 's','s','a','s','s'!,'s','s','s','s'
+  rsmooth = 0.0001
 /
 &eos_init_pars
-  gamma = 1.0
+  gamma = 1.66667
   rho0 = 1.0 
   cs0 = 1.0
 /
@@ -28,22 +28,28 @@
   qshear = 1.5
 /
 &particles_init_pars
-  initxxp = 'random', initvvp='dragforce_equilibrium'
-  tausp = 1.0
+  lcalc_uup=T
+  initxxp = 'random'
+  initvvp = 'dragforce_equilibrium'
+  tausp = 0.1
   eps_dtog = 1e-2
   lparticlemesh_tsc=T
-  ldragforce_dust_par=F, ldragforce_gas_par=F
+  ldragforce_dust_par=T, ldragforce_gas_par=F
   lmigration_redo=T
 /
 &pointmasses_init_pars
-  initxxq='eccentric' !'fixed-cm'
-  initvvq='eccentric' !'fixed-cm'
-!  bcspx   = 'out',bcspy='out',bcspz='out' !cartesian; 3d
-  bcqx     = 'out', bcqy='p', bcqz='out'  !cylindrical; 2d
-  GNewton  = 1e0
-  eccentricity = 0.2
-  pmass    = 0.66, 0.33
-  r_smooth = 0.0, 0.0
+  initxxq = 'fixed-cm'  !'eccentric'
+!  initxxq = 'eccentric'
+  initvvq = 'fixed-cm'  !'eccentric'
+!  initvvq = 'eccentric'
+!  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
+  bcqx='out', bcqy='p', bcqz='out'  !cylindrical; 2d
+  GNewton  = 0.01061032953945969
+!  eccentricity = 0.2
+!  semimajor_axis = 1.0
+  pmass    = 0.000942477796, 1e-30
+  ipotential_pointmass = 'plummer'
+  r_smooth = 0.0001, 0.0
   iprimary = 1  
-  !xq0 = 0.0, 1.0
+  xq0 = 0.0, 0.00014938
 /

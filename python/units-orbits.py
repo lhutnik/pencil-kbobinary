@@ -31,9 +31,9 @@ rr  = 20    # Distance of binary in AU
 h   = 0.05  # Scale height ratio at distance rr
 e   = 0.0   # Eccentricity of mutual binary orbit
 Q   = 30    # Toomre Q; >1 for gravitationally stable region
-mass_ratio = 1    # Binary mass ratio (0 to 1)
-Hill_frac  = 0.05 # Fraction of Hill radius for furthest separation (apoapsis)
-grid_size  = 2.0  # Full x or y grid size in code units
+mass_ratio = 1e-30/1 # Binary mass ratio (0 to 1) (test mass to equal mass binary)
+Hill_frac  = 0.01 # Fraction of Hill radius for furthest separation (apoapsis)
+grid_size  = 0.01 # Full x or y grid size in code units
 grid_points= 32   # Number of grid points/cells per dimension
 aps1       = 0.01 # Size of sink particle 1 in code units
 aps2       = 0.01 # Size of sink particle 2 in code units
@@ -58,18 +58,18 @@ Omega_code = 1
 H_code     = 1 # Set automatically by Omega and cs in code
 
 ## Mass of our initial binary
-Mpluto   = 1.309e25      # g
-Msystem  = 0.1 * Mpluto  # Sum of binary masses in g
-Mplanet1 = Msystem/(1+mass_ratio) # Mass of primary in g
-Mplanet2 = Msystem - Mplanet1     # Mass of secondary in g
-Mplanetesimal = Msystem/2
+Mpluto   = 1.309e25               # [g]; Mass of Pluto
+Msystem  = 1.25e-9 * Msun         # [g]; Sum of binary masses
+Mplanet1 = Msystem/(1+mass_ratio) # [g]; Mass of primary
+Mplanet2 = Msystem - Mplanet1     # [g]; Mass of secondary
 
 ## Orbit of our initial binary
 r_Hill      = r*(Msystem/(3*Msun))**(1/3)
 bin_sep     = r_Hill*Hill_frac      # Separation of binary at apoapsis
 
 ## Computing unit length, time
-unit_length = bin_sep              # Twice binary separation to box edge
+#unit_length = bin_sep              # Twice binary separation to box edge
+unit_length = H 
 #H_code = H/unit_length             # Code scale height set by unit length
 #unit_time = 1/Omega * 1/Omega_code # Unit time set by orbital angular velocity
 unit_time = sqrt(4*np.pi**2*(bin_sep)**3/(G*Msystem))

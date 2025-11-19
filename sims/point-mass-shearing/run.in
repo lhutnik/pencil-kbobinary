@@ -1,17 +1,17 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  cvsid="67656342b"
-  nt = 200000, it1=1, isave=5000, itorder=3
+  nt = 1000, it1=1, isave=5000, itorder=3
   cdt = 0.5 ! 0.4
   cdtv = 0.5 ! 0.4
-  dsnap = 0.5235987755982988, dtmin=1.0e-6
+  dsnap = 0.01, dtmin=1.0e-6
   dvid = 0.1
-  lpencil_check=F
-  lpencil_check_small=F
+  lpencil_check=T
+!  lpencil_check_small=F
+  loutput_varn_at_exact_tsnap=T
   slice_position='m'
   max_walltime = 171600
   ip = 14
-  dt = 1e-3
+!  dt = 1e-2
   tmax = 6.28
 /
 &eos_run_pars
@@ -19,12 +19,14 @@
 &hydro_run_pars
 /
 &density_run_pars
+  lcheck_negative_density=T
+  beta_glnrho_global = -0.1, 0.0, 0.0
   idiff='hyper3-mesh'
   diffrho_hyper3_mesh=20.
 /
 &shear_run_pars
-  qshear=1.5
-  lshearadvection_as_shift=F
+!  qshear=1.5
+!  lshearadvection_as_shift=F
 /
 &viscosity_run_pars
   ivisc='hyper3-mesh'
@@ -38,4 +40,5 @@
 !  lnogravz_star=T
 /
 &particles_run_pars
+  cdtp = 0.5
 /
