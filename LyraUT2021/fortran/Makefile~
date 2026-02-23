@@ -1,0 +1,9 @@
+FC = mpif90-openmpi-mp
+FFLAGS = -O3 -fdefault-real-8 -fdefault-double-8 
+CODEHOME = ~/Dropbox/papers/UltimaThule/fortran
+
+main: $(CODEHOME)/tidal.f90
+	$(FC) $(FFLAGS) $(CODEHOME)/tidal.f90 -o tidal.x
+
+clean:
+	rm -f tidal.x
