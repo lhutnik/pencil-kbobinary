@@ -1,0 +1,39 @@
+!                           -*-f90-*-     (for Emacs)
+!
+!  Run parameters!
+!
+&run_pars
+  cvsid='$Id$',
+  ip=14,
+  nt=1000000000, it1=100, isave=100000, itorder=3, 
+  cdt=0.4, 
+  cdtv=0.4, 
+  dtmin=1e-6,
+  dsnap=628.318530717958647688
+  !dt=1e-3
+  !tmax=628.318530717958647688
+  !tmax=1256.637061435917295376
+  !tmax=1884.95559215387594306400
+  !tmax=2513.274122871834590752
+  !tmax=2852.
+  !tmax=3000.
+  !tmax=3500.
+/
+&eos_run_pars
+/
+&hydro_run_pars
+/
+&density_run_pars
+/
+&pointmasses_run_pars
+  lnogravz_star=T
+  lfollow_particle=T,T
+  lreset_cm=T
+  ladd_dragforce=T
+  ugas=100.
+  StokesNumber=1e3,1e3
+  llinear_drag=T
+  lquadratic_drag=F
+  dt_pointmasses_frac=1e-3
+  ldt_pointmasses=T
+/

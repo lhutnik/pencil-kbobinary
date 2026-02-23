@@ -1,0 +1,34 @@
+!  -*-f90-*-  (for Emacs)    vim:set filetype=fortran:  (for vim)
+!
+!  Initialisation parameters
+!
+&init_pars
+  cvsid='$Id$',
+  ip=14,
+  xyz0  = -4.0,-4.0,-0.1
+  xyz1  =  4.0, 4.0, 0.1
+  lperi = T  , T  , T
+/
+&eos_init_pars
+  !cs0=0.05 
+  rho0 = 1.
+  !gamma=1.
+/
+&hydro_init_pars
+/
+&density_init_pars
+  !lnrho_const=0.  
+  !ldensity_nolog=T
+/
+&pointmasses_init_pars
+  initxxq='fixed-cm'
+  initvvq='fixed-cm'
+  GNewton=1.0
+  pmass=1,0.285714285714
+  xq0=0,-1
+  iprimary=1
+  ipotential_pointmass='newton','newton'
+  bcqx='out'
+  bcqy='out'
+/
+
