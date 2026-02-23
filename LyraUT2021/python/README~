@@ -1,0 +1,7 @@
+kozai.py   --> Simply plots the kozai inclination vs radial for critical contact; 
+contact.py --> Useless (old model without coriolis);  
+contact_Omega.py -> Useless; 
+
+
+tidal.py
+plot.py 
