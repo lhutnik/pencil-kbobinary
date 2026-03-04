@@ -6,11 +6,12 @@
   lwrite_ic=T, lwrite_aux=T
   ip = 14
   !lcopysnapshots_exp=T, 
-  !bcz = 's','s','a','s','s'!,'s','s','s','s'
-  rsmooth = 0.0001
+  !bcy = 's','s','a','s','s'
+  !bcz = 's','s','a','s','s' !,'s','s','s','s'
+  rsmooth = 0.01
 /
 &eos_init_pars
-  gamma = 1.66667
+  gamma = 1.0
   rho0 = 1.0 
   cs0 = 1.0
 /
@@ -39,17 +40,15 @@
 /
 &pointmasses_init_pars
   initxxq = 'fixed-cm'  !'eccentric'
-!  initxxq = 'eccentric'
   initvvq = 'fixed-cm'  !'eccentric'
-!  initvvq = 'eccentric'
 !  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
-  bcqx='out', bcqy='p', bcqz='out'  !cylindrical; 2d
-  GNewton  = 0.01061032953945969
+  bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
+  GNewton  = 1e-7
 !  eccentricity = 0.2
 !  semimajor_axis = 1.0
-  pmass    = 0.000942477796, 1e-30
+  pmass    = 1.0, 1e-30
   ipotential_pointmass = 'plummer'
-  r_smooth = 0.0001, 0.0
+  r_smooth = 0.01, 0.0
   iprimary = 1  
-  xq0 = 0.0, 0.00014938
+  xq0 = 0.0, 1.0
 /

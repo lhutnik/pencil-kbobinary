@@ -6,12 +6,11 @@
 MPICOMM   = nompicomm
 #IO = i_dist #IO = io_mpi2
 
-
-#HYDRO     =   hydro
-#DENSITY   =   density
-#SHEAR     =   shear
-#VISCOSITY =   viscosity
-#EOS       =   eos
+HYDRO     =   hydro
+DENSITY   =   density
+SHEAR     =   shear
+VISCOSITY =   viscosity
+EOS       =   eos_idealgas
 
 GRAVITY   = nogravity
 #SELFGRAVITY =   selfgravity
@@ -21,7 +20,7 @@ POINTMASSES = pointmasses
 #POISSON   =   poisson
 
 #PARTICLES             =   particles_dust
-#PARTICLES             = particles_dust_blocks
+#PARTICLES             =   particles_dust_blocks
 #PARTICLES_DENSITY     =   particles_density
 #PARTICLES_SINK        =   particles_sink
 #PARTICLES_MAP         =   particles_map_blocks

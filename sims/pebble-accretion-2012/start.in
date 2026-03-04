@@ -1,0 +1,72 @@
+!                              -*-f90-*-     (for emacs)
+&init_pars
+  xyz0  =  -0.02,  -0.02,  -0.02
+  Lxyz  =  0.04,  0.04,  0.04
+  lperi =   T,     T,    T
+  lwrite_ic=T, lwrite_aux=T
+  ip = 14
+  !lcopysnapshots_exp=T, 
+  !bcy = 's','s','a','s','s'
+  !bcz = 's','s','a','s','s' !,'s','s','s','s'
+  rsmooth = 0.01
+/
+&eos_init_pars
+  gamma = 1.0
+  rho0 = 1.0 
+  cs0 = 1.0
+/
+&hydro_init_pars
+  inituu = 'nothing'
+  Omega = 1.0
+/
+&density_init_pars
+  initlnrho = 'const_rho'
+  rho_const = 1.0
+  beta_glnrho_global = -0.1, 0.0, 0.0
+  ldensity_nolog=T
+/
+&particles_init_pars
+!    lcalc_uup = T
+
+    initxxp='random','constant-1'
+    initvvp='dragforce_equilibrium','constant-1'
+
+    lparticlemesh_tsc=T
+    ldragforce_dust_par=T, ldragforce_gas_par=F
+    lmigration_redo=T
+
+    tausp = 1.0
+    eps_dtog = 0.01
+
+    xp1=0.0
+    yp1=0.0
+    zp1=0.0
+    vpx1=0.0
+    vpy1=0.0
+    vpz1=0.0
+/
+&particles_sink_init_pars
+    initaps='constant-1'
+    aps1=1.0
+/
+&particles_dens_init_pars
+  initrhopswarm = 'particles-to-gas-ratio'
+  eps_dtog=0.01
+/
+!&pointmasses_init_pars
+!  initxxq = 'fixed-cm'  !'eccentric'
+!  initvvq = 'fixed-cm'  !'eccentric'
+!  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
+!  bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
+!  GNewton  = 1e-7
+!  eccentricity = 0.2
+!  semimajor_axis = 1.0
+!  pmass    = 1.0, 1e-30
+!  ipotential_pointmass = 'plummer'
+!  r_smooth = 0.01, 0.0
+!  iprimary = 1  
+!  xq0 = 0.0, 1.0
+!/
+&shear_init_pars
+    qshear = 1.5
+/
