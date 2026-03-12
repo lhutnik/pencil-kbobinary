@@ -3,7 +3,7 @@ import os                        # File/directory checks
 import pencil as pc              # Local module for handling Pencil Code outputs
 import numpy as np               # Arrays 
 import matplotlib.pyplot as plt  # Plotting
-from helpers import colored_line # Helper functions for plotting and printing
+from python.scripts.helpers import colored_line # Helper functions for plotting and printing
 
 ### (1) IMPORT SIMULATION DATA
 ## Import time information
