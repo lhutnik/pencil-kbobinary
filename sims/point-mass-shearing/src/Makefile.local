@@ -6,15 +6,15 @@
 MPICOMM   = nompicomm
 #IO = i_dist #IO = io_mpi2
 
-HYDRO     =   hydro
-DENSITY   =   density
-SHEAR     =   shear
-VISCOSITY =   viscosity
-EOS       =   eos_idealgas
+HYDRO     = nohydro
+DENSITY   = nodensity
+SHEAR     = noshear
+VISCOSITY = noviscosity
+EOS       = noeos
 
-GRAVITY   = nogravity
+GRAVITY     = nogravity
 #SELFGRAVITY =   selfgravity
-POINTMASSES = pointmasses
+POINTMASSES =   pointmasses
 
 #FOURIER   =   fourier_fftpack
 #POISSON   =   poisson

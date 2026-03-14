@@ -19,10 +19,11 @@ yr     = 3.1558149504e7          # Year in seconds
 ### IMPORT POINT MASS PARTICLE DATA
 #sim = pc.get_sim()
 ts = pc.read.ts()
+t = ts.t
 xq1, xq2 = ts.xq1, ts.xq2
 yq1, yq2 = ts.yq1, ts.yq2
 vxq1, vxq2 = ts.vxq1, ts.vxq2
-
+vyq1, vyq2 = ts.vxq1, ts.vxq2
 
 ### PLOT TRAJECTORIES OVER TIME
 ## Check the grid size to apply to the plot
@@ -67,4 +68,27 @@ ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 le
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping
 plt.savefig('pointmass-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
+plt.close()                                          # Close figure after saving
+
+
+
+## Plot energy of point mass orbiting with time
+fig, ax = plt.subplots(1, 1) # Figure and axes established
+
+M1 = 1.0
+G = 1
+energy = 0.5*(1e-30)*(np.array(vxq2)**2 + np.array(vyq2)**2) - (G)*(M1)/np.sqrt(np.array(xq2)**2 + np.array(yq2)**2)
+ax.plot(t, energy)
+
+ax.set_ylabel(r'$E$', fontsize=15)                   # x-axis label
+ax.set_xlabel(r'$t$', fontsize=15)                   # y-axis label
+#plt.axis('scaled')                                   # Axes are scaled to match one another
+#ax.set_xlim(-2, 2)                             # Set x-axis limits, assuming centered evenly on origin
+#ax.set_ylim(-2, 2)                             # Set y-axis limits, assuming centered evenly on origin
+ax.set_title(r'Energy vs. Time') # Plot title
+#plt.legend(loc='best')                               # Add legend
+ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
+ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
+plt.tight_layout()                                   # Remove overlapping and clipping
+plt.savefig('energy-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
 plt.close()                                          # Close figure after saving

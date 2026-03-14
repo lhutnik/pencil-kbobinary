@@ -1,17 +1,17 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  xyz0  =  -0.02,  -0.02,  -0.02
-  Lxyz  =  0.04,  0.04,  0.04
+  xyz0  =  -1.25,  -1.25,  -1.25
+  Lxyz  =  2.5,  2.5,  2.5
   lperi =   T,     T,    T
   lwrite_ic=T, lwrite_aux=T
   ip = 14
   !lcopysnapshots_exp=T, 
   !bcy = 's','s','a','s','s'
   !bcz = 's','s','a','s','s' !,'s','s','s','s'
-  rsmooth = 0.01
+  !rsmooth = 0.01
 /
 &eos_init_pars
-  gamma = 1.0
+  gamma = 1.4
   rho0 = 1.0 
   cs0 = 1.0
 /
@@ -43,12 +43,12 @@
   initvvq = 'fixed-cm'  !'eccentric'
 !  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
   bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
-  GNewton  = 1e-7
+  GNewton  = 1.0
+  pmass    = 1.0, 1e-30
+  xq0 = 0.0, 1.0
 !  eccentricity = 0.2
 !  semimajor_axis = 1.0
-  pmass    = 1.0, 1e-30
-  ipotential_pointmass = 'plummer'
-  r_smooth = 0.01, 0.0
+!  ipotential_pointmass = 'plummer'
+!  r_smooth = 0.01, 0.0
   iprimary = 1  
-  xq0 = 0.0, 1.0
 /

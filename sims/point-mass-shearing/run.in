@@ -1,16 +1,16 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  nt = 10000, it1 = 100, isave = 5000 
+  nt = 100000, it1 = 10, isave = 5000 
   itorder = 3, ip = 14
   cdt = 0.5, cdtv = 0.5
-  dsnap = 0.01, dvid = 0.1 
+  dsnap = 6.28, dvid = 0.1 
   dtmin = 1.0e-6
   lpencil_check=T
   loutput_varn_at_exact_tsnap=T
   slice_position = 'm'
   max_walltime = 171600
-!  dt = 1e-2
-  tmax = 1.00
+  dt = 1e-2
+  tmax = 62.8
 /
 &eos_run_pars
 /
@@ -33,8 +33,8 @@
 &pointmasses_run_pars
   lfollow_particle=T,T
   lreset_cm=F
-  lcoriolis_force=T
-  Omega_coriolis=1e-6
+  lcoriolis_force=F
+!  Omega_coriolis=1e-6
 !  lnogravz_star=T
 /
 &particles_run_pars

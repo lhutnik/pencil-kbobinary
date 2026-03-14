@@ -8,7 +8,7 @@
 ! COMMUNICATED AUXILIARIES 3
 !  
 integer, parameter :: ncpus=1, nprocx=1, nprocy=1, nprocz=1
-integer, parameter :: nxgrid=128, nygrid=nxgrid, nzgrid=1
+integer, parameter :: nxgrid=4, nygrid=nxgrid, nzgrid=1
 integer, parameter :: nqpar=2, npar=0
 !
 ! mpar_loc=500, npar_mig=100 
