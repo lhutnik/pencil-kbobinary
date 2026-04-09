@@ -1,0 +1,1 @@
+/home/vboxuser/pencil-code/src/detonate.f90

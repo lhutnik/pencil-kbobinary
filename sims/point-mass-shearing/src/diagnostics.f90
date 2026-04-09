@@ -1,0 +1,1 @@
+/home/vboxuser/pencil-code/src/diagnostics.f90

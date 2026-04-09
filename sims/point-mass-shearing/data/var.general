@@ -1,0 +1,16 @@
+# Creator: The Pencil Code
+# Date: 08-apr-2026 23:24:40
+file = data/proc0/var.dat
+grid =   10 x   10 x    7
+# NB: hardcoded assumption of ieee
+format = lsb ieee
+header = bytes 4
+interleaving = record
+majority = column
+field = 
+structure = 
+type = 
+dependency = 
+positions = regular, regular, regular,   -3.125    ,   0.6250    ,   -3.125    ,   0.6250    ,   -8.750    ,    2.500    
+
+end

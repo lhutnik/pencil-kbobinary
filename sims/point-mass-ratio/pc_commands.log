@@ -1,0 +1,141 @@
+# Log file of Pencil Code commands.
+# This compiles with the same parameters as last time in this directory:
+# pc_build -p
+
+# 2025-11-10 13:10:46
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-03-13 08:53:02
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-03-13 08:58:00
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-03-13 08:59:03
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-03-13 09:01:18
+./src/start.x
+
+# 2026-03-13 09:02:14
+./src/run.x
+
+# 2026-03-13 09:08:47
+./src/start.x
+
+# 2026-03-13 09:08:52
+./src/run.x
+
+# 2026-03-13 09:10:01
+./src/start.x
+
+# 2026-03-13 09:10:03
+./src/run.x
+
+# 2026-03-13 09:16:21
+./src/start.x
+
+# 2026-03-13 09:16:30
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-03-13 09:16:33
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-03-13 09:17:02
+./src/start.x
+
+# 2026-03-13 09:28:51
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-03-13 09:29:00
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-03-13 09:29:31
+./src/start.x
+
+# 2026-03-13 09:29:52
+./src/run.x
+
+# 2026-03-13 09:31:22
+./src/start.x
+
+# 2026-03-13 09:31:25
+./src/run.x
+
+# 2026-03-13 09:34:11
+./src/start.x
+
+# 2026-03-13 09:34:14
+./src/run.x
+
+# 2026-03-25 09:56:17
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-03-25 09:56:23
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O -fno-underscoring' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CFLAGS=-DFUNDERSC=0' 'default_to_be'
+
+# 2026-04-08 19:57:03
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-04-08 19:57:23
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-08 19:58:28
+./src/start.x
+
+# 2026-04-08 20:02:51
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-04-08 20:03:01
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-08 20:06:08
+./src/start.x
+
+# 2026-04-08 20:11:07
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-04-08 20:11:12
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-08 20:13:09
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-08 20:13:27
+./src/start.x
+
+# 2026-04-08 23:23:54
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-04-08 23:24:03
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-08 23:24:39
+./src/start.x
+
+# 2026-04-08 23:24:53
+./src/run.x
+
+# 2026-04-09 00:52:36
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-04-09 00:52:41
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-04-09 00:53:35
+./src/start.x
+
+# 2026-04-09 00:53:39
+./src/run.x

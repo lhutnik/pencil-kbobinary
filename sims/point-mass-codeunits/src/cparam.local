@@ -1,0 +1,18 @@
+!                       -*-f90-*-    (for Emacs)
+!  cparam.local
+!
+!  Local settings concerning grid size and number of CPUs.
+!  This file is included by cparam.f90
+!
+! MAUX CONTRIBUTION 3                                                                                                                                      ! COMMUNICATED AUXILIARIES 3  
+! COMMUNICATED AUXILIARIES 3
+!  
+integer, parameter :: ncpus=1, nprocx=1, nprocy=1, nprocz=1
+integer, parameter :: nxgrid=4, nygrid=nxgrid, nzgrid=1
+integer, parameter :: nqpar=2, npar=0
+!
+! mpar_loc=500, npar_mig=100 
+!integer, parameter :: npar_stalk = 2
+! grid / proc = 4
+! nblockmax = 2*(nbrickx/nprocx)*(nbricky/nprocy)*(nbrickz/nprocz)
+!integer, parameter :: nbrickx=4, nbricky=4, nbrickz=4, nblockmax=16
