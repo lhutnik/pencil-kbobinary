@@ -44,9 +44,9 @@
 !  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
   bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
   GNewton  = 1.0
-  pmass    = 1.0, 1e-30
+  pmass    = 0.5, 0.5
 !  xq0 = 0.0, 1.0
-  eccentricity = 0.00001
+  eccentricity = 0.9
   semimajor_axis = 1.0
   ipotential_pointmass = 'newton','newton' !'plummer'
 !  r_smooth = 0.01, 0.0
