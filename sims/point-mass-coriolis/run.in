@@ -23,7 +23,7 @@
   diffrho_hyper3_mesh=20.
 /
 &shear_run_pars
-!  qshear=1.5
+  qshear=1.5
 !  lshearadvection_as_shift=F
 /
 &viscosity_run_pars
@@ -33,8 +33,8 @@
 &pointmasses_run_pars
   lfollow_particle=T,T
   lreset_cm=F
-  lcoriolis_force=T
-  Omega_coriolis=1e-3
+  lcentrifugal_force_pointmass = T 
+  lcoriolis_force_pointmass = T
 !  lnogravz_star=T
 /
 &particles_run_pars

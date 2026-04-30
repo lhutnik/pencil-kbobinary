@@ -17,7 +17,7 @@
 /
 &hydro_init_pars
   inituu = 'nothing'
-  Omega = 1.0
+  Omega = 1e-1
 /
 &density_init_pars
   initlnrho = 'const_rho'
@@ -27,6 +27,7 @@
 /
 &shear_init_pars
   qshear = 1.5
+  Omega = 1e-1
 /
 &particles_init_pars
   lcalc_uup=T
