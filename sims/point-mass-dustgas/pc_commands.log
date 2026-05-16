@@ -1,0 +1,100 @@
+# Log file of Pencil Code commands.
+# This compiles with the same parameters as last time in this directory:
+# pc_build -p
+
+# 2026-05-13 14:10:57
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 14:26:24
+./src/start.x
+
+# 2026-05-13 16:28:34
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-05-13 16:28:38
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 16:29:35
+./src/start.x
+
+# 2026-05-13 16:29:44
+./src/run.x
+
+# 2026-05-13 17:25:51
+./src/start.x
+
+# 2026-05-13 17:25:54
+./src/run.x
+
+# 2026-05-13 17:26:34
+./src/start.x
+
+# 2026-05-13 17:26:48
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-05-13 17:26:54
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 17:55:30
+./src/start.x
+
+# 2026-05-13 17:55:32
+./src/run.x
+
+# 2026-05-13 18:05:03
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-05-13 18:05:23
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 18:10:09
+./src/start.x
+
+# 2026-05-13 18:10:11
+./src/run.x
+
+# 2026-05-13 18:17:04
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-05-13 18:17:09
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 18:18:27
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 18:18:30
+./src/start.x
+
+# 2026-05-13 18:18:32
+./src/run.x
+
+# 2026-05-13 18:38:13
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-05-13 18:38:18
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-05-13 18:39:27
+./src/start.x
+
+# 2026-05-13 18:39:29
+./src/run.x
+
+# 2026-05-13 18:41:08
+./src/start.x
+
+# 2026-05-13 18:41:13
+./src/run.x
+
+# 2026-05-13 18:56:10
+./src/start.x
+
+# 2026-05-13 18:56:13
+./src/run.x
