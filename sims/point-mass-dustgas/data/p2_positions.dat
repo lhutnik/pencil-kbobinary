@@ -1,7 +1,7 @@
 Positions where p2 variables are written:
 
 x(lpoint2), y(mpoint2), z(npoint2), lpoint2, mpoint2, npoint2=
-  -1.0781      -1.0781       0.0000          33    33     4
+  -1.1562      -1.1562       0.0000          17    17     4
 
 kx_fft(ikx+ipx*nx),ky_fft(iky+ipy*ny),kz_fft(ikz+ipz*nz)=
-   45.553       45.553       0.0000    
+   20.420       20.420       0.0000    

@@ -232,15 +232,9 @@ include Makefile.local
 #
 include Makefile.inc
 #
-# Fortran 2003 standard compilation settings.
+# Fortran 2008 standard compilation settings.
 #
 include Makefile-standard.inc
-#
-# Add real-time library calls if we need shared memory allocation
-#
-ifeq  ($(FARRAY_ALLOC),farray_alloc)
-	override LDFLAGS += -lrt
-endif
 #
 # Compile files with particle programming structure if particles are chosen.
 #
@@ -518,6 +512,15 @@ endif
 ifneq ($(findstring gpu_astaroth, $(GPU)),)
     override MULTITHREADING=openmp
     override MPICOMM=mpicomm
+    #Needed because of large subdomains
+    override FARRAY_ALLOC=farray_alloc
+endif
+#
+# Add real-time library calls if we need shared memory allocation
+#
+ifeq  ($(FARRAY_ALLOC),farray_alloc)
+  #2026-May-13/Kishore: also need `-lc` to use ftruncate?
+  override LDFLAGS += -lrt
 endif
 
 ifeq ($(USE_SPECIAL_DISPATCHER),yes)
@@ -3206,9 +3209,12 @@ ifneq ($(IO),io_wrapper)
 ifeq ($(IO),io_mpi2)
 	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_OBJ) -c $(IO_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o $(IO_OBJ) -c $(IO_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_OBJ) -c $(IO_SRC)
 endif
 endif
+#
+$(LSODE_FC_OBJ):
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(LSODE_FC_OBJ) -c $(LSODE_FC_SRC)
 #
 ifneq ($(IO_IN),)
 $(IO_IN_OBJ): $(IO_IN_SRC) Makefile.local
@@ -3219,7 +3225,7 @@ $(IO_IN_OBJ): $(IO_IN_SRC) Makefile.local
 ifeq ($(IO_IN),io_mpi2)
 	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
 endif
 	@$(call sed_follow_link,"s/^\( *[^!]*module  *\)Io_in/\1Io/",$(IO_IN_SRC))
 $(IO_OUT_OBJ): $(IO_OUT_SRC) Makefile.local
@@ -3230,7 +3236,7 @@ $(IO_OUT_OBJ): $(IO_OUT_SRC) Makefile.local
 ifeq ($(IO_OUT),io_mpi2)
 	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
 endif
 	@$(call sed_follow_link,"s/^\( *[^!]*module  *\)Io_out/\1Io/",$(IO_OUT_SRC))
 endif
@@ -3430,11 +3436,17 @@ nompicomm.o: nompicomm.f90
 	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS)   -o nompicomm.o -c nompicomm.f90
 #
 hdf5_io%.o: hdf5_io%.f90 hdf5_io.h Makefile.local
-	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(FSTD_2003) -c hdf5_io$*.f90 -o hdf5_io$*.o
+	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(FSTD_2008) -c hdf5_io$*.f90 -o hdf5_io$*.o
 #
 geometrical_types.o: geometrical_types.f90
 	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) -c geometrical_types.f90 -o geometrical_types.o
 #
+initcond.o: 
+	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(FSTD) $(FFLAG_HEAP_ALLOC) -c initcond.f90 -o initcond.o
+#
+$(INITIAL_CONDITION_OBJ):
+	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(FSTD) $(FFLAG_HEAP_ALLOC) -c $(INITIAL_CONDITION_SRC) -o $(INITIAL_CONDITION_OBJ)
+
 special/meanfield_e_tensor.o: special/meanfield_e_tensor.f90
 ifeq ($(USE_SPECIAL_DISPATCHER),yes)
 	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(DLL_FFLAGS) -c special/meanfield_e_tensor.f90 -o special/meanfield_e_tensor.o

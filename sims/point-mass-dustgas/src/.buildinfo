@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Wed May 13 06:38:18 PM MDT 2026</timestamp>
+  <timestamp>Mon May 18 09:02:55 AM MDT 2026</timestamp>
   <buildhost>
     <hostname>Ubuntu</hostname>
     <os>Linux</os>
-    <osrelease>6.17.0-22-generic</osrelease>
+    <osrelease>6.17.0-23-generic</osrelease>
     <user>vboxuser</user>
-    <uptime> 18:38:18 up  5:13,  1 user,  load average: 0.35, 0.26, 0.44</uptime>
+    <uptime> 09:02:55 up 54 min,  1 user,  load average: 0.45, 0.32, 0.37</uptime>
   </buildhost>
   <buildtime></buildtime>
   <makeinfo>

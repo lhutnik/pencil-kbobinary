@@ -94,16 +94,18 @@ r = np.sqrt((xq1 - xq2)**2 + (yq1 - yq2)**2)
 U = - (G)*(m1*m2)/r # System gravitational potential energy
 T = 0.5*m1*(vxq1**2 + vyq1**2) + 0.5*m2*(vxq2**2 + vyq2**2) # Sum of kinetic energies
 E = U + T # Energy is the sum of kinetic and potential energy
-ax.plot(t, E, color='purple')
+
+L = 1
+ax.plot(t, L, color='green')
 
 ## Figure settings
-ax.set_ylabel(r'$E=T+U$', fontsize=15)                   # x-axis label
+ax.set_ylabel(r'$L_{orbital}$', fontsize=15)                   # x-axis label
 ax.set_xlabel(r'$t$', fontsize=15)                   # y-axis label
 #ax.set_xlim(-2, 2)                             # Set x-axis limits, assuming centered evenly on origin
 #ax.set_ylim(-2, 2)                             # Set y-axis limits, assuming centered evenly on origin
-ax.set_title(r'Energy vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
+ax.set_title(r'Orbital Angular Momentum vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping
-plt.savefig('energy-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
+plt.savefig('momentum-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
 plt.close()                                          # Close figure after saving

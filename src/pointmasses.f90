@@ -1196,6 +1196,7 @@ module PointMasses
       real :: rr2, r2_ij, rs2, rsmooth2, Omega2_pm, rhill1, invr3_ij
       real :: dt1_nbody, r_ij, v_ij, a_ij
       integer :: ks
+      real :: smooth_radius_squared, smooth_radius_inverse
 !
       real, dimension (3) :: evr_cart,positions
 !
@@ -1248,11 +1249,12 @@ module PointMasses
 !  Potential that Aaron Boley uses (should ask him for reference). Exactly matches Newtonian outside Hill radius. 
 !
             r2_ij=rr2
-            if (r2_ij .gt. hill_radius_square(ks)*Boley_hill_smooth(ks)**2) then
+            smooth_radius_squared = hill_radius_square(ks)*Boley_Hill_smooth(ks)**2
+            if (r2_ij .gt. smooth_radius_squared) then
               Omega2_pm =  GNewton*pmass(ks)*r2_ij**(-1.5)
             else
-              rhill1=1./sqrt(hill_radius_square(ks))
-              Omega2_pm = -GNewton*pmass(ks)*(3*sqrt(r2_ij)*rhill1 - 4)*rhill1**3
+              smooth_radius_inverse = 1/sqrt(smooth_radius_squared)
+              Omega2_pm = -GNewton*pmass(ks)*(3*sqrt(r2_ij)*smooth_radius_inverse - 4)*smooth_radius_inverse**3
             endif
 !
           case default
@@ -1744,6 +1746,7 @@ module PointMasses
       real, dimension (mx)       :: Omega2_pm,rrp
       real                       :: rr,rp1,rhill,rhill1
       integer                    :: ks,i
+      real                       :: smooth_radius_linear, smooth_radius_inverse
       !real, dimension (mx)       :: grav_particle,rrp
       !integer                    :: ks
 !
@@ -1793,13 +1796,15 @@ module PointMasses
 !
 !  Correct potential outside Hill sphere
 !
+          smooth_radius_linear = rhill*Boley_hill_smooth(ks)
+          smooth_radius_inverse = 1/smooth_radius_linear
           if (ks==iprimary .and. headtt) call warning("get_total_gravity", &
                "The primary is not newtonian, make sure you know what you are doing.")
           do i=1,mx
-            if (rrp(i) .gt. rhill*Boley_hill_smooth(ks)) then
+            if (rrp(i) .gt. smooth_radius_linear) then
               Omega2_pm(i) = -GNewton*pmass(ks)*rrp(i)**(-3)
             else
-              Omega2_pm(i) =  GNewton*pmass(ks)*(3*rrp(i)*rhill1 - 4)*rhill1**3
+              Omega2_pm(i) =  GNewton*pmass(ks)*(3*rrp(i)*smooth_radius_inverse - 4)*smooth_radius_inverse**3
             endif
           enddo
 !

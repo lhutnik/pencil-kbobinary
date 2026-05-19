@@ -151,6 +151,7 @@ subroutine initialize_pencils(p,penc0)
   p%del4graddivu = penc0
   p%uu_sph = penc0
   p%der6u_res = penc0
+  p%uij6 = penc0
   p%lorentz = penc0
   p%hless = penc0
   p%advec_uu = penc0

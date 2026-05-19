@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  nt = 100000, it1 = 10, isave = 5000 
+  nt = 100000, it1 = 10, isave = 1000 
   itorder = 3, ip = 14
   cdt = 0.5, cdtv = 0.5
   dsnap = 6.28, dvid = 0.1 

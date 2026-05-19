@@ -49,7 +49,7 @@
 !  xq0 = 0.0, 1.0
   eccentricity = 0.0
   semimajor_axis = 1.0
-  ipotential_pointmass = 'newton','newton' !'newton','plummer','boley'
+  ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
   Boley_hill_smooth = 0.1, 0.1
 !  r_smooth = 0.05, 0.05
   iprimary = 1  
