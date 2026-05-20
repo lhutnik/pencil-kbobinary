@@ -88,14 +88,16 @@ plt.close()                                          # Close figure after saving
 ### TOTAL ANGULAR MOMENTUM VS. TIME PLOT
 fig, ax = plt.subplots(1, 1) # Figure and axes established
 
-## Plot energy over time for the system of particles
-G = 1 # Gravitational constant
-r = np.sqrt((xq1 - xq2)**2 + (yq1 - yq2)**2)
-U = - (G)*(m1*m2)/r # System gravitational potential energy
-T = 0.5*m1*(vxq1**2 + vyq1**2) + 0.5*m2*(vxq2**2 + vyq2**2) # Sum of kinetic energies
-E = U + T # Energy is the sum of kinetic and potential energy
-
-L = 1
+## Plot momentum over time for the system of particles
+L = []
+t_n = len(xq1)
+reduced_mass = m1*m2/(m1+m2)
+for i in range(t_n):
+    r_rel = np.array([xq2[i]-xq1[i], yq2[i]-yq1[i], 0]) # r2-r1; relative position vector
+    v_rel = np.array([vxq2[i]-vxq1[i], vyq2[i]-vyq1[i], 0])# v2-v1; relative velocity vector
+    L_vec = reduced_mass * np.cross(r_rel, v_rel) # Angular momentum vector given by the (reduced mass) * (r x v)
+    L_mag = np.sqrt(L_vec[0]**2 + L_vec[1]**2 + L_vec[2]**2) # Angular momentum magnitude
+    L.append(L_mag)
 ax.plot(t, L, color='green')
 
 ## Figure settings
