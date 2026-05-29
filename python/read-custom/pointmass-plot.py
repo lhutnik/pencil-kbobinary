@@ -51,8 +51,8 @@ ax.set_xlabel(r'$x$', fontsize=15)                   # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)                   # y-axis label
 ax.set_title(r'Position vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
 plt.axis('scaled')                                   # Axes are scaled to match one another
-ax.set_xlim(-2, 2)                                   # Set x-axis limits, assuming centered evenly on origin
-ax.set_ylim(-2, 2)                                   # Set y-axis limits, assuming centered evenly on origin
+ax.set_xlim(-5e-5, -5e-5+lx)                         # Set x-axis limits, assuming centered evenly on origin
+ax.set_ylim(-5e-5, -5e-5+ly)                         # Set y-axis limits, assuming centered evenly on origin
 plt.legend(loc='best')                               # Add legend
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks

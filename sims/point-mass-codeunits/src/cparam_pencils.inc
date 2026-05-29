@@ -8,7 +8,7 @@
 ! sets some variables related to this.
 !
 
-integer, parameter :: npencils=188
+integer, parameter :: npencils=187
 type pencil_case
   real, dimension (nx) :: acc
   real, dimension (nx) :: ssat
@@ -84,6 +84,7 @@ type pencil_case
   real, dimension (nx) :: rho_anel
   real, dimension (nx,3) :: rho1gpp
   real, dimension (nx,3,n_forcing_cont_max) :: fcont
+  real, dimension (nx,3,n_forcing_cont_max) :: curlfcont
   real, dimension (nx,3) :: gg
   real, dimension (nx) :: x_mn
   real, dimension (nx) :: y_mn
@@ -172,8 +173,6 @@ type pencil_case
   real, dimension (nx) :: j2
   real, dimension (nx,3) :: el
   real, dimension (nx) :: e2
-  real, dimension (nx,3) :: mf_EMF
-  real, dimension (nx) :: mf_EMFdotB
   real, dimension (nx,3) :: uun
   real, dimension (nx) :: divun
   real, dimension (nx,3,3) :: snij
@@ -274,120 +273,119 @@ integer, parameter :: i_csvap2=71
 integer, parameter :: i_rho_anel=72
 integer, parameter :: i_rho1gpp=73
 integer, parameter :: i_fcont=74
-integer, parameter :: i_gg=75
-integer, parameter :: i_x_mn=76
-integer, parameter :: i_y_mn=77
-integer, parameter :: i_z_mn=78
-integer, parameter :: i_r_mn=79
-integer, parameter :: i_r_mn1=80
-integer, parameter :: i_phix=81
-integer, parameter :: i_phiy=82
-integer, parameter :: i_pomx=83
-integer, parameter :: i_pomy=84
-integer, parameter :: i_rcyl_mn=85
-integer, parameter :: i_rcyl_mn1=86
-integer, parameter :: i_phi_mn=87
-integer, parameter :: i_evr=88
-integer, parameter :: i_rr=89
-integer, parameter :: i_evth=90
-integer, parameter :: i_divu=91
-integer, parameter :: i_oo=92
-integer, parameter :: i_o2=93
-integer, parameter :: i_ou=94
-integer, parameter :: i_oxu2=95
-integer, parameter :: i_oxu=96
-integer, parameter :: i_u2=97
-integer, parameter :: i_uij=98
-integer, parameter :: i_uu=99
-integer, parameter :: i_curlo=100
-integer, parameter :: i_sij=101
-integer, parameter :: i_sij2=102
-integer, parameter :: i_uij5=103
-integer, parameter :: i_ugu=104
-integer, parameter :: i_ugu2=105
-integer, parameter :: i_oij=106
-integer, parameter :: i_d2uidxj=107
-integer, parameter :: i_uijk=108
-integer, parameter :: i_ogu=109
-integer, parameter :: i_u3u21=110
-integer, parameter :: i_u1u32=111
-integer, parameter :: i_u2u13=112
-integer, parameter :: i_del2u=113
-integer, parameter :: i_del4u=114
-integer, parameter :: i_del6u=115
-integer, parameter :: i_u2u31=116
-integer, parameter :: i_u3u12=117
-integer, parameter :: i_u1u23=118
-integer, parameter :: i_graddivu=119
-integer, parameter :: i_del6u_bulk=120
-integer, parameter :: i_grad5divu=121
-integer, parameter :: i_rhougu=122
-integer, parameter :: i_der6u=123
-integer, parameter :: i_transpurho=124
-integer, parameter :: i_divu0=125
-integer, parameter :: i_u0ij=126
-integer, parameter :: i_uu0=127
-integer, parameter :: i_uu_advec=128
-integer, parameter :: i_uuadvec_guu=129
-integer, parameter :: i_del6u_strict=130
-integer, parameter :: i_del4graddivu=131
-integer, parameter :: i_uu_sph=132
-integer, parameter :: i_der6u_res=133
-integer, parameter :: i_lorentz=134
-integer, parameter :: i_hless=135
-integer, parameter :: i_lorentz_gamma2=136
-integer, parameter :: i_lorentz_gamma=137
-integer, parameter :: i_ss_rel2=138
-integer, parameter :: i_ss_rel=139
-integer, parameter :: i_ss_rel_ij=140
-integer, parameter :: i_ss_rel_factor=141
-integer, parameter :: i_divss_rel=142
-integer, parameter :: i_heat=143
-integer, parameter :: i_cool=144
-integer, parameter :: i_heatcool=145
-integer, parameter :: i_bb=146
-integer, parameter :: i_bbb=147
-integer, parameter :: i_bij=148
-integer, parameter :: i_jxbr=149
-integer, parameter :: i_ss12=150
-integer, parameter :: i_b2=151
-integer, parameter :: i_uxb=152
-integer, parameter :: i_jj=153
-integer, parameter :: i_aa=154
-integer, parameter :: i_diva=155
-integer, parameter :: i_del2a=156
-integer, parameter :: i_aij=157
-integer, parameter :: i_bunit=158
-integer, parameter :: i_va2=159
-integer, parameter :: i_j2=160
-integer, parameter :: i_el=161
-integer, parameter :: i_e2=162
-integer, parameter :: i_mf_EMF=163
-integer, parameter :: i_mf_EMFdotB=164
-integer, parameter :: i_uun=165
-integer, parameter :: i_divun=166
-integer, parameter :: i_snij=167
-integer, parameter :: i_rhop=168
-integer, parameter :: i_grhop=169
-integer, parameter :: i_peh=170
-integer, parameter :: i_tauascalar=171
-integer, parameter :: i_condensationRate=172
-integer, parameter :: i_waterMixingRatio=173
-integer, parameter :: i_part_heatcap=174
-integer, parameter :: i_cc=175
-integer, parameter :: i_cc1=176
-integer, parameter :: i_gcc=177
-integer, parameter :: i_SGS_heat=178
-integer, parameter :: i_shock=179
-integer, parameter :: i_gshock=180
-integer, parameter :: i_shock_perp=181
-integer, parameter :: i_gshock_perp=182
-integer, parameter :: i_fvisc=183
-integer, parameter :: i_diffus_total=184
-integer, parameter :: i_visc_heat=185
-integer, parameter :: i_nu=186
-integer, parameter :: i_gradnu=187
-integer, parameter :: i_nu_smag=188
+integer, parameter :: i_curlfcont=75
+integer, parameter :: i_gg=76
+integer, parameter :: i_x_mn=77
+integer, parameter :: i_y_mn=78
+integer, parameter :: i_z_mn=79
+integer, parameter :: i_r_mn=80
+integer, parameter :: i_r_mn1=81
+integer, parameter :: i_phix=82
+integer, parameter :: i_phiy=83
+integer, parameter :: i_pomx=84
+integer, parameter :: i_pomy=85
+integer, parameter :: i_rcyl_mn=86
+integer, parameter :: i_rcyl_mn1=87
+integer, parameter :: i_phi_mn=88
+integer, parameter :: i_evr=89
+integer, parameter :: i_rr=90
+integer, parameter :: i_evth=91
+integer, parameter :: i_divu=92
+integer, parameter :: i_oo=93
+integer, parameter :: i_o2=94
+integer, parameter :: i_ou=95
+integer, parameter :: i_oxu2=96
+integer, parameter :: i_oxu=97
+integer, parameter :: i_u2=98
+integer, parameter :: i_uij=99
+integer, parameter :: i_uu=100
+integer, parameter :: i_curlo=101
+integer, parameter :: i_sij=102
+integer, parameter :: i_sij2=103
+integer, parameter :: i_uij5=104
+integer, parameter :: i_ugu=105
+integer, parameter :: i_ugu2=106
+integer, parameter :: i_oij=107
+integer, parameter :: i_d2uidxj=108
+integer, parameter :: i_uijk=109
+integer, parameter :: i_ogu=110
+integer, parameter :: i_u3u21=111
+integer, parameter :: i_u1u32=112
+integer, parameter :: i_u2u13=113
+integer, parameter :: i_del2u=114
+integer, parameter :: i_del4u=115
+integer, parameter :: i_del6u=116
+integer, parameter :: i_u2u31=117
+integer, parameter :: i_u3u12=118
+integer, parameter :: i_u1u23=119
+integer, parameter :: i_graddivu=120
+integer, parameter :: i_del6u_bulk=121
+integer, parameter :: i_grad5divu=122
+integer, parameter :: i_rhougu=123
+integer, parameter :: i_der6u=124
+integer, parameter :: i_transpurho=125
+integer, parameter :: i_divu0=126
+integer, parameter :: i_u0ij=127
+integer, parameter :: i_uu0=128
+integer, parameter :: i_uu_advec=129
+integer, parameter :: i_uuadvec_guu=130
+integer, parameter :: i_del6u_strict=131
+integer, parameter :: i_del4graddivu=132
+integer, parameter :: i_uu_sph=133
+integer, parameter :: i_der6u_res=134
+integer, parameter :: i_lorentz=135
+integer, parameter :: i_hless=136
+integer, parameter :: i_lorentz_gamma2=137
+integer, parameter :: i_lorentz_gamma=138
+integer, parameter :: i_ss_rel2=139
+integer, parameter :: i_ss_rel=140
+integer, parameter :: i_ss_rel_ij=141
+integer, parameter :: i_ss_rel_factor=142
+integer, parameter :: i_divss_rel=143
+integer, parameter :: i_heat=144
+integer, parameter :: i_cool=145
+integer, parameter :: i_heatcool=146
+integer, parameter :: i_bb=147
+integer, parameter :: i_bbb=148
+integer, parameter :: i_bij=149
+integer, parameter :: i_jxbr=150
+integer, parameter :: i_ss12=151
+integer, parameter :: i_b2=152
+integer, parameter :: i_uxb=153
+integer, parameter :: i_jj=154
+integer, parameter :: i_aa=155
+integer, parameter :: i_diva=156
+integer, parameter :: i_del2a=157
+integer, parameter :: i_aij=158
+integer, parameter :: i_bunit=159
+integer, parameter :: i_va2=160
+integer, parameter :: i_j2=161
+integer, parameter :: i_el=162
+integer, parameter :: i_e2=163
+integer, parameter :: i_uun=164
+integer, parameter :: i_divun=165
+integer, parameter :: i_snij=166
+integer, parameter :: i_rhop=167
+integer, parameter :: i_grhop=168
+integer, parameter :: i_peh=169
+integer, parameter :: i_tauascalar=170
+integer, parameter :: i_condensationRate=171
+integer, parameter :: i_waterMixingRatio=172
+integer, parameter :: i_part_heatcap=173
+integer, parameter :: i_cc=174
+integer, parameter :: i_cc1=175
+integer, parameter :: i_gcc=176
+integer, parameter :: i_SGS_heat=177
+integer, parameter :: i_shock=178
+integer, parameter :: i_gshock=179
+integer, parameter :: i_shock_perp=180
+integer, parameter :: i_gshock_perp=181
+integer, parameter :: i_fvisc=182
+integer, parameter :: i_diffus_total=183
+integer, parameter :: i_visc_heat=184
+integer, parameter :: i_nu=185
+integer, parameter :: i_gradnu=186
+integer, parameter :: i_nu_smag=187
 character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = &
   (/ 'acc             ', 'ssat            ', 'ttc             ', 'Ywater          '  &
    , 'lambda          ', 'chem_conc       ', 'nucl_rmin       ', 'nucl_rate       ', 'conc_satm       '  &
@@ -404,26 +402,26 @@ character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = 
    , 'gmu1            ', 'yH              ', 'hss             ', 'hlnTT           ', 'del2ss          '  &
    , 'del6ss          ', 'del2TT          ', 'del2lnTT        ', 'del6TT          ', 'del6lnTT        '  &
    , 'glnmumol        ', 'csvap2          ', 'rho_anel        ', 'rho1gpp         ', 'fcont           '  &
-   , 'gg              ', 'x_mn            ', 'y_mn            ', 'z_mn            ', 'r_mn            '  &
-   , 'r_mn1           ', 'phix            ', 'phiy            ', 'pomx            ', 'pomy            '  &
-   , 'rcyl_mn         ', 'rcyl_mn1        ', 'phi_mn          ', 'evr             ', 'rr              '  &
-   , 'evth            ', 'divu            ', 'oo              ', 'o2              ', 'ou              '  &
-   , 'oxu2            ', 'oxu             ', 'u2              ', 'uij             ', 'uu              '  &
-   , 'curlo           ', 'sij             ', 'sij2            ', 'uij5            ', 'ugu             '  &
-   , 'ugu2            ', 'oij             ', 'd2uidxj         ', 'uijk            ', 'ogu             '  &
-   , 'u3u21           ', 'u1u32           ', 'u2u13           ', 'del2u           ', 'del4u           '  &
-   , 'del6u           ', 'u2u31           ', 'u3u12           ', 'u1u23           ', 'graddivu        '  &
-   , 'del6u_bulk      ', 'grad5divu       ', 'rhougu          ', 'der6u           ', 'transpurho      '  &
-   , 'divu0           ', 'u0ij            ', 'uu0             ', 'uu_advec        ', 'uuadvec_guu     '  &
-   , 'del6u_strict    ', 'del4graddivu    ', 'uu_sph          ', 'der6u_res       ', 'lorentz         '  &
-   , 'hless           ', 'lorentz_gamma2  ', 'lorentz_gamma   ', 'ss_rel2         ', 'ss_rel          '  &
-   , 'ss_rel_ij       ', 'ss_rel_factor   ', 'divss_rel       ', 'heat            ', 'cool            '  &
-   , 'heatcool        ', 'bb              ', 'bbb             ', 'bij             ', 'jxbr            '  &
-   , 'ss12            ', 'b2              ', 'uxb             ', 'jj              ', 'aa              '  &
-   , 'diva            ', 'del2a           ', 'aij             ', 'bunit           ', 'va2             '  &
-   , 'j2              ', 'el              ', 'e2              ', 'mf_EMF          ', 'mf_EMFdotB      '  &
-   , 'uun             ', 'divun           ', 'snij            ', 'rhop            ', 'grhop           '  &
-   , 'peh             ', 'tauascalar      ', 'condensationRate', 'waterMixingRatio', 'part_heatcap    '  &
-   , 'cc              ', 'cc1             ', 'gcc             ', 'SGS_heat        ', 'shock           '  &
-   , 'gshock          ', 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    '  &
-   , 'visc_heat       ', 'nu              ', 'gradnu          ', 'nu_smag         ' /)
+   , 'curlfcont       ', 'gg              ', 'x_mn            ', 'y_mn            ', 'z_mn            '  &
+   , 'r_mn            ', 'r_mn1           ', 'phix            ', 'phiy            ', 'pomx            '  &
+   , 'pomy            ', 'rcyl_mn         ', 'rcyl_mn1        ', 'phi_mn          ', 'evr             '  &
+   , 'rr              ', 'evth            ', 'divu            ', 'oo              ', 'o2              '  &
+   , 'ou              ', 'oxu2            ', 'oxu             ', 'u2              ', 'uij             '  &
+   , 'uu              ', 'curlo           ', 'sij             ', 'sij2            ', 'uij5            '  &
+   , 'ugu             ', 'ugu2            ', 'oij             ', 'd2uidxj         ', 'uijk            '  &
+   , 'ogu             ', 'u3u21           ', 'u1u32           ', 'u2u13           ', 'del2u           '  &
+   , 'del4u           ', 'del6u           ', 'u2u31           ', 'u3u12           ', 'u1u23           '  &
+   , 'graddivu        ', 'del6u_bulk      ', 'grad5divu       ', 'rhougu          ', 'der6u           '  &
+   , 'transpurho      ', 'divu0           ', 'u0ij            ', 'uu0             ', 'uu_advec        '  &
+   , 'uuadvec_guu     ', 'del6u_strict    ', 'del4graddivu    ', 'uu_sph          ', 'der6u_res       '  &
+   , 'lorentz         ', 'hless           ', 'lorentz_gamma2  ', 'lorentz_gamma   ', 'ss_rel2         '  &
+   , 'ss_rel          ', 'ss_rel_ij       ', 'ss_rel_factor   ', 'divss_rel       ', 'heat            '  &
+   , 'cool            ', 'heatcool        ', 'bb              ', 'bbb             ', 'bij             '  &
+   , 'jxbr            ', 'ss12            ', 'b2              ', 'uxb             ', 'jj              '  &
+   , 'aa              ', 'diva            ', 'del2a           ', 'aij             ', 'bunit           '  &
+   , 'va2             ', 'j2              ', 'el              ', 'e2              ', 'uun             '  &
+   , 'divun           ', 'snij            ', 'rhop            ', 'grhop           ', 'peh             '  &
+   , 'tauascalar      ', 'condensationRate', 'waterMixingRatio', 'part_heatcap    ', 'cc              '  &
+   , 'cc1             ', 'gcc             ', 'SGS_heat        ', 'shock           ', 'gshock          '  &
+   , 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    ', 'visc_heat       '  &
+   , 'nu              ', 'gradnu          ', 'nu_smag         ' /)

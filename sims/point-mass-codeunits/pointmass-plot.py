@@ -3,6 +3,7 @@ import numpy as np                # Pi constant
 import matplotlib.pyplot as plt  # Plotting
 import astropy.constants as const # Physical constants
 import pencil as pc
+import pencil_old as oldpc
 
 ## Set constants
 pi     = np.pi
@@ -16,79 +17,121 @@ Rgas   = const.R.cgs.value       # Gas constant
 yr     = 3.1558149504e7          # Year in seconds
 
 
-### IMPORT POINT MASS PARTICLE DATA
+### IMPORT SIMULATION DATA
 #sim = pc.get_sim()
-ts = pc.read.ts()
+## Timeseries data
+ts = pc.read.timeseries.ts()
 t = ts.t
-xq1, xq2 = ts.xq1, ts.xq2
-yq1, yq2 = ts.yq1, ts.yq2
-vxq1, vxq2 = ts.vxq1, ts.vxq2
-vyq1, vyq2 = ts.vxq1, ts.vxq2
+xq1, xq2 = np.array(ts.xq1), np.array(ts.xq2)     # x positions
+yq1, yq2 = np.array(ts.yq1), np.array(ts.yq2)     # y positions
+vxq1, vxq2 = np.array(ts.vxq1), np.array(ts.vxq2) # x velocities 
+vyq1, vyq2 = np.array(ts.vyq1), np.array(ts.vyq2) # y velocities 
 
-### PLOT TRAJECTORIES OVER TIME
-## Check the grid size to apply to the plot
-grid = pc.read.grid() # Read relevant information from grid data
+## Grid data 
+grid = pc.read.grid() # Check the grid size to apply to the plot
 lx = grid.Lx          # Length of x-axis side
 ly = grid.Ly          # Length of y-axis side
 
+## Point mass specific data
+qvar = oldpc.read_qvar()
+imass = qvar.mass
+m1 = imass[0] 
+m2 = imass[1]
+
+
+### POSITION VS. TIME
+fig, ax = plt.subplots(1, 1) # Initiate figure and axis
+
 ## Plot location of particles throughout simulation
-fig, ax = plt.subplots(1, 1)                                                                     # Figure and axes established
-#ax.plot(parray1[:,2], parray1[:,3], 'r.', label=r'Sink $aps=$'+str(parray1[0,7]), zorder=3)           # Plotting particle 1 position
-#min, max = np.max(parray2[:,0]), np.max(parray2[:,0])                                            # Minimum and maximum of time
-#lines2 = colored_line(parray2[:,2], parray2[:,3], parray2[:,0], ax, linewidth=5, cmap='seismic') # Particle 2 position with time
+ax.plot(xq1, yq1, label="Primary", alpha=0.5, color='blue')     # Position throughout 
+ax.plot(xq2, yq2, label="Secondary", alpha=0.5, color='orange') 
 
-ax.plot(xq1, yq1, label="$m=1$")
-ax.plot(xq2, yq2, label="$m=1e-30$", color='magenta')
+ax.scatter(xq1[0], yq1[0], marker='o', zorder=3, facecolors='none', edgecolors='purple') # Position at start
+ax.scatter(xq2[0], yq2[0], marker='o', zorder=3, facecolors='none', edgecolors='red') 
 
-## Plot analytical solution provided input
-#ax.plot(x_pos1, y_pos1, color='green', label='From Periapsis', zorder=5)                 # Analytical expectation from periapsis position and velocity in sim
-#ax.plot(x_pos2, y_pos2, '-.',color='magenta', label='From Initial Conditions', zorder=5) # Analytical expectation from initial conditons
-
-## Add line indicating periapsis position vector
-#ax.plot((0, x_coord), (0, y_coord), linewidth=2, linestyle='-', color='k', zorder=2)
-
-## Add text indicating mass and initial velocity
-#props = dict(boxstyle='round', facecolor='white', alpha=0.7)
-#ax.text(0.44, .10, 'Expected Mass * '+"{:.2E}".format(mass_multiple),
-#        transform=ax.transAxes, fontsize=8, verticalalignment='top', bbox=props, zorder=6)
-#ax.text(0.44, .05, 'Initial $v$: $v_x$='+"{:.2E}".format(vx)+' $v_y$='+"{:.2E}".format(vy),
-#        transform=ax.transAxes, fontsize=8, verticalalignment='top', bbox=props, zorder=6)
+ax.scatter(xq1[-1], yq1[-1], marker='.', zorder=4, color='purple') # Position at end
+ax.scatter(xq2[-1], yq2[-1], marker='.', zorder=4, color='red') 
 
 ## Figure settings
-#cbar = fig.colorbar(lines2, ax=ax, label='Time (code units)') # Time colorbar
-#cbar.ax.invert_yaxis()                               # Flip color axis for better comparison with plot (time starts on top)
 ax.set_xlabel(r'$x$', fontsize=15)                   # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)                   # y-axis label
+ax.set_title(r'Position vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
 plt.axis('scaled')                                   # Axes are scaled to match one another
-ax.set_xlim(-2, 2)                             # Set x-axis limits, assuming centered evenly on origin
-ax.set_ylim(-2, 2)                             # Set y-axis limits, assuming centered evenly on origin
-ax.set_title(r'Circular Test Orbit of Near Massless Point Mass') # Plot title
+ax.set_xlim(-2, -2+lx)                         # Set x-axis limits, assuming centered evenly on origin
+ax.set_ylim(-2, -2+ly)                         # Set y-axis limits, assuming centered evenly on origin
 plt.legend(loc='best')                               # Add legend
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping
-plt.savefig('pointmass-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
+plt.savefig('pointmass-figure.pdf', dpi=300)         # Save figure as a PDF file with set quality
 plt.close()                                          # Close figure after saving
 
 
 
-## Plot energy of point mass orbiting with time
+## X POSITION VS. TIME 
+fig, ax = plt.subplots(1, 1) # Initiate figure and axis
+ax.plot(t, xq1, label="Primary", alpha=0.5, color='blue')     # Position throughout 
+ax.plot(t, xq2, label="Secondary", alpha=0.5, color='orange')     # Position throughout 
+
+## Figure settings
+ax.set_xlabel(r'$t$', fontsize=15)                   # x-axis label
+ax.set_ylabel(r'$x$', fontsize=15)                   # y-axis label
+ax.set_title(r'$x$ Position vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
+plt.legend(loc='best')                               # Add legend
+ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
+ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
+plt.tight_layout()                                   # Remove overlapping and clipping
+plt.savefig('x-figure.pdf', dpi=300)         # Save figure as a PDF file with set quality
+plt.close()   
+
+
+### TOTAL ENERGY VS. TIME PLOT
 fig, ax = plt.subplots(1, 1) # Figure and axes established
 
-M1 = 1.0
-G = 1
-energy = 0.5*(1e-30)*(np.array(vxq2)**2 + np.array(vyq2)**2) - (G)*(M1)/np.sqrt(np.array(xq2)**2 + np.array(yq2)**2)
-ax.plot(t, energy)
+## Plot energy over time for the system of particles
+G = 8.663078e-13 # Gravitational constant
+r = np.sqrt((xq1 - xq2)**2 + (yq1 - yq2)**2)
+U = - (G)*(m1*m2)/r # System gravitational potential energy
+T = 0.5*m1*(vxq1**2 + vyq1**2) + 0.5*m2*(vxq2**2 + vyq2**2) # Sum of kinetic energies
+E = U + T # Energy is the sum of kinetic and potential energy
+ax.plot(t, E, color='purple')
 
-ax.set_ylabel(r'$E$', fontsize=15)                   # x-axis label
+## Figure settings
+ax.set_ylabel(r'$E=T+U$', fontsize=15)                   # x-axis label
 ax.set_xlabel(r'$t$', fontsize=15)                   # y-axis label
-#plt.axis('scaled')                                   # Axes are scaled to match one another
 #ax.set_xlim(-2, 2)                             # Set x-axis limits, assuming centered evenly on origin
 #ax.set_ylim(-2, 2)                             # Set y-axis limits, assuming centered evenly on origin
-ax.set_title(r'Energy vs. Time') # Plot title
-#plt.legend(loc='best')                               # Add legend
+ax.set_title(r'Energy vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping
 plt.savefig('energy-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
+plt.close()                                          # Close figure after saving
+
+
+### TOTAL ANGULAR MOMENTUM VS. TIME PLOT
+fig, ax = plt.subplots(1, 1) # Figure and axes established
+
+## Plot momentum over time for the system of particles
+L = []
+t_n = len(xq1)
+reduced_mass = m1*m2/(m1+m2)
+for i in range(t_n):
+    r_rel = np.array([xq2[i]-xq1[i], yq2[i]-yq1[i], 0]) # r2-r1; relative position vector
+    v_rel = np.array([vxq2[i]-vxq1[i], vyq2[i]-vyq1[i], 0])# v2-v1; relative velocity vector
+    L_vec = reduced_mass * np.cross(r_rel, v_rel) # Angular momentum vector given by the (reduced mass) * (r x v)
+    L_mag = np.sqrt(L_vec[0]**2 + L_vec[1]**2 + L_vec[2]**2) # Angular momentum magnitude
+    L.append(L_mag)
+ax.plot(t, L, color='green')
+
+## Figure settings
+ax.set_ylabel(r'$L_{orbital}$', fontsize=15)                   # x-axis label
+ax.set_xlabel(r'$t$', fontsize=15)                   # y-axis label
+#ax.set_xlim(-2, 2)                             # Set x-axis limits, assuming centered evenly on origin
+#ax.set_ylim(-2, 2)                             # Set y-axis limits, assuming centered evenly on origin
+ax.set_title(r'Orbital Angular Momentum vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
+ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
+ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
+plt.tight_layout()                                   # Remove overlapping and clipping
+plt.savefig('momentum-figure.pdf', dpi=300)            # Save figure as a PDF file with set quality
 plt.close()                                          # Close figure after saving

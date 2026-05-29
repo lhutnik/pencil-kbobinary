@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Wed Mar 25 08:58:17 AM MDT 2026</timestamp>
+  <timestamp>Thu May 28 07:08:55 PM MDT 2026</timestamp>
   <buildhost>
     <hostname>Ubuntu</hostname>
     <os>Linux</os>
-    <osrelease>6.14.0-37-generic</osrelease>
+    <osrelease>6.17.0-23-generic</osrelease>
     <user>vboxuser</user>
-    <uptime> 08:58:17 up 54 min,  1 user,  load average: 0.05, 0.10, 0.21</uptime>
+    <uptime> 19:08:55 up  3:46,  1 user,  load average: 0.29, 0.06, 0.02</uptime>
   </buildhost>
   <buildtime></buildtime>
   <makeinfo>
     <var name="FC">gfortran</var>
     <var name="F77">gfortran</var>
     <var name="F90"></var>
-    <var name="FFLAGS">-O -fno-underscoring</var>
+    <var name="FFLAGS">-O</var>
     <var name="F90FLAGS"></var>
     <var name="F77FLAGS"></var>
     <var name="FFLAGS_GENERAL">-fdefault-real-8 -fdefault-double-8</var>

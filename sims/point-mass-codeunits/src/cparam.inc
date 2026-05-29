@@ -9,7 +9,7 @@
 !
 
 integer, parameter :: mvar=0, maux=0
-integer, parameter :: maux_com=3
+integer, parameter :: maux_com=0
 integer, parameter :: mogaux=0
 integer, parameter :: mglobal=0
 integer, parameter :: mscratch=0
@@ -40,6 +40,7 @@ integer, parameter :: nblockmax=1
 logical, parameter :: lspecial = .false.
 logical, parameter :: lviscosity = .false.
 logical, parameter :: ltraining = .false.
+logical, parameter :: lcourant_dt = .true.
 logical, parameter :: ltavg = .false.
 logical, parameter :: ltestscalar = .false.
 logical, parameter :: ltestflow = .false.
@@ -87,6 +88,7 @@ logical, parameter :: lparticles_density=.false.
 logical, parameter :: lparticles_blocks = .false.
 logical, parameter :: lparticles_collisions = .false.
 logical, parameter :: lparticles_condensation= .false.
+logical, parameter :: lparticles_breakup = .false.
 logical, parameter :: lparticles_coagulation = .false.
 logical, parameter :: lparticles_adaptation= .false.
 logical, parameter :: lparticles=.false.

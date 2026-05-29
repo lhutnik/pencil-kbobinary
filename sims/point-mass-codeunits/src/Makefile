@@ -21,7 +21,10 @@ FOURIER            = nofourier
 GEOMETRICAL_TYPES  =   geometrical_types
 GHOSTFOLD          = noghostfold
 GPU                = nogpu
-RUNTIME_COMPILATION = off
+RUNTIME_COMPILATION = on
+TRANSPILATION       = on
+READ_OVERRIDES      = off
+GENERATE_DSL_CODE   = off
 GRID               =   grid
 GSL                = nogsl
 IMPLICIT_DIFFUSION = noimplicit_diffusion
@@ -30,6 +33,7 @@ DEBUG_IO           =   debug_io_dist
 HDF5_IO            = nohdf5_io
 IO                 =   io_dist
 IO_IN              =
+LIBRARIES          =
 MPICOMM            = nompicomm
 NSCBC              = noNSCBC
 POWER              = nopower_spectrum
@@ -110,6 +114,7 @@ PARTICLES_ADSORBED    = noparticles_adsorbed
 PARTICLES_SURFSPEC    = noparticles_surfspec
 PARTICLES_CHEMISTRY   = noparticles_chemistry
 PARTICLES_COAGULATION = noparticles_coagulation
+PARTICLES_BREAKUP     = noparticles_breakup
 PARTICLES_CONDENSATION= noparticles_condensation
 PARTICLES_COLLISIONS  = noparticles_collisions
 PARTICLES_DRAG        = noparticles_drag
@@ -185,19 +190,38 @@ CFLAGS_DOUBLE = -DDOUBLE_PRECISION
 #
 # Default linker flags.
 #
+# 10-Dec-2025/Kishore: += will define the variable if it is not already defined,
+# so the below check is not needed for GNU Make. Do other flavours (BSD/Mac) do
+# something different?
+# <https://www.gnu.org/software/make/manual/html_node/Appending.html>
 ifeq ($(LDFLAGS),)
   LDFLAGS = -ldl
 else
   LDFLAGS += -ldl
 endif
+#
+# Default linker flags for shared libraries.
+#
+DLL_FFLAGS = -fPIC
+DLL_LDFLAGS = -shared
+#
+# Allow the user to specify extra linker flags as arguments to make.
+#
+LDFLAGS_EXTRA =
+LDFLAGS += $(LDFLAGS_EXTRA)
+DLL_LDFLAGS += $(LDFLAGS_EXTRA)
+#
+# useful shortcuts
+#
+define newline
 
 # Caution:
 #   This file has been created from `Makefile.src' and will be overwritten the
 #   next time `adapt-mkfile' is called. If you're about to make non-trivial
 #   changes, you probably want to edit the master file instead.
 
-DLL_FFLAGS ?= -fPIC
-DLL_LDFLAGS ?= -shared
+
+endef
 #
 # Overwrite settings that are local to each run directory.
 #
@@ -208,15 +232,9 @@ include Makefile.local
 #
 include Makefile.inc
 #
-# Fortran 2003 standard compilation settings.
+# Fortran 2008 standard compilation settings.
 #
 include Makefile-standard.inc
-#
-# Add real-time library calls if we need shared memory allocation
-#
-ifeq  ($(FARRAY_ALLOC),farray_alloc)
-	override LDFLAGS += -lrt
-endif
 #
 # Compile files with particle programming structure if particles are chosen.
 #
@@ -261,6 +279,7 @@ endif
 # Get recent target.
 #
 target := $(firstword $(MAKECMDGOALS))
+#$(info TARGET=$(target))
 #
 MODULE_CMD := $(shell bash -c 'command -v module 2> /dev/null')
 #
@@ -270,9 +289,9 @@ ifeq ($(GSL),gsl_wrapper)
   ifneq ($(MODULE_CMD),)
     GSL_LOADED := $(shell (module list |& grep -i gsl) )
     ifeq ($(GSL_LOADED),)
-      ifeq ($(filter clean,$(target)),)
+      ifeq ($(findstring clean,$(target)),)
         $(info )
-        $(info No GSL module seems to be loaded!)
+        $(warning No GSL module seems to be loaded!)
         $(info Try (one of) the following: $(shell (module spider |& grep -i gsl | sed -e's/^.* \([^ ]*[Gg][Ss][Ll][^ ]*\) .*$$/\1/') ))
         #$(error )
       endif
@@ -429,11 +448,10 @@ endif
 # Check number of cpus.
 #
 UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-	ncpus := $(shell (grep '^[^!]*ncpus *= *[1-9]' cparam.local | sed \'\' -e's/.*ncpus *= *\([1-9][0-9]*\).*$$/\1/'))
-else
-	ncpus := $(shell (grep '^[^!]*ncpus *= *[1-9]' cparam.local | sed -e's/.*ncpus *= *\([1-9][0-9]*\).*$$/\1/'))
-endif
+#ifeq ($(UNAME_S),Darwin)
+#  This doesn't work for Sequioa 15.6.1, looks anyway very strange.
+#  ncpus := $(shell (grep '^[^!]*ncpus *= *[1-9]' cparam.local | sed \'\' -e's/.*ncpus *= *\([1-9][0-9]*\).*$$/\1/'))
+  ncpus := $(shell (grep '^[^!]*ncpus *= *[1-9]' cparam.local | sed -e's/.*ncpus *= *\([1-9][0-9]*\).*$$/\1/'))
 #
 ifeq ($(MPICOMM),$(filter $(MPICOMM), mpicomm))
 #
@@ -442,7 +460,7 @@ ifeq ($(MPICOMM),$(filter $(MPICOMM), mpicomm))
   ifneq ($(and $(ncpus), $(nprocx), $(nprocy), $(nprocz)),)
     nprocs := $(shell echo $$(( $(nprocx) * $(nprocy) * $(nprocz))))
     ifneq ($(strip $(ncpus)),$(strip $(nprocs)))
-      ifeq ($(filter clean,$(target)),)
+      ifeq ($(findstring clean,$(target)),)
         $(info )
         $(error Cannot build: ncpus /= nprocx*nprocy*nprocz.)
       endif
@@ -452,7 +470,7 @@ else
   YINYANG = noyinyang
   ifneq ($(ncpus),)
     ifneq ($(ncpus),1)
-      ifeq ($(filter clean,$(target)),)
+      ifeq ($(findstring clean,$(target)),)
         $(info )
         $(error Cannot build: ncpus > 1, but MPICOMM = nompicomm.)
       endif
@@ -471,7 +489,7 @@ ifeq ($(SPECIAL),nospecial)
   SPECIAL_MODULES =
 else
   ifeq ($(SPECIAL),special)
-    ifeq ($(filter clean,$(target)),)
+    ifeq ($(findstring clean,$(target)),)
       $(info )
       $(error Cannot build: SPECIAL must not be set to special, but to individual module(s) in directory "special"! Exit.)
     endif
@@ -479,12 +497,47 @@ else
     SPECIAL_MULT := $(words $(SPECIAL))
     SPECIAL_MODULES := $(strip $(SPECIAL))
     SPECIAL_DEPS = special_preps
-    ifneq ($(SPECIAL_MULT),1)
-      LDFLAGS_MAIN += -dynamic -Wl,--export-dynamic
-      SPECIAL_DEPS += special.so
-      SPECIAL = special
-    endif
   endif
+endif
+
+USE_SPECIAL_DISPATCHER=no
+ifneq ($(SPECIAL),nospecial)
+  ifneq ($(SPECIAL_MULT),1)
+    USE_SPECIAL_DISPATCHER=yes
+  endif
+  ifneq ($(findstring gpu_astaroth, $(GPU)),)
+    USE_SPECIAL_DISPATCHER=yes
+  endif
+endif
+ifneq ($(findstring gpu_astaroth, $(GPU)),)
+    override MULTITHREADING=openmp
+    override MPICOMM=mpicomm
+    #Needed because of large subdomains
+    override FARRAY_ALLOC=farray_alloc
+endif
+#
+# Add real-time library calls if we need shared memory allocation
+#
+ifeq  ($(FARRAY_ALLOC),farray_alloc)
+  #2026-May-13/Kishore: also need `-lc` to use ftruncate?
+  override LDFLAGS += -lrt
+endif
+
+ifeq ($(USE_SPECIAL_DISPATCHER),yes)
+  ifeq ($(UNAME_S),Darwin)
+    LDFLAGS_MAIN += -dynamic
+  else
+    LDFLAGS_MAIN += -dynamic -Wl,--export-dynamic
+  endif
+  SPECIAL_DEPS += special.so
+  SPECIAL = special
+endif
+#
+LIBFLAGS=
+ifneq ($(LIBRARIES), )
+  LIBS := $(strip $(LIBRARIES))
+  override LDFLAGS  += $(shell (echo $(LIBS) | sed -e's/  */ -l/g' -e's/\([a-zA-Z0-9]\)/-l\1/'))
+  override LIBFLAGS += $(shell (echo $(LIBS) | sed -e's/  */ -l/g' -e's/\([a-zA-Z0-9]\)/-l\1/'))
 endif
 #
 CUDA_MAKEDIR=astaroth
@@ -494,21 +547,24 @@ DSL_WORKDIR=$(CUDA_MAKEDIR)/DSL/local
 LIBGPU =
 GPU_DEPS =
 
-ifeq ($(TRAINING),training_torchfort)
+#ifeq ($(TRAINING),training_torchfort)
+ifneq ($(TORCHFORT_PATH),)
   ifneq ($(HYDRO),hydro)
     $(error Training_torchfort needs hydro! Exit.)
   endif
   ifneq ($(MODULE_CMD),)
     CUDA_LOADED := $(shell (module list |& grep -i cuda) )
     ifeq ($(CUDA_LOADED),)
-      $(warning  No CUDA module seems to be loaded (needed for training)!)
-      $(info Try (one of) the following: $(shell (module spider |& grep -i cuda | sed -e's/^.* \([^ ]*[Cc][Uu][Dd][Aa][^ ]*\) .*$$/\1/') ) )
-      YESNO := $(shell bash -c 'read -p "Continue? (Y/N) " yesno; echo $$yesno')
-      ifeq ($(YESNO),N)
-        $(error Exit.)
-      else
-        ifeq ($(YESNO),n)
+      ifeq ($(findstring clean,$(target)),)
+        $(warning  No CUDA module seems to be loaded (needed for training)!)
+        $(info Try (one of) the following: $(shell (module spider |& grep -i cuda | sed -e's/^.* \([^ ]*[Cc][Uu][Dd][Aa][^ ]*\) .*$$/\1/') ) )
+        YESNO := $(shell bash -c 'read -p "Continue? (Y/N) " yesno; echo $$yesno')
+        ifeq ($(YESNO),N)
           $(error Exit.)
+        else
+          ifeq ($(YESNO),n)
+            $(error Exit.)
+          endif
         endif
       endif
     endif
@@ -529,11 +585,14 @@ ifneq ($(GPU),nogpu)
     CUDA_LOADED := $(shell (module list |& grep -i cuda) )
     ROCM_LOADED := $(shell (module list |& grep -i rocm) )
     ifeq ($(CUDA_LOADED)$(ROCM_LOADED),)
-      ifeq ($(filter clean,$(target)),)
+      ifeq ($(findstring clean,$(target)),)
         $(info )
         $(warning  No CUDA or ROCM module seems to be loaded!)
         $(info Try (one of) the following: $(shell (module spider |& grep -i cuda | sed -e's/^.* \([^ ]*[Cc][Uu][Dd][Aa][^ ]*\) .*$$/\1/') ) )
         $(info or: $(shell (module spider |& grep -i rocm | sed -e's/^.* \([^ ]*[Rr][Oo][Cc][Mm][^ ]*\) .*$$/\1/') ) )
+        ifneq ($(wildcard .moduleinfo),)
+          $(info or: source src/.moduleinfo)
+        endif
         YESNO := $(shell bash -c 'read -p "Continue? (Y/N) " yesno; echo $$yesno')
         ifeq ($(YESNO),N)
           $(error Exit)
@@ -550,7 +609,7 @@ ifneq ($(GPU),nogpu)
 #
     LD_LIB_PATH_OK := $(shell (echo $(LD_LIBRARY_PATH) | grep 'src/astaroth') )
     ifeq ($(LD_LIB_PATH_OK),)
-      $(warning Environment variable LD_LIBRARY_PATH doesn't contain paths "src/astaroth" etc!: $(LD_LIBRARY_PATH))
+      $(warning Environment variable LD_LIBRARY_PATH does not contain "src/astaroth":${newline}LD_LIBRARY_PATH=${LD_LIBRARY_PATH})
       $(info Execution of [start|run].x might fail!)
 
       YESNO := $(shell bash -c 'read -p "Continue? (Y/N) " yesno; echo $$yesno')
@@ -574,18 +633,17 @@ ifneq ($(GPU),nogpu)
       LIBGPU = astaroth/lib$(LIBGPU_NAME).so
 
       GPU_DEPS = $(CUDA_INCDIR)/PC_moduleflags.h $(CUDA_MAKEDIR)/Makefile.vendor $(CUDA_MAKEDIR)/PC_modulesources.h $(DSL_WORKDIR)/fieldecs.h $(DSL_WORKDIR)/equations.h $(DSL_WORKDIR)/solve.ac
-      LDFLAGS_LIB = -L astaroth -L astaroth/submodule/build/src/core -L astaroth/submodule/build/src/core/kernels -lastaroth_core -lkernels -l$(LIBGPU_NAME)
+      LDFLAGS_LIB = -L astaroth -L astaroth/submodule/build/src/core -L astaroth/submodule/build/src/core/kernels -lastaroth_core -lkernels -l$(LIBGPU_NAME) magnetic.a
       ifneq ($(filter on yes,$(RUNTIME_COMPILATION)),)
         RUNTIME_COMPILATION = on
-        LDFLAGS_LIB += -L astaroth/submodule/build/runtime_compilation -lacc_runtime_compiler
       else
         RUNTIME_COMPILATION = off
       endif
-      ifneq ($(IS_CRAY),)
-        #TP: mpi_gtl_hsa and pe/lib64 is to enable CUDA_AWARE_MPI
-        #good that this is still here
-        override LDFLAGS_LIB += -L /opt/cray/pe/lib64 -lmpi_gtl_hsa
-      endif
+      #TP: better way on LUMI is to module load craype-accel-amd-gfx90a
+      #ifneq ($(IS_CRAY),)
+      #  #TP: mpi_gtl_hsa and pe/lib64 is to enable CUDA_AWARE_MPI on LUMI and Dardel
+      #  override LDFLAGS_LIB += -L /opt/cray/pe/lib64 -lmpi_gtl_hsa
+      #endif
 #      override LDFLAGS += -l:libmt-fortran.a -l:libmt.a -lstdc++
 #      override LDFLAGS_LIB += -L astaroth/scheduler-build/src
   #   the following needed?
@@ -595,7 +653,12 @@ ifneq ($(GPU),nogpu)
     else
       $(info )
       $(error Directory $PENCIL_HOME/src/astaroth/submodule is empty! You need to pull Astaroth as a submodule and apply pc_setupsrc afterwards!)
+      #endif
     endif
+    ifeq ($(wildcard astaroth/*),)
+      CATCH := $(shell export PENCIL_USER=GPU_AUTOTEST 2>/dev/null && cd .. 2>/dev/null && pc_setupsrc 2>/dev/null)
+    endif
+
   else
     $(info )
     $(error No other GPU interfaces than gpu_astaroth recently supported!)
@@ -605,9 +668,8 @@ else
   GPU_INTERFACE=
 endif
 #
-ifneq ($(filter openmp OpenMP,$(MULTITHREADING)),)
+ifneq ($(filter openmp OpenMP openMP OPENMP OMP omp,$(MULTITHREADING)),)
 
-  $(shell bash -c 'rm -f exit_mn.h; touch exit_mn.h')
   PTHREAD_OBJ=pthread.o
   PTHREAD_SRC=pthread.c
   OMP_HEADER=omp_init.h
@@ -630,7 +692,6 @@ ifneq ($(filter openmp OpenMP,$(MULTITHREADING)),)
 else
   PTHREAD_OBJ=
   OMP_HEADER=
-  $(shell bash -c 'echo "exit mn_loop" > exit_mn.h')
 endif
 ifeq ($(MAKECMDGOALS),libPC.so)
   override FFLAGS += -fPIC
@@ -660,10 +721,18 @@ ifneq ($(filter $(SPECIAL) $(IO) $(IO_IN) $(IO_OUT) $(TRAINING), $(HDF5_MODULES)
   ifneq ($(MODULE_CMD),)
     HDF5_LOADED := $(shell (module list |& grep -i hdf5) || (module list |& grep -i hf5) )
     ifeq ($(HDF5_LOADED),)
-      ifeq ($(filter clean,$(target)),)
+      ifeq ($(findstring code,$(target)),code)
         $(info )
-        $(info No HDF5 module seems to be loaded!)
-        #$(error Try (one of) the following: $(shell (module spider |& grep -i hdf5 | sed -e's/^.* \([^ ]*[Hh][Dd][Ff]5[^ ]*\) .*$$/\1/') ))
+        $(warning No HDF5 module seems to be loaded!)
+        $(info Try (one of) the following: $(shell (module spider |& grep -i hdf5 | sed -e's/^.* \([^ ]*[Hh][Dd][Ff]5[^ ]*\) .*$$/\1/') ) )
+        YESNO := $(shell bash -c 'read -p "Continue? (Y/N) " yesno; echo $$yesno')
+        ifeq ($(YESNO),N)
+          $(error Exit)
+        else
+          ifeq ($(YESNO),n)
+            $(error Exit)
+          endif
+        endif
       endif
     endif
   endif
@@ -871,6 +940,8 @@ GRID_SRC=$(GRID).f90
 #
 GPU_OBJ=$(GPU).o
 GPU_SRC=$(GPU).f90
+GLOBAL_PUSHPARS_OBJ=global_pushpars.o
+GLOBAL_PUSHPARS_SRC=global_pushpars.f90
 #
 GSL_OBJ=$(GSL).o
 GSL_SRC=$(GSL).c
@@ -948,6 +1019,9 @@ PARTICLES_ADAPTATION_SRC=$(PARTICLES_ADAPTATION).f90
 #
 PARTICLES_COAGULATION_OBJ=$(PARTICLES_COAGULATION).o
 PARTICLES_COAGULATION_SRC=$(PARTICLES_COAGULATION).f90
+#
+PARTICLES_BREAKUP_OBJ=$(PARTICLES_BREAKUP).o
+PARTICLES_BREAKUP_SRC=$(PARTICLES_BREAKUP).f90
 #
 PARTICLES_CONDENSATION_OBJ=$(PARTICLES_CONDENSATION).o
 PARTICLES_CONDENSATION_SRC=$(PARTICLES_CONDENSATION).f90
@@ -1189,10 +1263,10 @@ YINYANG_MPI_SRC=$(YINYANG_MPI).f90
 ## default settings
 ##
 FC=gfortran
-CC=gcc -DFUNDERSC=1
+CC=gcc
 F77=$(FC)
 FFLAGS=-O1
-CFLAGS=-O1
+CFLAGS=-O1 -DFUNDERSC=1
 F90FLAGS=
 LD_MPI=
 FFLAGS_DOUBLE=-fdefault-real-8
@@ -1685,7 +1759,7 @@ LD_FFTW2=
 ##  the -CB options checks for out of bounds arrays
 ##
 #FC=ifort #(nl6)
-#FSTD_95=-std95 #(nl6)
+#FSTD_95=-std=f95 #(nl6)
 #FC=ifort #(nl6)
 #FFLAGS=-O3 -I/usr/lib/openmpi/include -CB #(nl6)
 #FFLAGS=-O3 -I/usr/lib/openmpi/include #(nl6)
@@ -1709,11 +1783,16 @@ LD_FFTW2=
 #FFLAGS= -O3 #(nl6)
 #FFLAGS= -O0 -finit-real=sNaN -fbacktrace -g -fcheck=all -ffpe-trap=invalid,zero,overflow #(nl6)
 #FFLAGS= -O0 #(nl6)
-#FFLAGS_DOUBLE=-fdefault-real-8  #(nl6)
+#FFLAGS= -O0 -llapack #(nl6)
+#FFLAGS= -O0 -finit-real=sNaN -fbacktrace -g -fcheck=all -ffpe-trap=invalid,zero,overflow #(nl6)
+#FFLAGS= -O0 -fbacktrace -g #(nl6)
+#FFLAGS_DOUBLE=-fdefault-real-8 #(nl6)
+#FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8  #(nl6)
 ##FFLAGS=-O0 -finit-real=NaN #(nl6)
 #CC=gcc #(nl6)
 #CFLAGS=-O3 -DFUNDERSC=1 #(nl6)
 #LD_MPI= #(nl6)
+#LD_MPI= -llapack #(nl6)
 ##
 ## Giuseppe on giuseppe-desktop (gfortran)
 ##
@@ -1754,7 +1833,7 @@ LD_FFTW2=
 #FFLAGS=-O1 -finit-real=nan -fno-underscoring -fbacktrace -g -fcheck=bounds #(norlx51)
 ##FFLAGS=-O0 -Wall -finit-real=sNaN -finit-integer=-2147483648 -g -fbacktrace -fimplicit-none -fcheck=all -ffpe-trap=invalid,zero,overflow #(norlx51)
 #CC=mpicc #(norlx51)
-##CFLAGS=-O1 -DFUNDERSC=1 #(norlx51)
+#CFLAGS=-O1 -DFUNDERSC=0 #(norlx51)
 #LD_MPI= #(norlx51)
 #OMPLFLAGS+= -L/usr/share/doc/ #(norlx51)
 #LDFLAGS+= -L/usr/share/doc/libhdf5-openmpi-1.8.4 #(norlx51)
@@ -1769,9 +1848,13 @@ LD_FFTW2=
 #FFLAGS=-O0 -finit-real=nan -fno-underscoring -g -fbacktrace -fbounds-check #(norlx65)
 #FFLAGS=-O0 -finit-real=nan -fno-underscoring -g -fbacktrace #(norlx65)
 #FFLAGS=-O0 -fno-underscoring -g -fbacktrace #(norlx65)
+##FFLAGS=-O0 -fno-underscoring -g -fbacktrace -fcheck=bounds -lapack #(norlx65)
+#FFLAGS=-O0 -fno-underscoring -g -fbacktrace -fcheck=bounds #(norlx65)
+#FFLAGS=-O0 -fno-underscoring -g -fbacktrace -fcheck=bounds #(norlx65)
+#FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8  #(norlx65)
 #CC=mpicc #(norlx65)
 #CFLAGS=-O1 #(norlx65)
-#LD_MPI= #(norlx65)
+##LD_MPI= -lapack #(norlx65)
 ##LDFLAGS+= -L/usr/share/doc/libhdf5-openmpi-1.8.4 #(norlx65)
 #LIBMPISUFFIX= #(norlx65)
 ##
@@ -2426,7 +2509,7 @@ LD_FFTW2=
 ##FFLAGS=-O3 -fcheck=all #(uan02*)
 #FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8 #(uan02*)
 ##
-##  Dardel (Axel, gFortran compiler, uan01)
+##  Dardel (Axel, gFortran compiler, login1)
 ##
 #FC=ftn #(login1*)
 #F90=$(FC) #(login1*)
@@ -2916,6 +2999,7 @@ else
   IS_CRAY = $(shell $(FC) --version | grep -i Cray)
   ifneq ($(IS_CRAY),)
     MODULE_NAME_ORDER = CRAY
+    $(info CRAY version: $(shell $(FC) --version))
   else
     IS_NVFOR = $(shell $(FC) --version | grep -i nvidia | sed -e's/^.*$$/NVIDIA/')
   endif
@@ -2998,16 +3082,15 @@ endef
 	$(F77) $(FFLAGS) $(FFLAGS_GENERAL) $(FFLAGS_FOURIER) $(F77FLAGS) -o $*.o -c $*.f
 .f90.o:
 	$(FC) $(ALL_COMP_FLAGS) $(FSTD) -o $*.o -c $*.f90
+	@sed -f links.sed $*.f90 >> ../reference_link.txt.tmp
 
-#%_omp.inc : %.f90
-#       python preprocessor.py
-
-special/%.o : special/%.f90
-ifneq ($(SPECIAL_MULT),1)
+special/%.o: special/%.f90
+ifeq ($(USE_SPECIAL_DISPATCHER),yes)
 	$(FC) $(ALL_COMP_FLAGS) $(FSTD) $(DLL_FFLAGS) -o special/$*.o -c special/$*.f90
 else
 	$(FC) $(ALL_COMP_FLAGS) $(FSTD) -o special/$*.o -c special/$*.f90
 endif
+	@sed -f links.sed special/$*.f90 >> ../reference_link.txt.tmp
 #
 .c.o:
 	$(CC) $(CFLAGS) $(CFLAGS_GENERAL) $(CPPFLAGS) $(CFLAGS_FOURIER) $(CSTD) -o $*.o -c $*.c
@@ -3023,8 +3106,8 @@ default_to_be: Makefile cparam.inc code buildinfo
 #  Short hand for modules that must be preprocessed with mkcparam.
 #  Please use alphabetical order.
 #
-preprocess=$(ASCALAR_SRC) $(BORDER_PROFILES_SRC) $(CHEMISTRY_SRC) $(CHIRAL_SRC) $(COSMICRAY_SRC) $(COSMICRAYFLUX_SRC) $(DENSITY_SRC) $(DERIV_SRC) $(DETONATE_SRC) $(DUSTDENSITY_SRC) $(DUSTVELOCITY_SRC) $(ENERGY_SRC) $(EOS_SRC) $(FIXED_POINT_SRC) $(FORCING_SRC) $(GRAVITY_SRC) $(GPU_SRC) $(GRID_SRC) $(HEATFLUX_SRC) $(HYDRO_SRC) $(HYPERRESI_STRICT_SRC) $(HYPERVISC_STRICT_SRC) $(IMPLICIT_DIFFUSION_SRC) $(IMPLICIT_PHYSICS_SRC) $(INITIAL_CONDITION_SRC) $(INTERSTELLAR_SRC) $(LORENZ_GAUGE_SRC) $(MAGNETIC_SRC) $(MAGNETIC_MEANFIELD_SRC) $(MAGNETIC_MEANFIELD_DEMFDT_SRC) $(MPICOMM_SRC) $(NEUTRALDENSITY_SRC) $(NEUTRALVELOCITY_SRC) $(NSCBC_SRC) $(OPACITY_SRC) $(PARTICLES_SRC) $(PARTICLES_ADAPTATION_SRC) $(PARTICLES_COAGULATION_SRC) $(PARTICLES_CONDENSATION_SRC)  $(PARTICLES_COLLISIONS_SRC) $(PARTICLES_MAP_SRC) $(PARTICLES_DENSITY_SRC)  $(PARTICLES_MASS_SRC) $(PARTICLES_NUMBER_SRC) $(PARTICLES_RADIUS_SRC) $(PARTICLES_POTENTIAL_SRC) $(PARTICLES_GRAD_SRC) $(PARTICLES_SELFGRAVITY_SRC) $(PARTICLES_SINK_SRC) $(PARTICLES_DRAG_SRC) $(PARTICLES_SPIN_SRC) $(PARTICLES_STALKER_SRC) $(PARTICLES_LYAPUNOV_SRC) $(PARTICLES_CAUSTICS_SRC) $(PARTICLES_TETRAD_SRC) $(PARTICLES_STIRRING_SRC) $(PARTICLES_DIAGNOS_DV_SRC) $(PARTICLES_DIAGNOS_STATE_SRC) $(PARTICLES_PERSISTENCE_SRC) $(PARTICLES_TEMPERATURE_SRC) $(PARTICLES_ADSORBED_SRC) $(PARTICLES_SURFSPEC_SRC) $(PARTICLES_CHEMISTRY_SRC) $(POINTMASSES_SRC) $(POISSON_SRC) $(POLYMER_SRC) $(POWER_SRC) $(PYTHON_SRC) $(PSCALAR_SRC) $(RADIATION_SRC) $(SELFGRAVITY_SRC) $(SGSHYDRO_SRC) $(SHEAR_SRC) $(SHOCK_SRC) $(SIGNAL_HANDLING_SRC) $(SOLID_CELLS_SRC) $(STREAMLINES_SRC) $(TESTFIELD_GENERAL_SRC) $(TESTFIELD_SRC) $(TESTFLOW_SRC) $(TESTSCALAR_SRC) $(TIMEAVG_SRC) $(TRAINING_SRC) $(VISCOSITY_SRC) cparam.local
-ifeq ($(SPECIAL_MULT),1)
+preprocess=$(ASCALAR_SRC) $(BORDER_PROFILES_SRC) $(CHEMISTRY_SRC) $(CHIRAL_SRC) $(COSMICRAY_SRC) $(COSMICRAYFLUX_SRC) $(DENSITY_SRC) $(DERIV_SRC) $(DETONATE_SRC) $(DUSTDENSITY_SRC) $(DUSTVELOCITY_SRC) $(ENERGY_SRC) $(EOS_SRC) $(FIXED_POINT_SRC) $(FORCING_SRC) $(GRAVITY_SRC) $(GPU_SRC) $(GRID_SRC) $(HEATFLUX_SRC) $(HYDRO_SRC) $(HYPERRESI_STRICT_SRC) $(HYPERVISC_STRICT_SRC) $(IMPLICIT_DIFFUSION_SRC) $(IMPLICIT_PHYSICS_SRC) $(INITIAL_CONDITION_SRC) $(INTERSTELLAR_SRC) $(LORENZ_GAUGE_SRC) $(MAGNETIC_SRC) $(MAGNETIC_MEANFIELD_SRC) $(MAGNETIC_MEANFIELD_DEMFDT_SRC) $(MPICOMM_SRC) $(NEUTRALDENSITY_SRC) $(NEUTRALVELOCITY_SRC) $(NSCBC_SRC) $(OPACITY_SRC) $(PARTICLES_SRC) $(PARTICLES_ADAPTATION_SRC) $(PARTICLES_COAGULATION_SRC) $(PARTICLES_BREAKUP_SRC) $(PARTICLES_CONDENSATION_SRC)  $(PARTICLES_COLLISIONS_SRC) $(PARTICLES_MAP_SRC) $(PARTICLES_DENSITY_SRC)  $(PARTICLES_MASS_SRC) $(PARTICLES_NUMBER_SRC) $(PARTICLES_RADIUS_SRC) $(PARTICLES_POTENTIAL_SRC) $(PARTICLES_GRAD_SRC) $(PARTICLES_SELFGRAVITY_SRC) $(PARTICLES_SINK_SRC) $(PARTICLES_DRAG_SRC) $(PARTICLES_SPIN_SRC) $(PARTICLES_STALKER_SRC) $(PARTICLES_LYAPUNOV_SRC) $(PARTICLES_CAUSTICS_SRC) $(PARTICLES_TETRAD_SRC) $(PARTICLES_STIRRING_SRC) $(PARTICLES_DIAGNOS_DV_SRC) $(PARTICLES_DIAGNOS_STATE_SRC) $(PARTICLES_PERSISTENCE_SRC) $(PARTICLES_TEMPERATURE_SRC) $(PARTICLES_ADSORBED_SRC) $(PARTICLES_SURFSPEC_SRC) $(PARTICLES_CHEMISTRY_SRC) $(POINTMASSES_SRC) $(POISSON_SRC) $(POLYMER_SRC) $(POWER_SRC) $(PYTHON_SRC) $(PSCALAR_SRC) $(RADIATION_SRC) $(SELFGRAVITY_SRC) $(SGSHYDRO_SRC) $(SHEAR_SRC) $(SHOCK_SRC) $(SIGNAL_HANDLING_SRC) $(SOLID_CELLS_SRC) $(STREAMLINES_SRC) $(TESTFIELD_GENERAL_SRC) $(TESTFIELD_SRC) $(TESTFLOW_SRC) $(TESTSCALAR_SRC) $(TIMEAVG_SRC) $(TIMESTEP_SRC) $(TRAINING_SRC) $(VISCOSITY_SRC) cparam.local
+ifeq ($(USE_SPECIAL_DISPATCHER),no)
   preprocess += $(SPECIAL_SRC)
 else
   preprocess += $(SPECIAL_MODULES:=.f90)
@@ -3043,34 +3126,46 @@ technical=$(CPARAM_OBJ) $(CDATA_OBJ) $(MPICOMM_OBJ) $(BORDER_PROFILES_OBJ) $(BOU
 #
 #  Short hand notation for start.o dependencies.
 #
-start=$(technical) $(physics) $(GPU_OBJ) dummy_astaroth_ansi.o $(TRAINING_OBJ)
+start=$(technical) $(physics) $(GPU_OBJ) nogpu_astaroth_ansi.o $(TRAINING_OBJ)
 #
 #  Short hand notation for run.o dependencies.
 #
-run=$(technical) $(physics) $(GPU_OBJ) $(GPU_INTERFACE) $(TIMESTEP_OBJ) $(TRAINING_OBJ) equ.o pencil_check.o
+run=$(technical) $(physics) $(GPU_OBJ) $(GPU_INTERFACE) $(TIMESTEP_OBJ) $(TRAINING_OBJ) equ.o pencil_check.o $(GLOBAL_PUSHPARS_OBJ)
 #
 #  Rules for compiling start.o, start.x, run.o, run.x.
 #
 start.o: $(start) $(OMP_HEADER) Makefile.local
 start.x: start.o | $(SPECIAL_DEPS)
 	$(LD) $(start) start.o $(LDFLAGS) $(LDFLAGS_MAIN) $(LD_MPI) $(LD_FOURIER) $(LD_GSL) -o start.x
-libPCStart.so: start.o | $(SPECIAL_DEPS)
-	$(LD) $(start) start.o $(LDFLAGS) $(LDFLAGS_MAIN) $(LD_MPI) $(LD_FOURIER) $(LD_GSL) -shared -o libPCStart.so
-
 #
 run.o: $(run) $(OMP_HEADER) Makefile.local
 run.x: run.o | $(SPECIAL_DEPS) $(LIBGPU)
-	$(LD) $(run) run.o $(LDFLAGS) $(LDFLAGS_MAIN) $(LDFLAGS_LIB) $(LD_MPI) $(LD_FOURIER) $(LIBSIG) $(LD_GSL) -o run.x
-	@rm -f exit_mn.h
+	$(LD) $(run) run.o $(LDFLAGS_LIB) $(LDFLAGS) $(LDFLAGS_MAIN) $(LD_MPI) $(LD_FOURIER) $(LIBSIG) $(LD_GSL) -o run.x
+#
+#  Rules for linking start and run as shared libararies.
+#
+libPCStart.so: start.o | $(SPECIAL_DEPS)
+	$(LD) $(start) start.o $(LDFLAGS) $(LDFLAGS_MAIN) $(LD_MPI) $(LD_FOURIER) $(LD_GSL) -shared -o libPCStart.so
 #
 libPC.so: run.o | $(SPECIAL_DEPS) $(LIBGPU)
 	  $(LD) $(run) run.o $(LDFLAGS) $(LDFLAGS_MAIN) $(LDFLAGS_LIB) $(LD_MPI) $(LD_FOURIER) $(LIBSIG) $(LD_GSL) -shared -o libPC.so
-$(LIBGPU): $(CUDA_INCDIR)/PC_moduleflags.h $(CUDA_MAKEDIR)/Makefile.vendor
+.PHONY: FORCE_GPU_MAKE
+FORCE_GPU_MAKE:
+#
+#  Rule for building the Astaroth and interface libraries.
+#
 #$(LIBGPU): $(GPU_DEPS)
-	cd astaroth && make MPICOMM=$(MPICOMM) RUNTIME_COMPILATION=$(RUNTIME_COMPILATION) TRAINING=$(TRAINING)
+$(DSL_WORKDIR)/boundconds.h:
+	rm -f astaroth/DSL/local/boundconds.h
+	touch astaroth/DSL/local/boundconds.h
+	@scripts/bc2ast 1> astaroth/DSL/local/boundconds.h
+
+$(LIBGPU): $(CUDA_INCDIR)/PC_moduleflags.h $(CUDA_MAKEDIR)/Makefile.vendor FORCE_GPU_MAKE $(DSL_WORKDIR)/boundconds.h
+	@echo "Building Astaroth and interface libraries - see src/astaroth/ac_build.log!"
+	cd astaroth && make MPICOMM=$(MPICOMM) RUNTIME_COMPILATION=$(RUNTIME_COMPILATION) TRAINING=$(TRAINING) PRECISION=$(REAL_PRECISION) READ_OVERRIDES=$(READ_OVERRIDES) TRANSPILATION=$(TRANSPILATION) GENERATE_DSL_CODE=$(GENERATE_DSL_CODE) >& ac_build.log
 #
 special_preps:
-ifeq ($(SPECIAL_MULT),1)
+ifeq ($(USE_SPECIAL_DISPATCHER),no)
 	@sed -e '/module  *procedure/ ! s/^\( *module  *\)[a-zA-Z0-9_]* */\1Special/' \
              -e 's/^\( *endmodule  *\)[a-zA-Z0-9_]* *$$/\1Special/' \
              -e "s/[a-zA-Z0-9_]*\.inc/special_dummies.inc/" \
@@ -3078,16 +3173,29 @@ ifeq ($(SPECIAL_MULT),1)
              -e "s/NML *= *[a-zA-Z0-9_]*_\([a-z][a-z]*_pars\)/NML=special_\1/"< $(SPECIAL_MODULES).f90 > special.tmp
 	@if ! cmp -s special.tmp $(SPECIAL_MODULES).f90; then mv -f special.tmp $(PENCIL_HOME)/src/$(SPECIAL_MODULES).f90; else rm -f special.tmp; fi
 else
-	@sed -e's/\(n_special_modules_max *= *\)[1-9][0-9]*/\1'$(SPECIAL_MULT)'/' < special.f90 > special.tmp; mv -f special.tmp $(PENCIL_HOME)/src/special.f90
 	@for file in $(SPECIAL_MODULES); do sed -e"/module  *procedure/ ! s/^\( *module  *\)[Ss]pecial/\1$${file#*/}/" \
 	                                        -e"s/^\( *endmodule  *\)[Ss]pecial/\1$${file#*/}/" \
 						-e"s/special_dummies\.inc/$${file#*/}_dummies.inc/" \
-                                                -e "s/namelist *\/special_\([ir][a-z]*_pars\)/namelist \/$${file#*/}_\1/" \
-                                                -e"s/NML *= *special_\([ir][a-z]*_pars\)/NML=$${file#*/}_\1/" \
 					 < $$file.f90 > special.tmp; if ! cmp -s special.tmp $(PENCIL_HOME)/src/$$file.f90; then mv -f special.tmp $(PENCIL_HOME)/src/$$file.f90; else rm -f special.tmp; fi ; done
+        ifneq ($(SPECIAL_MULT),1)
+	  @for file in $(SPECIAL_MODULES); do sed -e "s/namelist *\/special_\([ir][a-z]*_pars\)/namelist \/$${file#*/}_\1/" \
+                                                  -e"s/NML *= *special_\([ir][a-z]*_pars\)/NML=$${file#*/}_\1/" < $$file.f90 > special.tmp; if ! cmp -s special.tmp $(PENCIL_HOME)/src/$$file.f90; then mv -f special.tmp $(PENCIL_HOME)/src/$$file.f90; else rm -f special.tmp; fi ;\
+	  done
+        endif
 endif
-special.so: $(CPARAM_OBJ) $(CDATA_OBJ) $(SPECIAL_OBJ) special_dummies.inc $(SPECIAL_MODULES:=.o)
-	$(LD) $(SPECIAL_MODULES:=.o) $(DLL_LDFLAGS) -o special.so
+
+special_tmp.f90: special.f90
+	@sed -e's/\(n_special_modules_max *= *\)[1-9][0-9]*/\1'$(SPECIAL_MULT)'/' < special.f90 > special_tmp.f90
+
+special.so: $(CPARAM_OBJ) $(CDATA_OBJ) $(SPECIAL_OBJ) special_dummies.inc $(SPECIAL_MODULES:=.o)  $(LIBGPU)
+	@$(LD) $(SPECIAL_MODULES:=.o) $(LIBFLAGS) $(DLL_LDFLAGS) -o special.so ;\
+        ld_status=$$? ;\
+        pc_mkspecial.sh "$(SPECIAL_MODULES:=.f90)" ;\
+        exit $$ld_status
+
+# pc_mkspecial should run regardless of whether ld succeeds; if ld fails,
+# we want make to fail AFTER running pc_mkspecial. The backslashes and
+# semicolons above are essential for this.
 #
 #  comment out the 3 lines ifneq, @, endif below if one gets an error message
 #  about io_dist cannot copy.
@@ -3101,9 +3209,12 @@ ifneq ($(IO),io_wrapper)
 ifeq ($(IO),io_mpi2)
 	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_OBJ) -c $(IO_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) -o $(IO_OBJ) -c $(IO_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_OBJ) -c $(IO_SRC)
 endif
 endif
+#
+$(LSODE_FC_OBJ):
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(LSODE_FC_OBJ) -c $(LSODE_FC_SRC)
 #
 ifneq ($(IO_IN),)
 $(IO_IN_OBJ): $(IO_IN_SRC) Makefile.local
@@ -3112,9 +3223,9 @@ $(IO_IN_OBJ): $(IO_IN_SRC) Makefile.local
 	  $(call sed_follow_link,"s/^\( *[^!]*module  *\)[Ii][Oo].*$$/\1Io_in/",$(IO_IN_SRC)); \
 	fi
 ifeq ($(IO_IN),io_mpi2)
-	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) $(FSTD) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_IN_OBJ) -c $(IO_IN_SRC)
 endif
 	@$(call sed_follow_link,"s/^\( *[^!]*module  *\)Io_in/\1Io/",$(IO_IN_SRC))
 $(IO_OUT_OBJ): $(IO_OUT_SRC) Makefile.local
@@ -3123,9 +3234,9 @@ $(IO_OUT_OBJ): $(IO_OUT_SRC) Makefile.local
 	  $(call sed_follow_link,"s/^\( *[^!]*module  *\)[Ii][Oo].*$$/\1Io_out/",$(IO_OUT_SRC)); \
 	fi
 ifeq ($(IO_OUT),io_mpi2)
-	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) $(FSTD) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
 else
-	$(FC) $(ALL_COMP_FLAGS) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2008) -o $(IO_OUT_OBJ) -c $(IO_OUT_SRC)
 endif
 	@$(call sed_follow_link,"s/^\( *[^!]*module  *\)Io_out/\1Io/",$(IO_OUT_SRC))
 endif
@@ -3146,25 +3257,50 @@ $(CUDA_INCDIR)/PC_moduleflags.h: Makefile.local $(CPARAM_OBJ) $(CDATA_OBJ)
 	@sed -f gpu.sed.tmp < Makefile.local >> $(CUDA_INCDIR)/PC_moduleflags.h; rm -f gpu.sed.tmp
 ifeq ($(VISCOSITY),viscosity)
 	@echo '#define LVISCOSITY 1 // '$(CUDA_RELPATH)'/viscosity.f90' >> $(CUDA_INCDIR)/PC_moduleflags.h
-	@echo $(CUDA_RELPATH)'/viscosity.f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@grep ' viscosity\.f90' $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo $(CUDA_RELPATH)'/viscosity.f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(EOS),eos_idealgas)
+	@echo '#define LEOS 1 // '$(CUDA_RELPATH)'/eos_idealgas.f90' >> $(CUDA_INCDIR)/PC_moduleflags.h
 endif
 ifeq ($(TIMESTEP),timestep)
 	@echo $(CUDA_RELPATH)'/timestep.f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
 endif
 ifeq ($(MAGNETIC_MEANFIELD),magnetic/nomeanfield)
-	@echo $(CUDA_RELPATH)'/$(MAGNETIC_MEANFIELD).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@grep 'magnetic\/nomeanfield\.f90' $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo $(CUDA_RELPATH)'/$(MAGNETIC_MEANFIELD).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(DUSTDENSITY),nodustdensity)
+	@echo $(CUDA_RELPATH)'/$(DUSTDENSITY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(GRAVITY),nogravity)
+	@echo $(CUDA_RELPATH)'/$(GRAVITY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(HYDRO),nohydro)
+	@echo $(CUDA_RELPATH)'/$(HYDRO).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(DENSITY),nodensity)
+	@echo $(CUDA_RELPATH)'/$(DENSITY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+endif
+ifeq ($(CHEMISTRY),nochemistry)
+	@echo $(CUDA_RELPATH)'/$(CHEMISTRY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
 endif
 ifeq ($(MAGNETIC),nomagnetic)
-	@echo $(CUDA_RELPATH)'/$(MAGNETIC).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@grep nomagnetic\.f90 $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo $(CUDA_RELPATH)'/$(MAGNETIC).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
 endif
 ifeq ($(ENERGY),noentropy)
-	@echo $(CUDA_RELPATH)'/$(ENERGY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@grep noentropy\.f90 $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo $(CUDA_RELPATH)'/$(ENERGY).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
 endif
+	@grep '[a-zA-Z_]*eos.*f90' $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo \#define L$(EOS)_MODULE 1 >> $(CUDA_MAKEDIR)/PC_moduleflags.h
 	@grep '[a-zA-Z_]*eos.*f90' $(CUDA_MAKEDIR)/PC_modulesources.h > /dev/null || echo $(CUDA_RELPATH)'/$(EOS).f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
-	@echo $(CUDA_RELPATH)'/run.f90' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@echo $(CUDA_RELPATH)'/global_pushpars.f90 \' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@echo $(CUDA_RELPATH)'/gpu_astaroth.f90' >> $(CUDA_MAKEDIR)/PC_modulesources.h
 	@echo ' ' >> $(CUDA_MAKEDIR)/PC_modulesources.h
+	@sed -e'1 i TRANSPILATION='$(TRANSPILATION) -i $(CUDA_MAKEDIR)/PC_modulesources.h
 	@sed -e'1 i RUNTIME_COMPILATION='$(RUNTIME_COMPILATION) -i $(CUDA_MAKEDIR)/PC_modulesources.h
 	@echo ' ' >> $(CUDA_INCDIR)/PC_moduleflags.h
+	@for file in $(SPECIAL_MODULES); do \
+    		fname="$$(basename "$$file" | tr '[:lower:]' '[:upper:]')"; \
+    		echo "#define L$$fname 1"; \
+	done >> $(CUDA_INCDIR)/PC_moduleflags.h
 #
 #  Generation of field (PDE variable) declarations for DSL code obeying the registration order: fieldecs.h .
 #  Generation of (empty) RHS functions and integration kernel: equations.h and solve.ac .
@@ -3218,23 +3354,17 @@ ifeq ($(wildcard $(DSL_WORKDIR)/solve_two.ac),)
 	@sed -f $(CUDA_MAKEDIR)/solve.sed $(DSL_WORKDIR)/solve.ac > $(DSL_WORKDIR)/solve_two.ac
 	@echo '}' >> sedtmp; cat sedtmp >> $(DSL_WORKDIR)/solve_two.ac; rm -f sedtmp
 	@mv $(DSL_WORKDIR)/solve.ac $(DSL_WORKDIR)/solve_single.ac
-	@echo '#include "steps_two.h"' >> $(DSL_WORKDIR)/solve_two.ac
-	@echo '#include "steps_single.h"' >> $(DSL_WORKDIR)/solve_single.ac
-	@cp $(DSL_WORKDIR)/../steps_single.h $(DSL_WORKDIR)
-	@cp $(DSL_WORKDIR)/../steps_two.h $(DSL_WORKDIR)
-ifeq ($(HYDRO),hydro)
-ifneq ($(FORCING),noforcing)
+  ifeq ($(HYDRO),hydro)
+    ifneq ($(FORCING),noforcing)
 	@if ( ! grep 'forcing/getforce\.h' $(DSL_WORKDIR)/solve_single.ac > /dev/null ); then \
-	  sed -i -e'/singlepass_solve/ a   #include "../forcing/getforce.h"\n' -e'/vecwrite( *UU/ s/) *$$/ ADDFORCE)/' $(DSL_WORKDIR)/solve_single.ac; \
+	sed -i -e'/singlepass_solve/ i   \#include "../forcing/getforce.h"\n' -e'/write( *UU/ s/) *$$/ + get_deltacorr_force(step_num) )/' $(DSL_WORKDIR)/solve_single.ac; \
 	fi
 	@if ( ! grep 'forcing/getforce\.h' $(DSL_WORKDIR)/solve_two.ac> /dev/null ); then \
-	  sed -i -e'/twopass_solve_final/ a   \#include "../forcing/getforce.h"\n' -e'/vecwrite( *UU.*final/ s/) *$$/ ADDFORCE)/' $(DSL_WORKDIR)/solve_two.ac; \
+	sed -i -e'/twopass_solve_final/ i   \#include "../forcing/getforce.h"\n' -e'/write( *UU.*final/ s/) *$$/ + get_deltacorr_force(step_num) )/' $(DSL_WORKDIR)/solve_two.ac; \
 	fi
+    endif
+  endif
 endif
-endif
-else
-endif
-	@scripts/bc2ast
 
 #	@sed -e':loop' -e'N' -e'$$!b loop' -e's/\#pragma  *once//' -e's/\# *define *\([A-Z0-9_][A-Z0-9_]*\)/..\/..\/\L\1.f90 /g' -e's/\n/ /g' < $(CUDA_INCDIR)/PC_moduleflags.h >> $(CUDA_MAKEDIR)/PC_modulesources.h
 #
@@ -3243,7 +3373,7 @@ endif
 #
 #  Rules for combine_videofiles.x, read_videofiles.x, read_vectorfiles.x.
 #
-basics=cparam.o cdata.o $(FILE_IO_OBJ) general.o messages.o $(SYSCALLS_OBJ) syscalls_ansi.o nompicomm.o $(MORTON_HELPER_OBJ) $(PTHREAD_OBJ)
+basics=cparam.o cdata.o $(FILE_IO_OBJ) general.o messages.o $(SYSCALLS_OBJ) syscalls_ansi.o nompicomm.o $(MORTON_HELPER_OBJ) $(PTHREAD_OBJ) $(GEOMETRICAL_TYPES_OBJ)
 #
 combine_videofiles.o: $(basics)
 combine_videofiles.x: combine_videofiles.o
@@ -3306,16 +3436,22 @@ nompicomm.o: nompicomm.f90
 	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS)   -o nompicomm.o -c nompicomm.f90
 #
 hdf5_io%.o: hdf5_io%.f90 hdf5_io.h Makefile.local
-	$(FC_HDF5)   $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) -c hdf5_io$*.f90 -o hdf5_io$*.o
+	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(FSTD_2008) -c hdf5_io$*.f90 -o hdf5_io$*.o
 #
 geometrical_types.o: geometrical_types.f90
-	$(FC)   $(FFLAGS) $(FFLAGS_GENERAL) -c geometrical_types.f90 -o geometrical_types.o
+	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) -c geometrical_types.f90 -o geometrical_types.o
 #
+initcond.o: 
+	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(FSTD) $(FFLAG_HEAP_ALLOC) -c initcond.f90 -o initcond.o
+#
+$(INITIAL_CONDITION_OBJ):
+	$(FC) $(FFLAGS) $(FFLAGS_GENERAL) $(FSTD) $(FFLAG_HEAP_ALLOC) -c $(INITIAL_CONDITION_SRC) -o $(INITIAL_CONDITION_OBJ)
+
 special/meanfield_e_tensor.o: special/meanfield_e_tensor.f90
-ifneq ($(SPECIAL_MULT),1)
-	$(FC_HDF5)   $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(DLL_FFLAGS) -c special/meanfield_e_tensor.f90 -o special/meanfield_e_tensor.o
+ifeq ($(USE_SPECIAL_DISPATCHER),yes)
+	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) $(DLL_FFLAGS) -c special/meanfield_e_tensor.f90 -o special/meanfield_e_tensor.o
 else
-	$(FC_HDF5)   $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) -c special/meanfield_e_tensor.f90 -o special/meanfield_e_tensor.o
+	$(FC_HDF5) $(FFLAGS) $(FFLAGS_GENERAL) $(F90FLAGS) -c special/meanfield_e_tensor.f90 -o special/meanfield_e_tensor.o
 endif
 #
 experimental/analyzers.o experimental/analyzers.mod:
@@ -3440,10 +3576,12 @@ else
 endif
 
 special_dummies.inc:  nospecial.f90 $(SPECIAL_MODULES:=.f90) Makefile.local
-ifeq ($(SPECIAL_MULT),1)
+ifeq ($(USE_SPECIAL_DISPATCHER),no)
 	scripts/mkdummyinc -d nospecial.f90 -s $(SPECIAL).f90 -o special_dummies.inc
 else
 	@for file in $(SPECIAL_MODULES); do echo "$$file"_dummies.inc; scripts/mkdummyinc -d nospecial.f90 -s "$$file".f90 -o $${file#*/}_dummies.inc; done
+	#Done to not re-compile
+	touch special_dummies.inc
 endif
 #
 initial_condition_dummies.inc:  Makefile.local noinitial_condition.f90 $(INITIAL_CONDITION).f90
@@ -3472,17 +3610,18 @@ PRODUCTION=OFF
 #
 LAST_OBJ=$(EXECUTABLES:.x=.o)
 legacy_code: Makefile.inc Makefile-standard.inc cparam.inc | $(SPECIAL_DEPS)
-	$${PENCIL_HOME}/utils/pc_identify_revision --reset
+	@$${PENCIL_HOME}/utils/pc_identify_revision --reset
 	@echo "<buildtime>\n  <timestamp type='start'>`date`</timestamp>" > .buildtime
 ifdef FC_HDF5_FULL
 	@echo HDF5 compiler and linker in $(FC_HDF5_FULL).
 endif
-	@# Realize error even when last command in pipe is FCCLEANER:
-	@echo "$(MAKE) $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES)"
 ifneq ($(MODULE_CMD),)
 	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
-                               -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
+	                       -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
 endif
+	@$(MAKE) move_reference_link
+	@# Realize error even when last command in pipe is FCCLEANER:
+	@echo "$(MAKE) $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES)"
 	@if [ ! -z "$(FCCLEANER)" ]; then \
 	    ($(MAKE) $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES) \
 	    || echo "PENCIL COMPILATION ERROR") $(FCCLEANER) ; \
@@ -3490,14 +3629,20 @@ endif
 	    $(MAKE) $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES) ; \
 	fi
 	@echo "  <timestamp   type='end'>`date`</timestamp>\n</buildtime>" >> .buildtime
-	$${PENCIL_HOME}/utils/pc_identify_revision --write
+	@$${PENCIL_HOME}/utils/pc_identify_revision --write
 
+# Realize error even when last command in pipe is FCCLEANER
 code: Makefile.inc Makefile-standard.inc cparam.inc | $(SPECIAL_DEPS)
-	$${PENCIL_HOME}/utils/pc_identify_revision --reset
+	@$${PENCIL_HOME}/utils/pc_identify_revision --reset
 	@echo "<buildtime>\n  <timestamp type='start'>`date`</timestamp>" > .buildtime
 ifdef FC_HDF5_FULL
 	@echo HDF5 compiler and linker in $(FC_HDF5_FULL).
 endif
+ifneq ($(MODULE_CMD),)
+	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
+	                       -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
+endif
+	@$(MAKE) move_reference_link
 	@# Realize error even when last command in pipe is FCCLEANER:
 	@echo "$(MAKE) -f Makefile.src $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES)"
 	@if [ ! -z "$(FCCLEANER)" ]; then \
@@ -3506,12 +3651,14 @@ endif
 	else \
 	    $(MAKE) -f Makefile.src $(MAKEOPTS) $(LAST_OBJ) $(EXECUTABLES) ; \
 	fi
-ifneq ($(MODULE_CMD),)
-	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
-                               -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
-endif
 	@echo "  <timestamp   type='end'>`date`</timestamp>\n</buildtime>" >> .buildtime
-	$${PENCIL_HOME}/utils/pc_identify_revision --write
+	@$${PENCIL_HOME}/utils/pc_identify_revision --write
+#
+move_reference_link:
+	@#reference_link.tmp may not exist if pc_cleansrc is being run in an up-to-date directory, so we can't blindly call `mv -f`
+ifneq ("$(wildcard $(../reference_link.txt.tmp))","")
+	@mv -f ../reference_link.txt.tmp ../reference_link.txt
+endif
 #
 production:
 	$(eval PRODUCTION=ON)
@@ -3520,16 +3667,17 @@ production:
 FASTEXECS=code $(HELPER_EXECS_MIN)
 fast:
 	@echo "$(MAKE) $(MAKEOPTS) $(FASTEXECS)"
+ifneq ($(MODULE_CMD),)
+	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
+	                       -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
+endif
+	@$(MAKE) move_reference_link
 	@if [ ! -z "$(FCCLEANER)" ]; then \
 	    ($(MAKE) $(MAKEOPTS) $(FASTEXECS) \
 	    || echo "PENCIL COMPILATION ERROR") $(FCCLEANER) ; \
 	else \
 	    $(MAKE) $(MAKEOPTS) $(FASTEXECS) ; \
 	fi
-ifneq ($(MODULE_CMD),)
-	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
-                               -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d' > .moduleinfo
-endif
 #
 helper_min:
 	@echo "$(MAKE) $(MAKEOPTS) $(HELPER_EXECS_MIN)"
@@ -3542,16 +3690,17 @@ helper_min:
 #
 debug:
 	@echo "$(MAKE) $(MAKEOPTS) FFLAGS='$(FFLAGS) $(DEBUGFLAGS)' start.x run.x"
+ifneq ($(MODULE_CMD),)
+	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
+                               -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d'> .moduleinfo
+endif
+	@$(MAKE) move_reference_link
 	@if [ ! -z "$(FCCLEANER)" ]; then \
 	    ($(MAKE) $(MAKEOPTS) FFLAGS='$(FFLAGS) $(DEBUGFLAGS)' start.x run.x \
 	    || echo "PENCIL COMPILATION ERROR") $(FCCLEANER) ; \
 	else \
 	    $(MAKE) $(MAKEOPTS) FFLAGS='$(FFLAGS) $(DEBUGFLAGS)' start.x run.x; \
 	fi
-ifneq ($(MODULE_CMD),)
-	@module -t list |& sed -e's/^ *[^ ]*idl[^ ]* *//' -e's/^ *[^ ]*cmake[^ ]* *//' -e's/^ *[^ ]*python[^ ]* *//' \
-                               -e'1 s/^/module load \\\n/' -e'$$ ! s/$$/ \\/g' -e'/Currently.*:/ d'> .moduleinfo
-endif
 #
 #  Handy for debugging; just compile by hand what is changed.
 #  When you use this you must be certain that everying is consistent.
@@ -3564,34 +3713,18 @@ linkonly:
 #  (and also for param_io.f90, since `gfortran-4.4.5 -std=f95' doesn't
 #  accept open(..., DELIM=...); this looks like a compiler bug.
 #
-$(SYSCALLS_OBJ): $(SYSCALLS_SRC) syscalls_ansi.o $(CPARAM_OBJ)
+$(SYSCALLS_OBJ): $(SYSCALLS_SRC) syscalls_ansi.o $(CPARAM_OBJ) $(GEOMETRICAL_TYPES_OBJ)
 	$(FC) $(ALL_COMP_FLAGS) $(FSTD) $(ALLOW_ARG_MISMATCH) -o $(SYSCALLS_OBJ) -c $(SYSCALLS_SRC)
 $(MPICOMM_OBJ): mpicomm.h $(MPICOMM_SRC) cdata.o
 	$(FC) $(MOST_COMP_FLAGS) $(CONVERSION_RELAXED) $(ALLOW_ARG_MISMATCH) -o $(MPICOMM).o -c $(MPICOMM).f90
-$(STRUCT_FUNC_OBJ): $(STRUCT_FUNC_SRC)
-	$(FC) $(ALL_COMP_FLAGS) -o $(STRUCT_FUNC_OBJ) -c $(STRUCT_FUNC_SRC)
 $(PARTICLES_MPICOMM_OBJ): $(PARTICLES_MPICOMM_SRC)
 	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o $(PARTICLES_MPICOMM_OBJ) -c $(PARTICLES_MPICOMM_SRC)
 fftpack.o: fftpack.f90
 	$(FC) $(ALL_COMP_FLAGS) $(CONVERSION_RELAXED) $(ALLOW_ARG_MISMATCH) -o fftpack.o -c fftpack.f90
-param_io.o: param_io.f90
-	$(FC) $(ALL_COMP_FLAGS) -o param_io.o -c param_io.f90
-diagnostics.o: diagnostics.f90
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o diagnostics.o -c diagnostics.f90
-diagnostics_outlog.o: diagnostics_outlog.f90
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o diagnostics_outlog.o -c diagnostics_outlog.f90
-io_collect_xy_f2003.o: io_collect_xy_f2003.f90
-	$(FC) $(ALL_COMP_FLAGS) $(FSTD_2003) -o io_collect_xy_f2003.o -c io_collect_xy_f2003.f90
 file_io_f95.o: file_io_f95.f90
-	$(FC) $(ALL_COMP_FLAGS) -o file_io_f95.o -c file_io_f95.f90
-file_io_dist.o: file_io_dist.f90
-	$(FC) $(ALL_COMP_FLAGS) -o file_io_dist.o -c file_io_dist.f90
-slices_methods.o: slices_methods.f90
-	$(FC) $(ALL_COMP_FLAGS) -o slices_methods.o -c slices_methods.f90
-general.o: general.f90
-	$(FC) $(ALL_COMP_FLAGS) -o general.o -c general.f90
-special.o: special.f90
-	$(FC) $(ALL_COMP_FLAGS) $(ALLOW_ARG_MISMATCH) -o special.o -c special.f90
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD_95) -o file_io_f95.o -c file_io_f95.f90
+special.o: special_tmp.f90
+	$(FC) $(ALL_COMP_FLAGS) $(FSTD) $(ALLOW_ARG_MISMATCH) -o special.o -c special_tmp.f90
 #
 #  TAGS file for Emacs.
 #  $(TAG_SOURCE) requires nofftpack.f90 or fft.f90 to exist, so we
@@ -3625,8 +3758,14 @@ clean:  slender
 	rm -f nompicomm_*.f90 mpicomm_*.f90 # temporary workaround to remove old "mpicomm_double.f90"
 	rm -f $(CUDA_MAKEDIR)/Makefile.vendor
 	rm -f $(CUDA_MAKEDIR)/Makefile.module_info
+	rm -f *_c.h && ln -s $(PENCIL_HOME)/src/headers_c.h .
 #done so the interface make can clean after this, otherwise that clean has to come first
-	@if [ -d ./astaroth ]; then touch ./astaroth/PC_modulesources.h; fi
+	@if [ -d ./astaroth ]; then \
+		rm -f ../PC-AC.conf \
+		touch ./astaroth/PC_modulesources.h; \
+	        rm -rf ./astaroth/build; \
+		rm -rf ./astaroth/submodule/build; \
+	fi
 	@printf "# %s\n" "Empty" "(This file was written by 'make')" > Makefile.inc
 	@printf "# %s\n" "Empty" "(This file was written by 'make')" > Makefile-standard.inc
 #
@@ -3634,7 +3773,7 @@ clean:  slender
 #  (there should be no Makefile_inc; but if there is, `make' just does nothing)
 #
 cleann: clean
-	rm -f Makefile Makefile_inc TAGS exit_mn.h
+	rm -f Makefile Makefile_inc TAGS
 	rm -rf semiauto-conf_tmp f90_qnd_log_dir
 	@for file in *.inc; do \
 	  if [ ! -L $$file ]; then rm -f $$file; fi \

@@ -25,10 +25,9 @@
       use Messages, only: fatal_error
 !
       integer, intent(in) :: unit
-      integer(kind=8) :: rec_len, num_rec
+      integer(kind=8) :: rec_len, num_rec, num, len, i
       integer, intent(in) :: reference
 !
-      integer :: i, num, len
 !
       if (num_rec < 0) then
         num_rec = -num_rec
@@ -248,7 +247,7 @@
 !
 ! 20-may-18/MR: coded
 !
-      use General, only: coptest
+      use General, only: coptest, keep_compiler_quiet
       use Syscalls, only: system_cmd
 
       integer :: num
@@ -257,6 +256,7 @@
       character(LEN=*), optional, intent(IN) :: options 
       logical,          optional, intent(IN) :: only_number
     
+      call keep_compiler_quiet(only_number)
       call system_cmd('ls '//coptest(options)//name//' > tmplsout 2> /dev/null')
       num=count_lines('tmplsout')
       call delete_file('tmplsout')
@@ -276,14 +276,14 @@
 !  28-May-2015/PABourdin: reworked
 !
       use Cdata, only: lroot
-      use Mpicomm, only: mpibcast_int, MPI_COMM_WORLD
+      use Mpicomm, only: mpibcast_int, MPI_COMM_PENCIL
 !
       integer :: parallel_count_lines
       character (len=*), intent(in) :: file
       logical, optional, intent(in) :: ignore_comments
 !
       if (lroot) parallel_count_lines = count_lines(file,ignore_comments)
-      call mpibcast_int(parallel_count_lines,comm=MPI_COMM_WORLD)
+      call mpibcast_int(parallel_count_lines,comm=MPI_COMM_PENCIL)
 !
     endfunction parallel_count_lines
 !*********************************************************************** 
@@ -300,7 +300,7 @@
 !
       use Cdata, only: lroot
       use General, only: loptest
-      use Mpicomm, only: mpibcast_logical, MPI_COMM_WORLD
+      use Mpicomm, only: mpibcast_logical, MPI_COMM_PENCIL
 !
       logical :: parallel_file_exists
       character (len=*) :: file
@@ -309,11 +309,11 @@
       ! Let the root node do the dirty work
       if (lroot) parallel_file_exists = file_exists(file,loptest(delete))
 !
-      call mpibcast_logical(parallel_file_exists,comm=MPI_COMM_WORLD)
+      call mpibcast_logical(parallel_file_exists,comm=MPI_COMM_PENCIL)
 !
     endfunction parallel_file_exists
 !*********************************************************************** 
-    subroutine read_namelist(reader,name,lactive)
+    subroutine read_namelist(reader,name,lactive,loptional)
 !
 !  Encapsulates reading of pars + error handling.
 !
@@ -326,7 +326,7 @@
 !  19-aug-15/PABourdin: renamed from 'read_pars' to 'read_namelist'
 !
       use Cdata, only: lnamelist_error, lparam_nml, lstart, lroot
-      use General, only: loptest, itoa
+      use General, only: loptest, itoa, ioptest
       use Messages, only: warning
 !
       interface
@@ -337,19 +337,24 @@
 !
       character(len=*), intent(in) :: name
       logical, optional, intent(in) :: lactive
+      logical, optional, intent(in) :: loptional
 !
       integer :: ierr
       logical :: found
+      logical :: lnamelist_optional
       character(len=5) :: type, suffix
+      character(len=4) :: run_type
+!
+      lnamelist_optional = loptest (loptional)
 !
       if (.not. loptest (lactive, .true.)) return
 !
       if (lstart .or. lparam_nml) then
-        type = 'init'
+        run_type = 'init'
       else
-        type = 'run'
+        run_type = 'run'
       endif
-      if (name /= '') type = '_'//type
+      if (name /= '') type = '_'//run_type
       suffix = '_pars'
       if (name == 'initial_condition_pars') then
         type = ''
@@ -357,13 +362,17 @@
       endif
 !
       !if (.not. find_namelist (trim(name)//trim(type)//trim(suffix))) then
-      call find_namelist (trim(name)//trim(type)//trim(suffix),found)
+      call find_namelist (trim(name)//trim(type)//trim(suffix), found, lnamelist_optional)
+      if (.not. found .and. lnamelist_optional) return
 !
-      ierr = 0 ! G95 complains 'ierr' is used but not set, even though 'reader' has intent(out).
+      ! G95 complains 'ierr' is used but not set, even though 'reader' has intent(out).
+      ! PABourdin:
+      ! Yes, because 'reader' is here a function *pointer* and it can not be verified whether the actual reader has intent(out).
+      ierr = 0
       call reader(ierr)
 !
       if (ierr /= 0) then
-      
+!
         if (.not.found) then
           if (.not. lparam_nml) lnamelist_error = .true.
           call parallel_rewind
@@ -373,10 +382,10 @@
         lnamelist_error = .true.
         if (lroot) then
           if (ierr == -1) then
-            call warning ('read_namelist', 'namelist "'//trim(name)//trim(type)//trim(suffix)//'" is missing!')
+            call warning ('read_namelist', 'namelist "'//trim(name)//trim(type)//trim(suffix)//'" is missing')
           else
             call warning ('read_namelist', 'namelist "'//trim(name)//trim(type)//trim(suffix)// &
-                          '" has an error ('//trim(itoa(ierr))//')!')
+                          '" has an error ('//trim(itoa(ierr))//')')
           endif
         endif
       endif

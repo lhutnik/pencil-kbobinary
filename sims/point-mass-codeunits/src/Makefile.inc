@@ -1,7 +1,7 @@
 # src/Makefile.inc                   -*-Makefile-*- (for Emacs)
 # ----------------
 
-# This file was automatically generated at Wed Mar 25 08:58:17 AM MDT 2026 by 'make'.
+# This file was automatically generated at Thu May 28 07:08:55 PM MDT 2026 by 'make'.
 # Its main role is to set the precision (single vs. double) of a
 # run for compilation.
 

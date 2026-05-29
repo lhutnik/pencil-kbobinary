@@ -16,7 +16,7 @@ GRAVITY     = nogravity
 #SELFGRAVITY =   selfgravity
 POINTMASSES =   pointmasses
 
-#FOURIER   =   fourier_fftpack
+FOURIER   =   fourier_fftpack
 #POISSON   =   poisson
 
 #PARTICLES             =   particles_dust

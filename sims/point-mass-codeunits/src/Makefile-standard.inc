@@ -1,1 +1,1 @@
-FSTD=-std=f2003
+FSTD=-std=f2018

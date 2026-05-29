@@ -86,6 +86,7 @@ subroutine initialize_pencils(p,penc0)
   p%rho_anel = penc0
   p%rho1gpp = penc0
   p%fcont = penc0
+  p%curlfcont = penc0
   p%gg = penc0
   p%x_mn = penc0
   p%y_mn = penc0
@@ -174,8 +175,6 @@ subroutine initialize_pencils(p,penc0)
   p%j2 = penc0
   p%el = penc0
   p%e2 = penc0
-  p%mf_EMF = penc0
-  p%mf_EMFdotB = penc0
   p%uun = penc0
   p%divun = penc0
   p%snij = penc0
