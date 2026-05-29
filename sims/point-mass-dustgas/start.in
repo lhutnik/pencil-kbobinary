@@ -1,7 +1,7 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  xyz0  =  -2.0,  -2.0,  -2.0
-  Lxyz  =  4.0, 4.0,  4.0
+  xyz0  =  -4e0, -4e0, -4e0
+  Lxyz  =  8e0, 8e0, 8e0 
   lperi =   T,     T,    T
   lwrite_ic=T, lwrite_aux=T
   ip = 14
@@ -17,7 +17,7 @@
 /
 &hydro_init_pars
   inituu = 'nothing'
-  Omega = 1e-3
+  Omega = 9.468e-2
 /
 &density_init_pars
   initlnrho = 'const_rho'
@@ -27,7 +27,7 @@
 /
 &shear_init_pars
   qshear = 1.5
-  Omega = 1e-3
+  Omega = 9.468e-2
 /
 &particles_init_pars
   lcalc_uup=T
@@ -50,7 +50,7 @@
   eccentricity = 0.0
   semimajor_axis = 1.0
   ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
-  Boley_hill_smooth = 0.1, 0.1
-!  r_smooth = 0.05, 0.05
+  Boley_hill_smooth = 0.25, 0.25
+!  r_smooth = 0.01, 0.0
   iprimary = 1  
 /

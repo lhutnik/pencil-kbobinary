@@ -8,7 +8,7 @@
 ! settings in Makefile.local
 !
 
-integer, parameter :: mvar=4, maux=0
+integer, parameter :: mvar=0, maux=0
 integer, parameter :: maux_com=0
 integer, parameter :: mogaux=0
 integer, parameter :: mglobal=0
@@ -110,7 +110,7 @@ logical, parameter :: lhyperviscosity_strict=.false.
 logical, parameter :: lhyperresistivity_strict=.false.
 logical, parameter :: lhydro_potential = .false.
 logical, parameter :: lhydro_kinematic = .false.
-logical, parameter :: lhydro = .true.
+logical, parameter :: lhydro = .false.
 logical, parameter :: lheatflux = .false.
 logical, parameter :: lgpu = .false.
 logical, parameter :: lgrav = .false.
@@ -126,7 +126,7 @@ logical, parameter :: ldetonate = .false.
 integer, parameter :: nghost = 3
 logical, parameter :: lboussinesq = .false.
 logical, parameter :: lanelastic = .false.
-logical, parameter :: ldensity = .true.
+logical, parameter :: ldensity = .false.
 logical, parameter :: lcosmicrayflux = .false.
 logical, parameter :: lcosmicray = .false.
 logical, parameter :: lchiral = .false.

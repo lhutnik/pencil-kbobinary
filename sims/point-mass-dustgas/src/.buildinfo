@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Mon May 18 09:02:55 AM MDT 2026</timestamp>
+  <timestamp>Fri May 29 04:00:52 PM MDT 2026</timestamp>
   <buildhost>
     <hostname>Ubuntu</hostname>
     <os>Linux</os>
     <osrelease>6.17.0-23-generic</osrelease>
     <user>vboxuser</user>
-    <uptime> 09:02:55 up 54 min,  1 user,  load average: 0.45, 0.32, 0.37</uptime>
+    <uptime> 16:00:52 up  1:11,  1 user,  load average: 0.34, 0.18, 0.12</uptime>
   </buildhost>
   <buildtime></buildtime>
   <makeinfo>
@@ -47,14 +47,14 @@
     <module name="DEBUG" option="nodebug">
 <source>nodebug.f90</source>'
 </module>'
-    <module name="HYDRO" option="hydro">
-<source>hydro.f90</source>'
+    <module name="HYDRO" option="nohydro">
+<source>nohydro.f90</source>'
 </module>'
     <module name="VISCOSITY" option="noviscosity">
 <source>noviscosity.f90</source>'
 </module>'
-    <module name="DENSITY" option="density">
-<source>density.f90</source>'
+    <module name="DENSITY" option="nodensity">
+<source>nodensity.f90</source>'
 </module>'
     <module name="ENTROPY" option="">
 <source></source>'

@@ -89,7 +89,7 @@ plt.close()
 fig, ax = plt.subplots(1, 1) # Figure and axes established
 
 ## Plot energy over time for the system of particles
-G = 8.663078e-13 # Gravitational constant
+G = 1  # Gravitational constant
 r = np.sqrt((xq1 - xq2)**2 + (yq1 - yq2)**2)
 U = - (G)*(m1*m2)/r # System gravitational potential energy
 T = 0.5*m1*(vxq1**2 + vyq1**2) + 0.5*m2*(vxq2**2 + vyq2**2) # Sum of kinetic energies

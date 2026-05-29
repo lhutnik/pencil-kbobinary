@@ -6,13 +6,13 @@
 MPICOMM   = nompicomm
 #IO = i_dist #IO = io_mpi2
 
-HYDRO     = hydro
-DENSITY   = density
+HYDRO     = nohydro
+DENSITY   = nodensity
 SHEAR     = noshear
 VISCOSITY = noviscosity
 EOS       = noeos
 
-GRAVITY   = nogravity
+GRAVITY     = nogravity
 #SELFGRAVITY =   selfgravity
 POINTMASSES =   pointmasses
 
