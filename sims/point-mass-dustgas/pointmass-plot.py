@@ -67,8 +67,7 @@ plt.savefig('pointmass-figure.pdf', dpi=300)         # Save figure as a PDF file
 plt.close()                                          # Close figure after saving
 
 
-
-## X POSITION VS. TIME 
+### X POSITION VS. TIME 
 fig, ax = plt.subplots(1, 1) # Initiate figure and axis
 ax.plot(t, xq1, label="Primary", alpha=0.5, color='blue')     # Position throughout 
 ax.plot(t, xq2, label="Secondary", alpha=0.5, color='orange')     # Position throughout 
