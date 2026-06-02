@@ -1,8 +1,23 @@
  Pencils requested:
+          12 lnrho           
+          13 rho             
+          14 rho1            
+          15 glnrho          
+          16 grho            
+          18 ugrho           
+          43 fpres           
+          53 cs2             
+         103 divu            
+         110 uij             
+         111 uu              
+         116 ugu             
  
  Pencils requested for diagnostics:
-          80 r_mn            
+          91 r_mn            
+         111 uu              
  
  Pencils requested for 2-D diagnostics:
+          12 lnrho           
+          13 rho             
  
  Pencils requested video output

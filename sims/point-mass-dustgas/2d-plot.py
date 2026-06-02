@@ -48,9 +48,9 @@ hillsys = plt.Circle((0,0), r_Hillsys, color='green', alpha=0.5, fill=False, lab
 ax.add_patch(hill1), ax.add_patch(hill2), ax.add_patch(hillsys)
 
 ## Plot smoothing fraction 
-frac = 0.25
-r_smooth1 = a_hel*(m1/(3*(m1+m_sol)))**(1/3) * frac
-r_smooth2 = a_hel*(m2/(3*(m2+m_sol)))**(1/3) * frac
+frac1, frac2 = 0.12599, 0.12599
+r_smooth1 = r_Hill1 * frac1
+r_smooth2 = r_Hill2 * frac2
 smooth1 = plt.Circle(p1, r_smooth1, color='blue', alpha=0.5, fill=False, linestyle='--') 
 smooth2 = plt.Circle(p2, r_smooth2, color='orange', alpha=0.5, fill=False, linestyle='--') 
 ax.add_patch(smooth1), ax.add_patch(smooth2)

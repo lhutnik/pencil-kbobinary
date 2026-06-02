@@ -8,7 +8,7 @@
 ! settings in Makefile.local
 !
 
-integer, parameter :: mvar=0, maux=0
+integer, parameter :: mvar=4, maux=0
 integer, parameter :: maux_com=0
 integer, parameter :: mogaux=0
 integer, parameter :: mglobal=0
@@ -38,7 +38,7 @@ integer, parameter :: nbricky=1
 integer, parameter :: nbrickz=1
 integer, parameter :: nblockmax=1
 logical, parameter :: lspecial = .false.
-logical, parameter :: lviscosity = .false.
+logical, parameter :: lviscosity = .true.
 logical, parameter :: ltraining = .false.
 logical, parameter :: lcourant_dt = .true.
 logical, parameter :: ltavg = .false.
@@ -110,13 +110,13 @@ logical, parameter :: lhyperviscosity_strict=.false.
 logical, parameter :: lhyperresistivity_strict=.false.
 logical, parameter :: lhydro_potential = .false.
 logical, parameter :: lhydro_kinematic = .false.
-logical, parameter :: lhydro = .false.
+logical, parameter :: lhydro = .true.
 logical, parameter :: lheatflux = .false.
 logical, parameter :: lgpu = .false.
 logical, parameter :: lgrav = .false.
 logical, parameter :: lforcing = .false.
-logical, parameter :: leos_idealgas = .false., leos_chemistry = .false.
-logical, parameter :: leos = .false., leos_ionization=.false., leos_temperature_ionization=.false.
+logical, parameter :: leos_idealgas = .true., leos_chemistry = .false.
+logical, parameter :: leos = .true., leos_ionization=.false., leos_fixed_ionization=.false., leos_temperature_ionization=.false.
 logical, parameter :: lthermal_energy = .false.
 logical, parameter :: ltemperature = .false.
 logical, parameter :: lentropy = .false.
@@ -126,7 +126,7 @@ logical, parameter :: ldetonate = .false.
 integer, parameter :: nghost = 3
 logical, parameter :: lboussinesq = .false.
 logical, parameter :: lanelastic = .false.
-logical, parameter :: ldensity = .false.
+logical, parameter :: ldensity = .true.
 logical, parameter :: lcosmicrayflux = .false.
 logical, parameter :: lcosmicray = .false.
 logical, parameter :: lchiral = .false.

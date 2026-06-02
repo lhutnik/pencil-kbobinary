@@ -1,3 +1,8 @@
+ iuu=1
+ iux=1
+ iuy=2
+ iuz=3
+ irho=4
  nname=11
  nnamev=0
  nnamex=-1
@@ -9,7 +14,4 @@
  nnamerz=-1
  nname_sound=0
  ncoords_sound=0
- iuu=0
- iux=0
- iuy=0
- iuz=0
+ ilnrho=0

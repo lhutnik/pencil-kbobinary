@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Fri May 29 04:00:52 PM MDT 2026</timestamp>
+  <timestamp>Tue Jun  2 05:08:39 PM MDT 2026</timestamp>
   <buildhost>
     <hostname>Ubuntu</hostname>
     <os>Linux</os>
     <osrelease>6.17.0-23-generic</osrelease>
     <user>vboxuser</user>
-    <uptime> 16:00:52 up  1:11,  1 user,  load average: 0.34, 0.18, 0.12</uptime>
+    <uptime> 17:08:39 up  3:13,  1 user,  load average: 0.14, 0.37, 0.36</uptime>
   </buildhost>
   <buildtime></buildtime>
   <makeinfo>
@@ -47,14 +47,14 @@
     <module name="DEBUG" option="nodebug">
 <source>nodebug.f90</source>'
 </module>'
-    <module name="HYDRO" option="nohydro">
-<source>nohydro.f90</source>'
+    <module name="HYDRO" option="hydro">
+<source>hydro.f90</source>'
 </module>'
-    <module name="VISCOSITY" option="noviscosity">
-<source>noviscosity.f90</source>'
+    <module name="VISCOSITY" option="viscosity">
+<source>viscosity.f90</source>'
 </module>'
-    <module name="DENSITY" option="nodensity">
-<source>nodensity.f90</source>'
+    <module name="DENSITY" option="density">
+<source>density.f90</source>'
 </module>'
     <module name="ENTROPY" option="">
 <source></source>'
@@ -86,8 +86,8 @@
     <module name="COSMICRAYFLUX" option="nocosmicrayflux">
 <source>nocosmicrayflux.f90</source>'
 </module>'
-    <module name="EOS" option="noeos">
-<source>noeos.f90</source>'
+    <module name="EOS" option="eos_idealgas">
+<source>eos_idealgas.f90</source>'
 </module>'
     <module name="STRUCT_FUNC" option="nostruct_func">
 <source>nostruct_func.f90</source>'

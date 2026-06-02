@@ -516,3 +516,117 @@
 
 # 2026-05-29 16:04:00
 ./src/run.x
+
+# 2026-06-02 14:31:33
+./src/start.x
+
+# 2026-06-02 14:31:37
+./src/run.x
+
+# 2026-06-02 15:25:01
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 15:25:06
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 15:26:26
+./src/start.x
+
+# 2026-06-02 15:26:29
+./src/run.x
+
+# 2026-06-02 16:16:28
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:16:33
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:18:18
+./src/start.x
+
+# 2026-06-02 16:18:43
+./src/run.x
+
+# 2026-06-02 16:25:01
+./src/start.x
+
+# 2026-06-02 16:25:03
+./src/run.x
+
+# 2026-06-02 16:26:27
+./src/start.x
+
+# 2026-06-02 16:26:32
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:26:36
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:27:24
+./src/start.x
+
+# 2026-06-02 16:27:28
+./src/run.x
+
+# 2026-06-02 16:28:25
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:28:30
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:29:47
+./src/start.x
+
+# 2026-06-02 16:29:57
+./src/run.x
+
+# 2026-06-02 16:40:41
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:40:47
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:40:54
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:40:57
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:41:39
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:41:46
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:56:36
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 16:56:40
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'
+
+# 2026-06-02 16:57:54
+./src/start.x
+
+# 2026-06-02 16:57:58
+./src/run.x
+
+# 2026-06-02 17:05:39
+./src/start.x
+
+# 2026-06-02 17:05:42
+./src/run.x
+
+# 2026-06-02 17:08:35
+/home/vboxuser/pencil-code/bin/pc_build --cleanall
+
+# 2026-06-02 17:08:39
+/home/vboxuser/pencil-code/bin/pc_build 
+# make '-j' 'FFLAGS_DOUBLE=-fdefault-real-8 -fdefault-double-8' 'CFLAGS_DOUBLE=-DDOUBLE_PRECISION' 'LD_MPI=' 'CFLAGS_FFTW3=' 'FFLAGS_FFTW3=' 'LD_FFTW3=' 'CFLAGS_FFTW2=' 'FFLAGS_FFTW2=' 'LD_FFTW2=' 'FC=gfortran' 'F77=$(FC)' 'FFLAGS=-O' 'LDFLAGS_HELPER=-dynamic' 'FFLAG_HEAP_ALLOC=-fmax-stack-var-size=512000 -fno-stack-arrays' 'OMPFFLAGS=-fopenmp' 'OMPLFLAGS=-lgomp' 'PPFLAGS=-cpp' 'FSTD_95=-std=f95' 'FSTD_2003=-std=f2003' 'FSTD_2008=-std=f2008' 'FSTD_2018=-std=f2018' 'MODULE_PREFIX=__' 'MODULE_INFIX=_MOD_' 'MODULE_SUFFIX=' 'CC=gcc' 'CSTD=-std=c99' 'CFLAGS=-DFUNDERSC=1' 'default_to_be'

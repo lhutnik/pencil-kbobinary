@@ -12,8 +12,8 @@
 /
 &eos_init_pars
   gamma = 1.4
-  rho0 = 1.0 
-  cs0 = 1.0
+  rho0 = 3.8096e-5 
+  cs0 = 5.6476e1
 /
 &hydro_init_pars
   inituu = 'nothing'
@@ -21,7 +21,7 @@
 /
 &density_init_pars
   initlnrho = 'const_rho'
-  rho_const = 1.0
+  rho_const = 3.8096e-5
   beta_glnrho_global = -0.1, 0.0, 0.0
   ldensity_nolog=T
 /
@@ -50,7 +50,7 @@
   eccentricity = 0.0
   semimajor_axis = 1.0
   ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
-  Boley_hill_smooth = 0.25, 0.25
+  Boley_hill_smooth = 0.12599, 0.12599
 !  r_smooth = 0.01, 0.0
   iprimary = 1  
 /

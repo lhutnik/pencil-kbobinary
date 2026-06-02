@@ -4,13 +4,13 @@
   itorder = 3, ip = 14
   cdt = 0.5, cdtv = 0.5
   dsnap = 6.28, dvid = 0.1 
-  dtmin = 1.0e-7
+  dtmin = 1.0e-6
   lpencil_check=T
   loutput_varn_at_exact_tsnap=T
   slice_position = 'm'
   max_walltime = 171600
-  dt = 1e-5
-  tmax = 6.28
+  !dt = 1e-5
+  tmax = 6.281
 /
 &eos_run_pars
 /
