@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Tue Jun  2 05:08:39 PM MDT 2026</timestamp>
+  <timestamp>Wed Jun  3 01:30:27 PM MDT 2026</timestamp>
   <buildhost>
     <hostname>Ubuntu</hostname>
     <os>Linux</os>
     <osrelease>6.17.0-23-generic</osrelease>
     <user>vboxuser</user>
-    <uptime> 17:08:39 up  3:13,  1 user,  load average: 0.14, 0.37, 0.36</uptime>
+    <uptime> 13:30:27 up 11 min,  1 user,  load average: 0.37, 0.85, 0.77</uptime>
   </buildhost>
   <buildtime></buildtime>
   <makeinfo>
@@ -113,8 +113,8 @@
     <module name="FORCING" option="noforcing">
 <source>noforcing.f90</source>'
 </module>'
-    <module name="SHEAR" option="noshear">
-<source>noshear.f90</source>'
+    <module name="SHEAR" option="shear">
+<source>shear.f90</source>'
 </module>'
     <module name="TIMEAVG" option="notimeavg">
 <source>notimeavg.f90</source>'

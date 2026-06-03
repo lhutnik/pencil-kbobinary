@@ -8,7 +8,7 @@ MPICOMM   = nompicomm
 
 HYDRO     = hydro
 DENSITY   = density
-SHEAR     = noshear
+SHEAR     = shear
 #VISCOSITY = noviscosity
 #EOS       = eos
 

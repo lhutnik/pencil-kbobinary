@@ -199,6 +199,7 @@ subroutine initialize_pencils(p,penc0)
   p%cc1 = penc0
   p%gcc = penc0
   p%SGS_heat = penc0
+  p%advec_shear = penc0
   p%shock = penc0
   p%gshock = penc0
   p%shock_perp = penc0

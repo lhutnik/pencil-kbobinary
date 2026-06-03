@@ -8,7 +8,7 @@
 ! sets some variables related to this.
 !
 
-integer, parameter :: npencils=200
+integer, parameter :: npencils=201
 type pencil_case
   real, dimension (nx) :: acc
   real, dimension (nx) :: ssat
@@ -197,6 +197,7 @@ type pencil_case
   real, dimension (nx,1) :: cc1
   real, dimension (nx,3,0) :: gcc
   real, dimension (nx) :: SGS_heat
+  real, dimension (nx) :: advec_shear
   real, dimension (nx) :: shock
   real, dimension (nx,3) :: gshock
   real, dimension (nx) :: shock_perp
@@ -399,19 +400,20 @@ integer, parameter :: i_cc=184
 integer, parameter :: i_cc1=185
 integer, parameter :: i_gcc=186
 integer, parameter :: i_SGS_heat=187
-integer, parameter :: i_shock=188
-integer, parameter :: i_gshock=189
-integer, parameter :: i_shock_perp=190
-integer, parameter :: i_gshock_perp=191
-integer, parameter :: i_fvisc=192
-integer, parameter :: i_diffus_total=193
-integer, parameter :: i_diffus_total2=194
-integer, parameter :: i_diffus_total3=195
-integer, parameter :: i_visc_heat=196
-integer, parameter :: i_nu=197
-integer, parameter :: i_gradnu=198
-integer, parameter :: i_nu_smag=199
-integer, parameter :: i_gnu_smag=200
+integer, parameter :: i_advec_shear=188
+integer, parameter :: i_shock=189
+integer, parameter :: i_gshock=190
+integer, parameter :: i_shock_perp=191
+integer, parameter :: i_gshock_perp=192
+integer, parameter :: i_fvisc=193
+integer, parameter :: i_diffus_total=194
+integer, parameter :: i_diffus_total2=195
+integer, parameter :: i_diffus_total3=196
+integer, parameter :: i_visc_heat=197
+integer, parameter :: i_nu=198
+integer, parameter :: i_gradnu=199
+integer, parameter :: i_nu_smag=200
+integer, parameter :: i_gnu_smag=201
 character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = &
   (/ 'acc             ', 'ssat            ', 'ttc             ', 'Ywater          '  &
    , 'lambda          ', 'chem_conc       ', 'nucl_rmin       ', 'nucl_rate       ', 'conc_satm       '  &
@@ -450,7 +452,7 @@ character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = 
    , 'va2             ', 'j2              ', 'el              ', 'e2              ', 'uun             '  &
    , 'divun           ', 'snij            ', 'rhop            ', 'grhop           ', 'peh             '  &
    , 'tauascalar      ', 'condensationRate', 'waterMixingRatio', 'part_heatcap    ', 'cc              '  &
-   , 'cc1             ', 'gcc             ', 'SGS_heat        ', 'shock           ', 'gshock          '  &
-   , 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    ', 'diffus_total2   '  &
-   , 'diffus_total3   ', 'visc_heat       ', 'nu              ', 'gradnu          ', 'nu_smag         '  &
-   , 'gnu_smag        ' /)
+   , 'cc1             ', 'gcc             ', 'SGS_heat        ', 'advec_shear     ', 'shock           '  &
+   , 'gshock          ', 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    '  &
+   , 'diffus_total2   ', 'diffus_total3   ', 'visc_heat       ', 'nu              ', 'gradnu          '  &
+   , 'nu_smag         ', 'gnu_smag        ' /)
