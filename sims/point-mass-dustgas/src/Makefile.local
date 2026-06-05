@@ -11,6 +11,8 @@ DENSITY   = density
 SHEAR     = shear
 #VISCOSITY = noviscosity
 #EOS       = eos
+SHOCK     = shock_highorder
+
 
 GRAVITY     = nogravity
 #SELFGRAVITY =   selfgravity

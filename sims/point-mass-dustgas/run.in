@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  nt = 10000000, it1 = 100, isave = 50000 
+  nt = 10000000, it1 = 100, isave = 500 
   itorder = 3, ip = 14
   cdt = 0.5, cdtv = 0.5
   dsnap = 6.28, dvid = 0.1 
@@ -19,16 +19,20 @@
 &density_run_pars
   lcheck_negative_density=T
   beta_glnrho_global = -0.1, 0.0, 0.0
-  idiff='hyper3-mesh'
+  idiff='hyper3-mesh', 'shock'
   diffrho_hyper3_mesh=20.
+  diffrho_shock=1.
+/
+&shock_run_pars
 /
 &shear_run_pars
   qshear=1.5
 !  lshearadvection_as_shift=F
 /
 &viscosity_run_pars
-  ivisc='hyper3-mesh'
+  ivisc='hyper3-mesh','shock'
   nu_hyper3_mesh=20.
+  nu_shock=1.
 /
 &pointmasses_run_pars
   lfollow_particle=T,T
