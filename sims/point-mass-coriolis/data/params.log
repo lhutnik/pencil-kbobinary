@@ -1,6 +1,6 @@
  ! -------------------------------------------------------------
  ! Initializing
- ! Date: 23-apr-2026 11:18:53
+ ! Date: 02-jul-2026 11:34:51
  ! t=   0.0000000000000000     
 &INIT_PARS
  CVSID="no cvsid is given in start.in or run.in!                                                                                                                                                                                                                        ",
@@ -281,6 +281,25 @@
  THETAMIN=  0.0000000000000000     ,
  LSYMMGRID= 3*T,
  /
+&SHEAR_INIT_PARS
+ QSHEAR=  1.5000000000000000     ,
+ QSHEAR0=  0.0000000000000000     ,
+ SSHEAR=  0.0000000000000000     ,
+ SSHEAR1=  0.0000000000000000     ,
+ DELTAY=  0.0000000000000000     ,
+ OMEGA= 0.10000000000000001     ,
+ U0_ADVEC= 3*0.0000000000000000       ,
+ LSHEARADVECTION_AS_SHIFT=F,
+ SHEAR_METHOD="fft    ",
+ LRANDOMX0=F,
+ X0_SHEAR=  0.0000000000000000     ,
+ NORDER_POLY=3          ,
+ LTVD_ADVECTION=F,
+ LPOSDEF_ADVECTION=F,
+ LPOSDEF=
+ LMAGNETIC_STRETCHING=T,
+ SINI=  0.0000000000000000     ,
+ /
 &POINTMASSES_INIT_PARS
  INITXXQ="eccentric                               ",
  INITVVQ="eccentric                               ",
@@ -318,7 +337,7 @@
  /
  ! -------------------------------------------------------------
  ! Running
- ! Date: 23-apr-2026 11:18:55
+ ! Date: 02-jul-2026 11:34:53
  ! t=   0.0000000000000000     
 &RUN_PARS
  CVSID='no cvsid is given in start.in or run.in!                                                                                                                                                                                                                        ',
@@ -796,6 +815,27 @@
  LREAD_OLDSNAP_NOCOOLPROF=F,
  THETAMIN=  0.0000000000000000     ,
  /
+&SHEAR_RUN_PARS
+ QSHEAR=  1.5000000000000000     ,
+ QSHEAR0=  0.0000000000000000     ,
+ SSHEAR=-0.15000000000000002     ,
+ SSHEAR1=-0.15000000000000002     ,
+ DELTAY=  0.0000000000000000     ,
+ OMEGA= 0.10000000000000001     ,
+ LSHEAR_ACCELERATION=T,
+ LSHEARADVECTION_AS_SHIFT=F,
+ SHEAR_METHOD='fft    ',
+ LRANDOMX0=F,
+ X0_SHEAR=  0.0000000000000000     ,
+ NORDER_POLY=3          ,
+ LTVD_ADVECTION=F,
+ LPOSDEF_ADVECTION=F,
+ LPOSDEF=
+ LMAGNETIC_STRETCHING=T,
+ SINI=  0.0000000000000000     ,
+ LHYPER3X_MESH=F,
+ DIFF_HYPER3X_MESH=  2.9999999999999999E-002,
+ /
 &POINTMASSES_RUN_PARS
  LRESET_CM=F,
  LNOGRAVZ_STAR=F,
@@ -821,14 +861,15 @@
  STOKESNUMBER= 2*1.0000000000000000       ,
  LQUADRATIC_DRAG=F,
  LLINEAR_DRAG=T,
- LCORIOLIS_FORCE=T,
- OMEGA_CORIOLIS=  1.0000000000000000E-003,
  FRAC_SMOOTH= 2*0.40000000000000002      ,
  LEXCLUDE_HILLS=F,
  TAU_ACCRETION=  1.0000000000000000     ,
  LGAS_REMOVAL=F,
  LMOMENTUM_REMOVAL=F,
  LNOSELFGRAV_PRIMARY=T,
+ LCORIOLIS_FORCE_POINTMASS=T,
+ LCENTRIFUGAL_FORCE_POINTMASS=T,
+ LSHEAR_ACCEL_POINTMASS=T,
  /
 &IO_PARS
  LCOLLECTIVE_IO=F,

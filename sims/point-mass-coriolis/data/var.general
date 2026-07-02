@@ -1,5 +1,5 @@
 # Creator: The Pencil Code
-# Date: 23-apr-2026 11:18:53
+# Date: 02-jul-2026 11:34:51
 file = data/proc0/var.dat
 grid =   10 x   10 x    7
 # NB: hardcoded assumption of ieee

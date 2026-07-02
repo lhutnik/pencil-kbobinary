@@ -277,6 +277,25 @@
  THETAMIN=  0.0000000000000000     ,
  LSYMMGRID= 3*T,
  /
+&SHEAR_INIT_PARS
+ QSHEAR=  1.5000000000000000     ,
+ QSHEAR0=  0.0000000000000000     ,
+ SSHEAR=-0.15000000000000002     ,
+ SSHEAR1=-0.15000000000000002     ,
+ DELTAY=  0.0000000000000000     ,
+ OMEGA= 0.10000000000000001     ,
+ U0_ADVEC= 3*0.0000000000000000       ,
+ LSHEARADVECTION_AS_SHIFT=F,
+ SHEAR_METHOD='fft    ',
+ LRANDOMX0=F,
+ X0_SHEAR=  0.0000000000000000     ,
+ NORDER_POLY=3          ,
+ LTVD_ADVECTION=F,
+ LPOSDEF_ADVECTION=F,
+ LPOSDEF=
+ LMAGNETIC_STRETCHING=T,
+ SINI=  0.0000000000000000     ,
+ /
 &POINTMASSES_INIT_PARS
  INITXXQ='eccentric                               ',
  INITVVQ='eccentric                               ',
@@ -331,7 +350,7 @@
  lcosmicray=F,
  lcosmicrayflux=F,
  lheatflux=F,
- lshear=F,
+ lshear=T,
  lpscalar=F,
  lascalar=F,
  lradiation=F,

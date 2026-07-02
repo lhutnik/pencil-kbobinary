@@ -53,7 +53,7 @@ logical, parameter :: lsolid_ogrid = .false.
 logical, parameter :: lsolid_cells = .false.
 logical, parameter :: lsignal = .false.
 logical, parameter :: lshock = .false.
-logical, parameter :: lshear = .false.
+logical, parameter :: lshear = .true.
 logical, parameter :: lSGS_hydro = .false.
 logical, parameter :: lselfgravity = .false.
 logical, parameter :: lradiation = .false., lradiation_ray=.false.

@@ -8,7 +8,7 @@
 ! sets some variables related to this.
 !
 
-integer, parameter :: npencils=187
+integer, parameter :: npencils=188
 type pencil_case
   real, dimension (nx) :: acc
   real, dimension (nx) :: ssat
@@ -187,6 +187,7 @@ type pencil_case
   real, dimension (nx,1) :: cc1
   real, dimension (nx,3,0) :: gcc
   real, dimension (nx) :: SGS_heat
+  real, dimension (nx) :: advec_shear
   real, dimension (nx) :: shock
   real, dimension (nx,3) :: gshock
   real, dimension (nx) :: shock_perp
@@ -376,16 +377,17 @@ integer, parameter :: i_cc=174
 integer, parameter :: i_cc1=175
 integer, parameter :: i_gcc=176
 integer, parameter :: i_SGS_heat=177
-integer, parameter :: i_shock=178
-integer, parameter :: i_gshock=179
-integer, parameter :: i_shock_perp=180
-integer, parameter :: i_gshock_perp=181
-integer, parameter :: i_fvisc=182
-integer, parameter :: i_diffus_total=183
-integer, parameter :: i_visc_heat=184
-integer, parameter :: i_nu=185
-integer, parameter :: i_gradnu=186
-integer, parameter :: i_nu_smag=187
+integer, parameter :: i_advec_shear=178
+integer, parameter :: i_shock=179
+integer, parameter :: i_gshock=180
+integer, parameter :: i_shock_perp=181
+integer, parameter :: i_gshock_perp=182
+integer, parameter :: i_fvisc=183
+integer, parameter :: i_diffus_total=184
+integer, parameter :: i_visc_heat=185
+integer, parameter :: i_nu=186
+integer, parameter :: i_gradnu=187
+integer, parameter :: i_nu_smag=188
 character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = &
   (/ 'acc             ', 'ssat            ', 'ttc             ', 'Ywater          '  &
    , 'lambda          ', 'chem_conc       ', 'nucl_rmin       ', 'nucl_rate       ', 'conc_satm       '  &
@@ -422,6 +424,6 @@ character (len=penc_name_len), parameter, dimension(npencils) :: pencil_names = 
    , 'va2             ', 'j2              ', 'el              ', 'e2              ', 'uun             '  &
    , 'divun           ', 'snij            ', 'rhop            ', 'grhop           ', 'peh             '  &
    , 'tauascalar      ', 'condensationRate', 'waterMixingRatio', 'part_heatcap    ', 'cc              '  &
-   , 'cc1             ', 'gcc             ', 'SGS_heat        ', 'shock           ', 'gshock          '  &
-   , 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    ', 'visc_heat       '  &
-   , 'nu              ', 'gradnu          ', 'nu_smag         ' /)
+   , 'cc1             ', 'gcc             ', 'SGS_heat        ', 'advec_shear     ', 'shock           '  &
+   , 'gshock          ', 'shock_perp      ', 'gshock_perp     ', 'fvisc           ', 'diffus_total    '  &
+   , 'visc_heat       ', 'nu              ', 'gradnu          ', 'nu_smag         ' /)
