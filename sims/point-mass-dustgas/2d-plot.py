@@ -6,14 +6,15 @@ import matplotlib.pyplot as plt # Plotting
 
 ## Read in VAR and QVAR files from Pencil Code output
 ff   = pc.read.var(trimall=True) # Pulling full VAR file output
-rho = ff.rho[0,:,:]              # Particle density at z=0; [z,y,x]
+rho = ff.rho[0,:,:]              # Gas density at z=0, midplane; [z,y,x]
 
-qvar = oldpc.read_qvar() # Pulling QVAR file output 
-imass = qvar.mass # Particle masses 
+qvar = oldpc.read_qvar()    # Pulling QVAR file output 
+imass = qvar.mass           # Particle masses 
 m1, m2 = imass[0], imass[1] 
-ixp = qvar.xq # Particle positions at recorded time
+ixp = qvar.xq               # Particle positions at recorded time
 iyp = qvar.yq
 p1, p2 = (ixp[0], iyp[0]), (ixp[1], iyp[1])
+t = qvar.t                  # Simulation time at recording
 
 ## Simulation settings (set already in start.in, run.in) in code units
 c_s = 5.6746e1
@@ -68,13 +69,13 @@ bondi2 = plt.Circle(p2, r_Bondi2, color='red', fill=False)
 ## Figure settings
 ax.set_xlabel(r'$x$', fontsize=15)                   # x-axis label
 ax.set_ylabel(r'$y$', fontsize=15)                   # y-axis label
-ax.set_title(r'Position vs. Time of $M_1$={}, $M_2$={} Binary'.format(m1, m2)) # Plot title
+ax.set_title(r'$M_1$={} $M_2$={}, $t$={}'.format(m1, m2, f"{t:.5e}")) # Plot title
 plt.axis('scaled')                                   # Axes are scaled to match one another
 ax.set_xlim(x1, x2)                                  # Set x-axis limits, assuming centered evenly on origin
 ax.set_ylim(y1, y2)                                  # Set y-axis limits, assuming centered evenly on origin
 plt.legend(loc='best')                               # Add legend
 bar = plt.colorbar()   # Colorbar
-bar.set_label(r"$\log_{\rm 10}(\rho/\rho_{code})$", fontsize=15) # Colorbar label
+bar.set_label(r"$\rho_{code}$", fontsize=15) # Colorbar label
 ax.tick_params(axis='both', which='minor', length=0) # Set tick parameters (0 length)
 ax.grid(which='major', alpha=0.5)                    # Applying grid based on major ticks
 plt.tight_layout()                                   # Remove overlapping and clipping

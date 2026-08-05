@@ -2,15 +2,15 @@
 &run_pars
   nt = 10000000, it1 = 100, isave = 500 
   itorder = 3, ip = 14
-  cdt = 0.5, cdtv = 0.5
-  dsnap = 6.28, dvid = 0.1 
+  cdt = 0.2, cdtv = 0.2
+  dsnap = 6.28, dvid = 0.01 
   dtmin = 1.0e-6
   lpencil_check=T
   loutput_varn_at_exact_tsnap=T
   slice_position = 'm'
   max_walltime = 171600
   !dt = 1e-5
-  tmax = 6.281
+  tmax = 6.2831
 /
 &eos_run_pars
 /
@@ -19,9 +19,8 @@
 &density_run_pars
   lcheck_negative_density=T
   beta_glnrho_global = -0.1, 0.0, 0.0
-  idiff='hyper3-mesh', 'shock'
+  idiff='hyper3-mesh'
   diffrho_hyper3_mesh=20.
-  diffrho_shock=1.
 /
 &shock_run_pars
 /
@@ -30,9 +29,10 @@
 !  lshearadvection_as_shift=F
 /
 &viscosity_run_pars
-  ivisc='hyper3-mesh','shock'
+  ivisc='hyper3-mesh','shock','nu-const'
   nu_hyper3_mesh=20.
   nu_shock=1.
+  nu = 3.362099e+01
 /
 &pointmasses_run_pars
   lfollow_particle=T,T
@@ -42,5 +42,5 @@
 !  lnogravz_star=T
 /
 &particles_run_pars
-  cdtp = 0.5
+  cdtp = 0.2
 /

@@ -9,7 +9,7 @@ MPICOMM   = nompicomm
 HYDRO     = hydro
 DENSITY   = density
 SHEAR     = shear
-#VISCOSITY = noviscosity
+VISCOSITY = viscosity
 #EOS       = eos
 SHOCK     = shock_highorder
 

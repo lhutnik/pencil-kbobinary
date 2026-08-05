@@ -29,6 +29,7 @@ r  = rr * AU # [cm]; Heliocentric distance of binary
 h  = 0.05    # Scale height ratio at distance rr
 H  = h * r   # [cm]; Gas disk scale height 
 Q  = 30      # Toomre Q; >1 for gravitationally stable region
+alpha = 1e-3 # Shakura and Sunyaev alpha parameter
 
 ## BINARY SETTINGS
 mass_ratio = 1       # Binary mass ratio (0,1]; M2/M1 = f
@@ -160,17 +161,17 @@ M1_code_u, M2_code_u = Mplanet1/unit_mass, Mplanet2/unit_mass # Code unit mass o
 #print("M2 (code): ",f"{M2_code_u:.4e}")
 
 G_code_u = cs_code * Omega_code / (Q*pi*Sigma_code) # Gravitational constant solved by taking other code units
-print("Gravitational constant (code alone): ",f"{G_code_u:.6e}")
-print("Gravitational constant (dividing GM_code/(M_sys=1)): ",f"{M1_code_u*G_code_u/M1_code:.6e}")
+#print("Gravitational constant (code alone): ",f"{G_code_u:.6e}")
+#print("Gravitational constant (dividing GM_code/(M_sys=1)): ",f"{M1_code_u*G_code_u/M1_code:.6e}")
 
 
 ## Compare methods to find GM in code units
 M1_code_u, M2_code_u = Mplanet1/unit_mass, Mplanet2/unit_mass # Code unit mass of planetesimals
-print("G*M1 (code only): ",f"{M1_code_u*G_code_u:.6e}")
-print("G*M1 (M_sys=1): ",f"{M1_code*G_code:.6e}")
+#print("G*M1 (code only): ",f"{M1_code_u*G_code_u:.6e}")
+#print("G*M1 (M_sys=1): ",f"{M1_code*G_code:.6e}")
 
-print("G*M2 (code only): ",f"{M2_code_u*G_code_u:.6e}")
-print("G*M2 (M_sys=1): ",f"{M2_code*G_code:.6e}")
+#print("G*M2 (code only): ",f"{M2_code_u*G_code_u:.6e}")
+#print("G*M2 (M_sys=1): ",f"{M2_code*G_code:.6e}")
 
 # %%
 ## Solve for initial binary separation in code units
@@ -212,6 +213,10 @@ print("v2 =",f"{v2:.4e}")
 #print("rhopswarm2 =",rhopswarm2)
 
 # %%
-print(r_Hill)
+cfl = (grid_size/grid_points)/cs_code # Minimum timestep to remain at a Courant number of 1
+print("CFL Timestep: ",f"{cfl:.6e}")
+
+nu = alpha*cs_code*H_code
+print("Viscosity required (code): ",f"{nu:.6e}")
 
 
