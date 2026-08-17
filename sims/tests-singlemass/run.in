@@ -1,6 +1,6 @@
 !                              -*-f90-*-     (for emacs) !
 &run_pars
-  nt = 10000000, it1 = 100, isave = 500 
+  nt = 1, it1 = 100, isave = 500 
   itorder = 3, ip = 14
   cdt = 0.2, cdtv = 0.2
   dsnap = 6.28, dvid = 0.01 
@@ -10,7 +10,7 @@
   slice_position = 'm'
   max_walltime = 171600
   !dt = 1e-5
-  tmax = 6.2831
+  tmax = 25.132
 /
 &eos_run_pars
 /
@@ -27,12 +27,12 @@
 &shear_run_pars
   qshear=1.5
 !  lshearadvection_as_shift=F
-/
+/ 
 &viscosity_run_pars
   ivisc='hyper3-mesh','shock','nu-const'
   nu_hyper3_mesh=20.
   nu_shock=1.
-  nu = 5.823325e+01
+  nu = 1. 
 /
 &pointmasses_run_pars
   lfollow_particle=T,T

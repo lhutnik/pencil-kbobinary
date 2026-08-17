@@ -1,7 +1,7 @@
 !                              -*-f90-*-     (for emacs)
 &init_pars
-  xyz0  =  -12e0, -12e0, -12e0
-  Lxyz  =  24e0, 24e0, 24e0 
+  xyz0  =  -4e0, -4e0, -4e0
+  Lxyz  =  8e0, 8e0, 8e0 
   lperi =   T,     T,    T
   lwrite_ic=T, lwrite_aux=T
   ip = 14
@@ -11,15 +11,13 @@
   !rsmooth = 0.01
 /
 &eos_init_pars
-  gamma = 1.4 !1.4 for diatomic air
+  gamma = 1.4
   rho0 = 1.0 
-  cs0 = 3.2607e+01
-/
-&viscosity_init_pars
+  cs0 = 5.6476e1
 /
 &hydro_init_pars
   inituu = 'nothing'
-  Omega = 1.8257e-02
+  Omega = 9.468e-2
 /
 &density_init_pars
   initlnrho = 'const_rho'
@@ -29,7 +27,7 @@
 /
 &shear_init_pars
   qshear = 1.5
-  Omega = 1.8257e-02
+  Omega = 9.468e-2
 /
 &particles_init_pars
   lcalc_uup=T
@@ -47,12 +45,12 @@
 !  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
   bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
   GNewton  = 1.0
-  pmass    = 0.5, 0.5
+  pmass    = 1.0, 1e-20
 !  xq0 = 0.0, 1.0
   eccentricity = 0.0
   semimajor_axis = 1.0
   ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
-  Boley_hill_smooth = 3.1498e-02, 3.1498e-02
+  Boley_hill_smooth = 7.5000e-02, 7.5000e-02
 !  r_smooth = 0.01, 0.0
   iprimary = 1  
 /
