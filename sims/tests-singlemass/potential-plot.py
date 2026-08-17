@@ -40,6 +40,7 @@ m_p = 1
 smoothing_length = 2.5e-1
 omega2_bol = []
 omega2_new = []
+omega2_plu = []
 for r in rr: # For every radial distance sampled,
 	if r <= smoothing_length: # Boley potential case
 		omega2 = G*(m_p)/(smoothing_length)**3 * (3*r/smoothing_length - 4)
@@ -51,8 +52,12 @@ for r in rr: # For every radial distance sampled,
 for r in rr: # For every radial distance sampled
 	omega2 = -G*(m_p)/(r)**3
 	omega2_new.append(omega2)
-plt.plot(rr, omega2_bol, linestyle='-', label='Boley', c='orange', alpha=1.)
-plt.plot(rr, omega2_new, linestyle='-', label='Newtonian', alpha=0.5, c='green')
+for r in rr:
+    omega2 = -G*m_p/(r**2 + smoothing_length**2)**(3/2)
+    omega2_plu.append(omega2)
+plt.plot(rr, omega2_bol, linestyle='-', label='Boley', c='blue', alpha=1.)
+plt.plot(rr, omega2_new, linestyle='-', label='Newtonian', alpha=1.0, c='green')
+plt.plot(rr, omega2_plu, linestyle='-', label='Plummer', alpha=1.0, c='red')
 plt.plot(rr, omega2_q1, linestyle='--', label='get_total_gravity', alpha=1., c='black')
 plt.grid(True)
 plt.axvline(x=2.5e-1, linestyle=':', color='red', label='Smoothing Boundary')
