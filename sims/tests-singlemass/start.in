@@ -8,7 +8,7 @@
   !lcopysnapshots_exp=T, 
   !bcy = 's','s','a','s','s'
   !bcz = 's','s','a','s','s' !,'s','s','s','s'
-  rsmooth = 0.25
+  rsmooth = 0.0
 /
 &eos_init_pars
   gamma = 1.4
@@ -49,8 +49,9 @@
 !  xq0 = 0.0, 1.0
   eccentricity = 0.0
   semimajor_axis = 1.0
-  ipotential_pointmass = 'plummer', 'plummer' !'newton','plummer','boley'
+  ipotential_pointmass = 'boley', 'boley' !'newton','plummer','boley'
+  Boley_rsmooth = 2.5e-1, 2.5e-1
 !  Boley_hill_smooth = 7.5000e-02, 7.5000e-02
-  r_smooth = 0.25, 0.0
+!  r_smooth = 0.25, 0.0
   iprimary = 1  
 /
