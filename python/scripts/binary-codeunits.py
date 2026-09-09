@@ -1,97 +1,136 @@
-## Import modules
-import numpy as np
+# %%
+## Import libraries 
+import numpy as np                # Pi constant and math
+from math import sqrt             # Math functions
+import astropy.constants as const # Constants
 
-## Set constants
-au = 1.49e13      # [cm]
-mu = 2.3
-gamma = 1.4
-kb = 1.38e-16     # [CGS]
-amu= 1.66e-24     # [g]
-Msun = 2e33       # [g]
-Mpluto = 1.3e25   # [g]
-G = 6.68e-8       # [CGS]
-yr = 3.1e7          # [s]
+# %%
+## Constants
+pi     = np.pi
+AU     = const.au.cgs.value      # [cm]; Astronomical unit (AU)
+Mearth = const.M_earth.cgs.value # [g]; Mass of Earth
+Msun   = const.M_sun.cgs.value   # [g]; Mass of Sun
+Mpluto = 1.3025e25               # [g]; Mass of Pluto
+G      = const.G.cgs.value       # [cm^3 g^-1 s^-2]; Gravitational constant
+amu    = const.u.cgs.value       # [g]; Atomic mass unit
+kb     = const.k_B.cgs.value     # [ergs cm^-2 s^-1 K^-4]; Boltzmann constant
+Rgas   = const.R.cgs.value       # [ergs K^-1 mol^-1]; Gas constant
+yr     = 3.1558149504e7          # [s]; one year
+gamma  = 1.4                     # Adiabatic index; diatomic=7/5, monatomic=5/3, non-linear triatomic=8/6
+mmol   = 2.3                     # Mean molecular weight (proton masses); assumes bulk H2, He, and trace molecular gas
+Rgasmu = Rgas/mmol               # Gas constant / mean molecular weight
+cp     = gamma*Rgasmu/(gamma-1)  # Specific heat capacity at constant pressure
+cv     = cp/gamma                # Specific heat capacity at constant volume
 
-#######################################################################
-# code units - set by the binary parameters
+# %%
+## INPUT CHOICES FOR PHYSICAL UNITS
+rr = 20      # [AU]; heliocentric distance of binary 
+r  = rr * AU # [cm]; heliocentric distance of binary
+#h  = 0.05    # Scale height ratio at distance rr
+#H  = h * r   # [cm]; gas disk scale height 
+T  = 20      # [K]; local temperature of gas (isothermal case) 
+Q  = 30      # Toomre Q; >1 for gravitationally stable region
+alpha = 1e-4 # Shakura and Sunyaev alpha parameter
+beta = 1e-1  # Beta parameter
 
-# vcirc_code      = 1     # circular velocity of binary
-# Omegabin_code   = 1     # angular frequency of binary
-# separation_code = 1     # separation of binary
+## BINARY SETTINGS
+mass_ratio = 1       # Binary mass ratio (0,1]; M2/M1 = f
+Hill_frac  = 0.01    # Fraction of mutual Hill radius for furthest separation (apoapsis) [0.01,0.4]
+e          = 0.0     # Eccentricity of mutual binary orbit [0,1)
+Msystem  = 5e-3 * Mpluto              # [g]; Sum of binary component masses
+Mplanet1 = Msystem / (1 + mass_ratio) # [g]; Mass of primary 
+Mplanet2 = Msystem - Mplanet1         # [g]; Mass of secondary
 
-#######################################################################
+## SIMULATION SETTINGS
+Lx = 8     # Full x or y grid size in code units; assumes equal x,y scale
+Nx = 128   # Number of grid points/cells per dimension
+dx = Lx/Nx # Domain resolution
+C = 0.5    # CFL number (0,1)
 
-# Physical variables
-r                 = 20 * au # [cm]; heliocentric distance
-T                 = 20      # [K]; local temperature of gas disk
+# %%
+## Solve for binary and disk values
+r_Hill  = r * (Msystem/(3*(Msun+Msystem)))**(1/3) # [cm]; Mutual hill radius of binary
+bin_sep = r_Hill * Hill_frac                      # [cm]; Separation of binary at apoapsis
+c_s = np.sqrt(gamma*T*kb/mmol/amu)                # [cm/s]; local sound speed
 
-#######################################################################
+# %%
+## Solve for code units of length, mass, and time based on the binary specifications 
+unit_length = bin_sep # [cm]; initial binary separation defines the unit length
+print("Unit length: ",f"{unit_length:.5e}","cm,",f"{unit_length/AU:.5e}",'AU')
 
-## Choices that set the physical units
+Omega_bin = sqrt((G*Msystem) / (bin_sep)**3) # [Hz]; Keplerian frequency of binary
+unit_time = 1 / Omega_bin                    # [s]; Unit time set by orbital period of binary; 2*pi = 1 orbital period
+Omega_sun = sqrt((G*Msun) / (r)**3)          # [Hz]; Keplerian frequency around Sun
+print("Unit time: ",f"{unit_time:.5e}","s,",f"{unit_time/(60*60*24):.5e}",'days,',f"{unit_time/yr:.5e}",'years')
 
-Mp                = 5e-3 * Mpluto  # mass of the binary
-Rhill             = r*np.cbrt(Mp/Msun/3)
-a                 = 0.01 * Rhill   # separation of the binary
+unit_velocity = unit_length/unit_time
+v_circ = Omega_bin * bin_sep # Binary orbital velocity
+print("Unit velocity: ",f"{unit_velocity:.5e}","cm/s")
+print("Circular velocity ",f"{v_circ:.5e}","cm/s")
 
-# sanity check -- should give cs_code = 50 and Omegasun_code = 0.1
-#a= 28317294633.91888  #cm
-#Mp = 1.7160758597858634e+23  #g
+unit_mass = Msystem # [g]; Mass of the binary system defines a unit mass; mass fractions follow naturally in these units
+print("Unit mass: ",f"{unit_mass:.5e}","g")
 
-#######################################################################
+# %%
+## Solve for configuration parameters in code units
+print("vvv Configuration Parameters vvv")
 
-#
-# Distance sets the binary period around the Sun. This compares to the binary period.
-# Temperature sets the sound speed. Sound speed compares to the circular velocity.
-#
+cs_code = c_s / unit_velocity # Sound speed in code units
+print("Sound Speed (code): ",f"{cs_code:.5e}")
 
-print("Time quantities")
-Omegasun=np.sqrt(G*Msun)/r**1.5 # Heliocentric orbital frequency
-print("Omegasun=",Omegasun," 1/s")
-print("Period sun=",2*np.pi/Omegasun/yr," yr \n")
-Omegabin  = np.sqrt(G*Mp/a**3)
-print("Omegabin=",Omegabin," 1/s")
-print("Period bin=",2*np.pi/Omegabin/yr," yr \n")
+Omega_code = Omega_sun / Omega_bin # Heliocentric Keplerian frequency in code units
+print("Omega (code): ",f"{Omega_code:.5e}")
 
-print("Velocity quantities")
-cs = np.sqrt(gamma*T*kb/mu/amu) # Sound speed
-print("cs=",cs," cm/s")
-vcirc     = Omegabin*a # Binary orbital velocity
-print("vcirc=",vcirc," cm/s \n")
+H_code = cs_code / Omega_code # Scale height in code units
+print("H (code): ",f"{H_code:.5e}")
 
-print("Code units, finally")
-cs_code = cs/vcirc # Sound speed / velocity code unit
-print("cs_code=",cs_code)
-Omegasun_code = Omegasun/Omegabin # Heliocentric Omega / frequency code unit 
-print("Omegasun_code=",Omegasun_code)
+sep_code = bin_sep/unit_length # Binary separation in code units
+#print("Planetesimal separation (code): ",f"{sep_code:.5e}")
+print("Semi-major axis (code): ", f"{sep_code/2:.5e}") # Distant from center of mass for equal mass system
 
+nu = alpha*cs_code*H_code
+print("Viscosity (code): ",f"{nu:.5e}")
 
-## Accretion variables & resolution
-Nx=128 # Number of mesh points
-Lx=8 # Domain side length
-dx=Lx/Nx # Domain resolution
+# %%
+## Solve for diagnostic parameters in code units
+print("vvv Diagnostic Parameters vvv")
 
-print("dx=",dx)
+r_hill_code = r_Hill / unit_length # Hill radius in code units
+print("R_Hill (code): ",f"{r_hill_code:.5e}")
 
-beta = 0.1 # Beta parameter
+msun_code = Msun / unit_mass # Heliocentric distance in code units
+print("Solar mass (code): ",f"{msun_code:.5e}")
+
+x1 = -(Mplanet2)/(Msystem)*sep_code # Position of particle 1 at apoapsis
+x2 = (Mplanet1)/(Msystem)*sep_code  # Position of particle 2 at apoapsis
+print("Initial positions along x-axis:")
+print("x1 =",f"{x1:.4e}")
+print("x2 =",f"{x2:.4e}")
+
+v_rel      = sqrt(G*(Msystem)*((2/bin_sep)-((1+e)/bin_sep))) # Relative velocity of planetesimals 
+v_rel_code = v_rel/unit_velocity
+v1         = -(Mplanet2)/(Msystem)*v_rel_code # Velocity of particle 1 at apoapsis 
+v2         = (Mplanet1)/(Msystem)*v_rel_code  # Velocity of particle 2 at apoapsis 
+print("Initial tangential velocities:")
+print("v1 =",f"{v1:.5e}")
+print("v2 =",f"{v2:.5e}")
+
+GM1 = G * Mplanet1 # [cm^3 s^-2]; GM of planetesimal 1 in physical units
+GM1_code = GM1/((unit_length**3) * (unit_time**-2)) # Convert from physical to code units (cm^3 s^-2 in denominator)
+G_code = GM1_code / (Mplanet1/unit_mass) # Divide by established mass of planetesimal 1 (somewhere between 0 and 1)
+print("Gravitational constant (solving for M_sys=1): ",f"{G_code:.5e}")
+
 dv = beta * cs_code/2 # Random velocity of dust
-rb = 1/dv**2 # Bondi radius
-tb = rb/dv # Bondi time
-ts = tb # Bondi time = stopping/friction time
-r = 2*np.sqrt(rb*dv*ts) # Accretion radius
+rb = 1/dv**2          # Bondi length 
+tb = rb/dv            # Bondi time
+ts = tb               # Setting the Bondi time equal to the friction time (ideally equal for accretion)
+r_acc = 2*np.sqrt(rb*dv*ts) # Accretion radius
+print("Friction time (code): ",f"{ts:.5e}")
+print("Stokes number: ",f"{ts*Omega_code:.5e}")
+print("r_acc/dx: ",r_acc/dx)
+print("r_acc/Lx: ",r_acc/Lx)
 
-print("friction time, in code units=",ts)
-print("Stokes number=",ts*Omegasun_code)
-print("racc/dx",r/dx)
-print("racc/Lx",r/Lx)
-
-## Determine viscous and advective timesteps
-
-alpha = 1e-4 # Sunyaez alpha parameter
-H_code = cs_code/Omegasun_code # Scale height in code units for isothermal layers case
-nu = alpha*cs_code*H_code # Viscosity
-
-C = 0.5 #CFL number (somewhere between 0 and 1)
-dt_visc = C * dx**2 / nu
-dt_cs = C * dx / cs_code
-
-print("visc, cs timesteps=",dt_visc,dt_cs)
+dt_visc = C * dx**2 / nu   # Viscous timestep
+dt_cs   = C * dx / cs_code # Advective timestep
+print("Viscous timestep (code): ",f"{dt_visc:.5e}")
+print("Advective timestep (code): ",f"{dt_cs:.5e}")
