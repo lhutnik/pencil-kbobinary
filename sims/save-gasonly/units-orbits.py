@@ -33,7 +33,7 @@ alpha = 1e-3 # Shakura and Sunyaev alpha parameter
 
 ## BINARY SETTINGS
 mass_ratio = 1       # Binary mass ratio (0,1]; M2/M1 = f
-Hill_frac  = 0.1     # Fraction of mutual Hill radius for furthest separation (apoapsis); [1,40]%
+Hill_frac  = 0.1     # Fraction of mutual Hill radius for furthest separation (apoapsis); [1e-3, 1e-1]
 e          = 0.0     # Eccentricity of mutual binary orbit [0,1)
 aps1       = 0.01    # Size of sink particle 1 in code units
 aps2       = 0.01    # Size of sink particle 2 in code units
@@ -44,8 +44,8 @@ Mplanet2 = Msystem - Mplanet1         # [g]; Mass of secondary
 
 ## SIMULATION SETTINGS
 l3D         = False # 3D or not 3D run (2D)
-grid_size   = 24 #8     # Full x or y grid size in code units; assumes equal x,y scale
-grid_points = 384  #128   # Number of grid points/cells per dimension
+grid_size   = 8    #24    # Full x or y grid size in code units; assumes equal x,y scale
+grid_points = 128  #384   # Number of grid points/cells per dimension
 
 ## SET CODE UNITS (set in start.in or other configuration files)
 cs_code    = 1
