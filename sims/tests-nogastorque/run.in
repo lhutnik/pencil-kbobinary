@@ -1,0 +1,54 @@
+!                              -*-f90-*-     (for emacs) !
+&run_pars
+  nt = 10000000, it1 = 100, isave = 500 
+  itorder = 3, ip = 14
+  cdt = 0.4, cdtv = 0.4
+  dsnap = 6.3, dvid = 0.1 
+  dtmin = 1.0e-6
+  lpencil_check=F
+  lpencil_check_small=F
+  loutput_varn_at_exact_tsnap=T
+  slice_position = 'm'
+  max_walltime = 171600
+  !dt = 1e-5
+  tmax = 6.283185307179586
+  !dt=1e-3
+/
+&eos_run_pars
+/
+&hydro_run_pars
+/
+&density_run_pars
+  lcheck_negative_density=T
+  beta_glnrho_global = -0.1, 0.0, 0.0
+  idiff='hyper3-mesh'
+  diffrho_hyper3_mesh=20.
+  !lcontinuity_gas=F
+/
+&shock_run_pars
+/
+&shear_run_pars
+  qshear=1.5
+!  lshearadvection_as_shift=F
+/
+&viscosity_run_pars
+  ivisc='hyper3-mesh','shock'!,'nu-const'
+  nu_hyper3_mesh=20.
+  nu_shock=1.
+!  nu = 0.1 !5.823325e+01 !3.362099e+01
+/
+&pointmasses_run_pars
+  lfollow_particle=T,T
+  lreset_cm=F
+  lcentrifugal_force_pointmass=T
+  lcoriolis_force_pointmass=T
+  llive_secondary=F
+  lnoselfgrav_primary=F
+  lgas_gravity=F
+  ldust_gravity=T
+  lpointmasses_gravity_gas=F
+!  lnogravz_star=T
+/
+&particles_run_pars
+  cdtp = 0.4
+/

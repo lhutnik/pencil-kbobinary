@@ -1,0 +1,63 @@
+!                              -*-f90-*-     (for emacs)
+&init_pars
+  xyz0  =  -4e0, -4e0, -4e0
+  Lxyz  = 8e0, 8e0, 8e0 
+  lperi =   T,     T,    T
+  lwrite_ic=T, lwrite_aux=T
+  ip = 14
+  !lcopysnapshots_exp=T, 
+  !bcy = 's','s','a','s','s'
+  !bcz = 's','s','a','s','s' !,'s','s','s','s'
+  !rsmooth = 0.01
+/
+&eos_init_pars
+  gamma = 1.4 !1.4 for diatomic molecules
+  rho0 = 1.0 
+  cs0 = 1.24324e+01
+/
+&viscosity_init_pars
+/
+&hydro_init_pars
+  inituu = 'nothing'
+  Omega = 5.77350e-04
+/
+&density_init_pars
+  initlnrho = 'const_rho'
+  rho_const = 1.0
+  beta_glnrho_global = -0.1, 0.0, 0.0
+  ldensity_nolog=T
+/
+&shear_init_pars
+  qshear = 1.5
+  Omega = 5.77350e-04
+/
+&particles_init_pars
+!  lcalc_uup=T
+  initxxp = 'random'
+  initvvp = 'dragforce_equilibrium'
+  tausp = 4.16323 ! Friction time
+  eps_dtog = 1e-2 ! Dust to gas ratio
+  lparticlemesh_tsc=T ! Triangular Shaped Cloud particle-grid communication
+  ldragforce_dust_par=T, ldragforce_gas_par=F
+  lmigration_redo=T
+!  lreassign_strat_rhom=F
+/
+!&particles_dens_init_pars
+!/
+&pointmasses_init_pars
+  initxxq = 'eccentric'
+  initvvq = 'eccentric' !'fixed-cm'
+!  bcpx = 'out', bcqy = 'out', bcqz = 'out' !cartesian; 3d
+  bcqx='out', bcqy='out', bcqz='out'  !cylindrical; 2d
+  GNewton  = 1.0
+  pmass    = 0.5, 0.5
+!  xq0 = 0.0, 1.0
+  eccentricity = 0.0
+  semimajor_axis = 1.0
+  ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
+  Boley_rsmooth = 2.5e-1, 2.5e-1
+!  Boley_hill_smooth = 3.1498e-02, 3.1498e-02
+!  r_smooth = 0.01, 0.0
+  lgas_gravity=F, ldust_gravity=T
+  iprimary = 1  
+/
