@@ -48,6 +48,7 @@
   ldust_gravity=T
   lpointmasses_gravity_gas=F
 !  lnogravz_star=T
+  ldt_pointmasses=T
 /
 &particles_run_pars
   cdtp = 0.4

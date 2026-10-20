@@ -8,7 +8,7 @@
   !lcopysnapshots_exp=T, 
   !bcy = 's','s','a','s','s'
   !bcz = 's','s','a','s','s' !,'s','s','s','s'
-  !rsmooth = 0.01
+  rsmooth = 2.5e-1
 /
 &eos_init_pars
   gamma = 1.4 !1.4 for diatomic molecules
@@ -55,9 +55,9 @@
   eccentricity = 0.0
   semimajor_axis = 1.0
   ipotential_pointmass = 'boley','boley' !'newton','plummer','boley'
-  Boley_rsmooth = 2.5e-1, 2.5e-1
+!  Boley_rsmooth = 2.5e-1, 2.5e-1
 !  Boley_hill_smooth = 3.1498e-02, 3.1498e-02
-!  r_smooth = 0.01, 0.0
+  r_smooth = 2.5e-1, 2.5e-1
   lgas_gravity=F, ldust_gravity=T
   iprimary = 1  
 /
