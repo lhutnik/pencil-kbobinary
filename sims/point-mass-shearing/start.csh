@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/bin/start.csh

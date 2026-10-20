@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/deriv_2nd_all.f90

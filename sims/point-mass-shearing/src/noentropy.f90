@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/noentropy.f90

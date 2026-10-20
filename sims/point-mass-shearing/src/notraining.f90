@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/notraining.f90

@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/selfgravity_logspirals.f90

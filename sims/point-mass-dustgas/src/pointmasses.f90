@@ -1,1 +1,0 @@
-/fs1/home/lhutnik/pencil-code/src/pointmasses.f90

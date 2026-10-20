@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/training_torchfort.f90

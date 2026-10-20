@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/magnetic/nomeanfield_demfdt.f90

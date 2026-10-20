@@ -1,1 +1,0 @@
-/home/vboxuser/pencil-code/src/noparticles_lyapunov.f90
