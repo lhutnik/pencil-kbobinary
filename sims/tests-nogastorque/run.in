@@ -11,7 +11,7 @@
   slice_position = 'm'
   max_walltime = 171600
   !dt = 1e-5
-  tmax = 6.283185307179586
+  tmax = 62.83185307179586
   !dt=1e-3
 /
 &eos_run_pars
